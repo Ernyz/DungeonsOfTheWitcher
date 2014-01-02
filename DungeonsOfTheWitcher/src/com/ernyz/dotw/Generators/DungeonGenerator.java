@@ -37,7 +37,6 @@ public class DungeonGenerator {
 		char[][] map = new char[50][50];
 		generateDrunkardWalk(map);
 		
-		
 		tiles = tileFactory.createTiles(map);
 		fillWithEntities(tiles);
 		
