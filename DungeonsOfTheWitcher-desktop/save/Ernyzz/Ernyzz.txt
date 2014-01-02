@@ -1,0 +1,1 @@
+{"name":"Ernyzz","dungeonLevel":1,"x":100,"y":100,"speed":100,"rotation":0,"health":100}

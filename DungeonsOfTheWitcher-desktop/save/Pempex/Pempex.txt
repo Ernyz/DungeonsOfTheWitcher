@@ -1,0 +1,1 @@
+{"name":"Pempex","dungeonLevel":1,"x":110,"y":110,"speed":100,"rotation":0,"health":100}
