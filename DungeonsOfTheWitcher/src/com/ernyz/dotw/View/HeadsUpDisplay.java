@@ -53,7 +53,8 @@ public class HeadsUpDisplay {
 		ls = new LabelStyle(serpentis, Color.WHITE);
 		healthLabel = new Label("Health: ", ls);  //create health label
 		healthLabel.setX(bgImage.getX());
-		healthLabel.setY(bgImage.getHeight() - healthLabel.getHeight());
+		//healthLabel.setY(bgImage.getHeight() - healthLabel.getHeight());
+		healthLabel.setY(250);
 		outputLabel = new Label("", ls);  //Create output label
 		outputLabel.setWidth(width);
 		outputLabel.setHeight(96);
