@@ -13,7 +13,7 @@ public class Wall extends Tile {
 	public Wall(Vector2 position, float rotation) {
 		super(position, rotation);
 		
-		texture = new Texture(Gdx.files.internal("data/Wall.png"));
+		texture = new Texture(Gdx.files.internal("data/tiles/Wall.png"));
 		width = texture.getWidth();
 		height = texture.getHeight();
 		bounds = new Rectangle(this.getPosition().x, this.getPosition().y, this.getWidth(), this.getHeight());

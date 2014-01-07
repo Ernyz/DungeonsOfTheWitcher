@@ -44,8 +44,8 @@ public class HeadsUpDisplay {
 		//Initialize scene2d variables
 		stage = new Stage(width, height, true);
 		skin = new Skin();  //Might wanna use the other constructor with TextureAtlas
-		bgTexture = new Texture(Gdx.files.internal("data/HUD_BG.png"));
-		outputBGTexture = new Texture(Gdx.files.internal("data/HUD_Output_BG.png"));
+		bgTexture = new Texture(Gdx.files.internal("data/HUD/HUD_BG.png"));
+		outputBGTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Output_BG.png"));
 		bgImage = new Image(bgTexture);
 		outputBGImage = new Image(outputBGTexture);
 		bgImage.setX(Gdx.graphics.getWidth() - bgImage.getWidth());

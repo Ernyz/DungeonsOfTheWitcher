@@ -15,7 +15,7 @@ public class Goblin extends Enemy {
 	
 	public Goblin(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
-		texture = new Texture(Gdx.files.internal("data/Enemies/Enemy.png"));
+		texture = new Texture(Gdx.files.internal("data/enemies/Enemy.png"));
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());

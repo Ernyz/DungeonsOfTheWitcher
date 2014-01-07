@@ -11,7 +11,7 @@ public final class Player extends MoveableEntity {
 	
 	public Player(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
-		texture = new Texture(Gdx.files.internal("data/player.png"));
+		texture = new Texture(Gdx.files.internal("data/player/player.png"));
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());
