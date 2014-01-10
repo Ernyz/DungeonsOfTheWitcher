@@ -9,6 +9,10 @@ public class Item {
 	
 	private Long id;
 	private String name;
+	private enum typeEnum {
+		WEAPON, ARMOUR, SHIELD, FOOD, SCROLL, POTION
+	}
+	private typeEnum type;
 	
 	public Item() {
 		

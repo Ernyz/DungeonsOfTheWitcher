@@ -54,6 +54,13 @@ public abstract class MoveableEntity extends Entity {
 	public abstract void update();
 	
 	public abstract void checkCollisions();
+	
+	public void attack(int button) {
+		if(button == 0) {  //LMB
+			//Make simple melee attack with fixed damage and no delay or animation for now
+			
+		}
+	}
 
 	public Circle getBounds() {
 		return bounds;
