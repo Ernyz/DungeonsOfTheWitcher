@@ -3,6 +3,7 @@ package com.ernyz.dotw.Model;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -25,6 +26,9 @@ public abstract class MoveableEntity extends Entity {
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
+	
+	//TODO type should be an integer, an id of an item
+	public Item currentWeapon;
 	
 	/*
 	 * Stats
@@ -58,7 +62,7 @@ public abstract class MoveableEntity extends Entity {
 	public void attack(int button) {
 		if(button == 0) {  //LMB
 			//Make simple melee attack with fixed damage and no delay or animation for now
-			
+			System.out.println(currentWeapon.getInt("Damage"));
 		}
 	}
 

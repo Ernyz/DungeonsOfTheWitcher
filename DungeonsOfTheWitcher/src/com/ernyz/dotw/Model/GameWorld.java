@@ -64,6 +64,7 @@ public final class GameWorld {
 		tiles = l.laodTiles("level1");
 		player = l.loadPlayer();
 		entities = l.loadEntities();
+		items = l.loadItems();
 		
 		//Set game state to PLAYING, because the game has finished loading
 		gameState = GameStateEnum.PLAYING;
@@ -141,5 +142,9 @@ public final class GameWorld {
 	
 	public Array<MoveableEntity> getEntities() {
 		return entities;
+	}
+	
+	public Array<Item> getItems() {
+		return items;
 	}
 }

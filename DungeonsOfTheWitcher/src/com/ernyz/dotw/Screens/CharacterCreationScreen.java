@@ -69,7 +69,7 @@ public class CharacterCreationScreen implements Screen {
 		textFieldStyle = new TextFieldStyle();
 		textFieldStyle.font = ringbearerFont;
 		textFieldStyle.fontColor = Color.WHITE;
-		nameTextField = new TextField("Ernyz", textFieldStyle);
+		nameTextField = new TextField("Player", textFieldStyle);
 		nameTextField.setX(0);
 		nameTextField.setY(600);
 		stage.addActor(nameTextField);

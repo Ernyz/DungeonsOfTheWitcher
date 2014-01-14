@@ -26,6 +26,10 @@ public final class Player extends MoveableEntity {
 
 	@Override
 	public void update() {
+		
+		//TODO temp
+		currentWeapon = gameWorld.getItems().get(0);
+		
 		//Get new surrounding tiles
 		surroundingTiles.clear();
 		for(int i = 0; i < gameWorld.getTiles().size; i++) {

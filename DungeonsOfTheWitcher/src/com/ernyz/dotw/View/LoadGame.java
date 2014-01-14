@@ -10,9 +10,11 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.ernyz.dotw.Generators.EntityFactory;
 import com.ernyz.dotw.Generators.TileFactory;
+import com.ernyz.dotw.Generators.WeaponFactory;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
+import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -136,5 +138,26 @@ public class LoadGame {
 		}
 		
 		return entities;
+	}
+	
+	public Array<Item> loadItems() {
+		//Create all item factories
+		WeaponFactory weaponFactory = new WeaponFactory();
+		
+		Array<Item> items = new Array<Item>();
+		//Scan the save file
+		try {
+			scanner = new Scanner(new File("save/" + playerName + "/items.txt"));
+			scanResult = scanner.nextLine();
+		}
+		catch(IOException ex) {}
+		finally {
+			if(scanner != null)
+				scanner.close();
+		}
+		
+		items.add(weaponFactory.createDagger());
+		
+		return items;
 	}
 }
