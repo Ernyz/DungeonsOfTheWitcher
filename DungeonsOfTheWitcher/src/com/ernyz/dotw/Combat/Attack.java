@@ -1,10 +1,12 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.math.Polygon;
+
 /**
- * Every melee attack, every spell or anything that damages anything in any way
+ * Every melee/ranged attack, every spell or anything that damages anything in any way
  * is based on this interface.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public interface Attack {
 	
@@ -13,4 +15,8 @@ public interface Attack {
 	 */
 	public void update();
 	
+	/**
+	 * Only for debug purposes - shape renderer in WorldRenderer class needs these bounds.
+	 */
+	public Polygon getBounds();
 }

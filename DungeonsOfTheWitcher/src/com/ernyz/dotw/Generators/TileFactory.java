@@ -10,7 +10,7 @@ import com.ernyz.dotw.Model.Tiles.Wall;
 /**
  * Factory for tile creation.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public class TileFactory {
 	

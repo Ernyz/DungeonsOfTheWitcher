@@ -17,7 +17,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
 /**
  * Generates whole dungeon of the game.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 
 public class DungeonGenerator {

@@ -8,7 +8,7 @@ import com.ernyz.dotw.Model.Enemies.Goblin;
 /**
  * Factory for entity creation.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public class EntityFactory {
 	

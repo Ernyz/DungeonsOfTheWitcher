@@ -3,6 +3,8 @@ package com.ernyz.dotw.Model;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.Combat;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
@@ -26,6 +28,7 @@ public abstract class MoveableEntity extends Entity {
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
+	private Array<Attack> attacks;  //All attacks in progress are held in here
 	
 	//TODO type should be an integer, an id of an item
 	public Item currentWeapon;
@@ -53,17 +56,26 @@ public abstract class MoveableEntity extends Entity {
 		this.lastPos = position.cpy();
 		this.speed = speed;
 		bounds = new Circle(position, 1);
+		attacks = new Array<Attack>();
 	}
 	
-	public abstract void update();
+	public void update() {
+		for(Attack a : attacks) {
+			a.update();
+		}
+	}
 	
 	public abstract void checkCollisions();
 	
 	public void attack(int button) {
 		if(button == 0) {  //LMB
-			//Make simple melee attack with fixed damage and no delay or animation for now
-			System.out.println(currentWeapon.getInt("Damage"));
+			attacks.add(Combat.primaryAttack(this));
 		}
+	}
+	
+	//Attacks are needed for renderer when it is in debug mode.
+	public Array<Attack> getAttacks() {
+		return attacks;
 	}
 
 	public Circle getBounds() {

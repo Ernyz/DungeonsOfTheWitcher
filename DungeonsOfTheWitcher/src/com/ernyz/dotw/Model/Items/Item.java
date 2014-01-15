@@ -35,7 +35,7 @@ public class Item {
 	public boolean getBool(String key) {
 		if((Integer)attributes.get(key) == 0)
 			return false;
-		else if((Integer)attributes.get(key) == 0)
+		else if((Integer)attributes.get(key) == 1)
 			return true;
 		return false;
 	}

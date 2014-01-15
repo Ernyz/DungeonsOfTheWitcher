@@ -14,7 +14,7 @@ import com.ernyz.dotw.Model.Player;
 /**
  * Generates new player and outputs it to a save file.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public class PlayerGenerator {
 	

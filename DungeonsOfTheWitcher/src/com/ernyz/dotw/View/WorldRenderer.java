@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -24,7 +25,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = false;  //If true, shape renderer will draw bounding boxes.
+	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
 	
 	private GameWorld gameWorld;
@@ -108,18 +109,25 @@ public final class WorldRenderer {
 		if(debug) {
 			sr.setProjectionMatrix(camera.combined);
 			sr.begin(ShapeType.Line);
+			//Player
 			sr.setColor(Color.CYAN);
-			
 			sr.circle(player.getBounds().x, player.getBounds().y, player.getBounds().radius);
+			//Entities
 			for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
 				sr.circle(entities.get(i).getBounds().x, entities.get(i).getBounds().y, entities.get(i).getBounds().radius);
 			}
+			//Walls
 			for(int i = 0; i < tiles.size; i++) {
 				sr.setColor(Color.GREEN);
 				if(!tiles.get(i).getWalkable())
 					sr.rect(tiles.get(i).getBounds().x, tiles.get(i).getBounds().y, tiles.get(i).getWidth(), tiles.get(i).getHeight());
 			}
+			//Attacks
+			for(int i = 0; i < player.getAttacks().size; i++) {
+				sr.polygon(player.getAttacks().get(i).getBounds().getTransformedVertices());
+			}
+			
 			sr.end();
 		}
 	}

@@ -32,6 +32,7 @@ public class Goblin extends Enemy {
 
 	@Override
 	public void update() {
+		super.update();
 		//Get new surrounding tiles
 		surroundingTiles.clear();
 		for(int i = 0; i < gameWorld.getTiles().size; i++) {

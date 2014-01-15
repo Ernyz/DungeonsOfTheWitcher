@@ -27,6 +27,8 @@ public final class Player extends MoveableEntity {
 	@Override
 	public void update() {
 		
+		super.update();
+		
 		//TODO temp
 		currentWeapon = gameWorld.getItems().get(0);
 		
