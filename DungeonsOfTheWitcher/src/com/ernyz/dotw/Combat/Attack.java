@@ -19,4 +19,9 @@ public interface Attack {
 	 * Only for debug purposes - shape renderer in WorldRenderer class needs these bounds.
 	 */
 	public Polygon getBounds();
+	
+	/**
+	 * Returns true if this attack is finished.
+	 */
+	public boolean getIsFinished();
 }

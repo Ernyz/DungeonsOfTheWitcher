@@ -30,8 +30,14 @@ public abstract class MoveableEntity extends Entity {
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private Array<Attack> attacks;  //All attacks in progress are held in here
 	
-	//TODO type should be an integer, an id of an item
+	//TODO type should be an integer, an id of an item TODO should be private/protected
 	public Item currentWeapon;
+	
+	/*
+	 * Item slots. The first digit of the vector is the rotation offset from centre of the entity to the slot;
+	 * The second is the distance from centre of entity to the slot.
+	 */
+	protected Vector2 rightHand;  //TODO Change to private later
 	
 	/*
 	 * Stats
@@ -60,8 +66,14 @@ public abstract class MoveableEntity extends Entity {
 	}
 	
 	public void update() {
-		for(Attack a : attacks) {
-			a.update();
+		//Dispose of finished attacks
+		for(int i = 0; i < attacks.size; i++) {
+			if(attacks.get(i).getIsFinished())
+				attacks.removeIndex(i);
+		}
+		//Update unfinished ones
+		for(int i = 0; i < attacks.size; i++) {
+			attacks.get(i).update();
 		}
 	}
 	
@@ -76,6 +88,10 @@ public abstract class MoveableEntity extends Entity {
 	//Attacks are needed for renderer when it is in debug mode.
 	public Array<Attack> getAttacks() {
 		return attacks;
+	}
+	
+	public Vector2 getRightHand() {
+		return rightHand;
 	}
 
 	public Circle getBounds() {

@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.ernyz.dotw.Model.MoveableEntity;
 
@@ -22,36 +23,12 @@ public class MeleeAttack implements Attack {
 	 */
 	private float damage;
 	
-	/*
-	 * Attack's starting coordinates.
-	 */
-	private float startX, startY;
-	
-	/*
-	 * Attack's starting rotation.
-	 */
-	private float startRot;
-	
-	/*
-	 * Attack's current coordinates.
-	 */
-	private float currentX, currentY;
-	
-	/*
-	 * Attack's current rotation.
-	 */
-	private float currentRot;
-	
-	/*
-	 * Attack's finishing coordinates.
-	 */
-	private float endX, endY;
-	
-	/*
-	 * Attack's finishing rotation.
-	 */
-	private float endRot;
-	
+	private float startRot;  //Attack's starting rotation.
+	private float currentRot;  //Attack's current rotation.
+	private float range;  //Range of an attack
+	private float distCovered;  //Distance covered.
+	private float endRot;  //Attack's finishing rotation.
+	private boolean isFinished;  //If true, attack is finished and should be removed.
 	private MoveableEntity attacker;
 	
 	/**
@@ -61,30 +38,55 @@ public class MeleeAttack implements Attack {
 	 */
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
-		//Set damage
-		damage = attacker.getStrength() + attacker.currentWeapon.getInt("Damage");
-		//Set starting position and rotation
+		isFinished = false;
+		if(attacker.currentWeapon.getName().equals("Dagger")) {
+			//Set damage
+			damage = attacker.getDexterity() + attacker.currentWeapon.getInt("Damage");
+			//Set boundaries TODO make bounds dependent on weapon texture dimensions?
+			bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
+			bounds.setOrigin(0, 0);
+			bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
+			distCovered = 0;
+			range = 25;
+		}
+		//Set starting rotation
 		startRot = attacker.getRotation();
-		startX = attacker.getPosition().x;
-		startY = attacker.getPosition().y;
 		currentRot = startRot;
-		currentX = startX;
-		currentY = startY;
-		//Initialise boundaries TODO make bounds dependant on weapon texture dimensions?
-		bounds = new Polygon(new float[] {0, 0, 20, 0, 20, 7, 0, 7});
-		bounds.setOrigin(0, bounds.getBoundingRectangle().height/2);
-		bounds.setPosition(currentX, currentY);
 	}
 
 	@Override
 	public void update() {
+		System.out.println("update");
+		if(isFinished) return;
+		//Set rotation
 		bounds.setRotation(attacker.getRotation());
-		bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
+		//Set position according to attackers rotation
+		bounds.setPosition(
+				attacker.getPosition().x + attacker.getWidth()/2 + 
+					MathUtils.cosDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y, 
+				attacker.getPosition().y + attacker.getHeight()/2 + 
+					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
+		//Move projectile
+		float dX = MathUtils.cosDeg(attacker.getRotation());
+		float dY = MathUtils.sinDeg(attacker.getRotation());
+		distCovered += Math.sqrt(dX*dX + dY*dY);
+		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
+		if(distCovered >= range) {
+			//Stop the attack
+			isFinished = true;
+		}
+		//Check for collisions with enemies and walls
+		//TODO ...
 	}
 	
 	@Override
 	public Polygon getBounds() {
 		return bounds;
+	}
+	
+	@Override
+	public boolean getIsFinished() {
+		return isFinished;
 	}
 
 }

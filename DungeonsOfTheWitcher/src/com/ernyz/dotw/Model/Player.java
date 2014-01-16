@@ -22,11 +22,11 @@ public final class Player extends MoveableEntity {
 		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
+		rightHand = new Vector2(-75, 19);  //Values are hard coded and found by trial and error.
 	}
 
 	@Override
 	public void update() {
-		
 		super.update();
 		
 		//TODO temp
