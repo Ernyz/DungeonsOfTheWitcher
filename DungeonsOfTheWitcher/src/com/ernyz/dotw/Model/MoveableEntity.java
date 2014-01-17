@@ -11,7 +11,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
 /**
  * All entities which can move in anyway are subclassed from this class. This class subclasses {@link Entity}.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public abstract class MoveableEntity extends Entity {
 	

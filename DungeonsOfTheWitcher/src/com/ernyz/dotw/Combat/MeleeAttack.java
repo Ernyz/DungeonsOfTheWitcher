@@ -56,7 +56,6 @@ public class MeleeAttack implements Attack {
 
 	@Override
 	public void update() {
-		System.out.println("update");
 		if(isFinished) return;
 		//Set rotation
 		bounds.setRotation(attacker.getRotation());
@@ -77,6 +76,7 @@ public class MeleeAttack implements Attack {
 		}
 		//Check for collisions with enemies and walls
 		//TODO ...
+		
 	}
 	
 	@Override

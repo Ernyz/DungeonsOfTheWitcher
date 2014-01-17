@@ -25,7 +25,7 @@ public final class GameWorld {
 	private String playerName;
 	private HeadsUpDisplay headsUpDisplay;
 	
-	//messages
+	//Messages
 	private Array<String> messageHistory;  //Will contain all game messages
 	private int maxMessagesSaved;  //Will denote number of maximum number of messages saved
 	
