@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.ernyz.dotw.Model.MoveableEntity;
@@ -75,8 +76,15 @@ public class MeleeAttack implements Attack {
 			isFinished = true;
 		}
 		//Check for collisions with enemies and walls
-		//TODO ...
-		
+		for(int i = 0; i < attacker.getSurroundingEntities().size; i++) {
+			if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingEntities().get(i).getBounds())) {
+				System.out.println("Hit");
+				isFinished = true;
+			}
+		}
+		for(int i = 0; i < attacker.getSurroundingTiles().size; i++) {
+			//TODO
+		}
 	}
 	
 	@Override

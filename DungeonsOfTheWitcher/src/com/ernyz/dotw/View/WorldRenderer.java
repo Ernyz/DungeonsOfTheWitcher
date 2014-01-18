@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -60,7 +59,7 @@ public final class WorldRenderer {
 		rayHandler = new RayHandler(gameWorld.getWorld());
 		rayHandler.setCombinedMatrix(camera.combined);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
-		//TODO good for testing playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
+		//Good for testing: playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
 	}
 	
 	public void render() {
@@ -111,17 +110,17 @@ public final class WorldRenderer {
 			sr.begin(ShapeType.Line);
 			//Player
 			sr.setColor(Color.CYAN);
-			sr.circle(player.getBounds().x, player.getBounds().y, player.getBounds().radius);
+			sr.polygon(player.getBounds().getTransformedVertices());
 			//Entities
 			for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
-				sr.circle(entities.get(i).getBounds().x, entities.get(i).getBounds().y, entities.get(i).getBounds().radius);
+				sr.polygon(entities.get(i).getBounds().getTransformedVertices());
 			}
 			//Walls
 			for(int i = 0; i < tiles.size; i++) {
 				sr.setColor(Color.GREEN);
 				if(!tiles.get(i).getWalkable())
-					sr.rect(tiles.get(i).getBounds().x, tiles.get(i).getBounds().y, tiles.get(i).getWidth(), tiles.get(i).getHeight());
+					sr.polygon(tiles.get(i).getBounds().getTransformedVertices());
 			}
 			//Attacks
 			for(int i = 0; i < player.getAttacks().size; i++) {

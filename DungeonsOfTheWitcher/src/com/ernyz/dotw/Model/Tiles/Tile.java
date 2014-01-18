@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Model.Tiles;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.Entity;
@@ -11,17 +12,17 @@ import com.ernyz.dotw.Model.Entity;
  */
 public class Tile extends Entity {
 	protected Boolean walkable;
-	protected Rectangle bounds;
+	protected Polygon bounds;
 
 	public Tile(Vector2 position, float rotation) {
 		super(position, rotation);
 	}
 
-	public Rectangle getBounds() {
+	public Polygon getBounds() {
 		return bounds;
 	}
 
-	public void setBounds(Rectangle bounds) {
+	public void setBounds(Polygon bounds) {
 		this.bounds = bounds;
 	}
 

@@ -2,7 +2,7 @@ package com.ernyz.dotw.Model.Tiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -16,9 +16,10 @@ public class Wall extends Tile {
 		texture = new Texture(Gdx.files.internal("data/tiles/Wall.png"));
 		width = texture.getWidth();
 		height = texture.getHeight();
-		bounds = new Rectangle(this.getPosition().x, this.getPosition().y, this.getWidth(), this.getHeight());
-		bounds.setWidth(texture.getWidth());
-		bounds.setHeight(texture.getHeight());
+		bounds = new Polygon();
+		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
+		bounds.setOrigin(0, 0);
+		bounds.setPosition(getPosition().x, getPosition().y);
 		
 		this.setWalkable(false);
 		this.setName("wall");

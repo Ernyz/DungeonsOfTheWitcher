@@ -1,6 +1,8 @@
 package com.ernyz.dotw.Model;
 
-import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
@@ -13,7 +15,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  * 
  * @author Ernyz
  */
-public abstract class MoveableEntity extends Entity {
+public class MoveableEntity extends Entity {
 	
 	protected GameWorld gameWorld;
 	/*
@@ -24,7 +26,7 @@ public abstract class MoveableEntity extends Entity {
 	protected Array<Tile> surroundingTiles;  //Used for collisions and other logic
 	protected Array<MoveableEntity> surroundingEntities;  //Used for collisions and other logic
 	
-	protected Circle bounds;
+	protected Polygon bounds;
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
@@ -61,7 +63,7 @@ public abstract class MoveableEntity extends Entity {
 		this.velocity = velocity;
 		this.lastPos = position.cpy();
 		this.speed = speed;
-		bounds = new Circle(position, 1);
+		bounds = new Polygon();
 		attacks = new Array<Attack>();
 	}
 	
@@ -75,9 +77,99 @@ public abstract class MoveableEntity extends Entity {
 		for(int i = 0; i < attacks.size; i++) {
 			attacks.get(i).update();
 		}
+		
+		//Get new surrounding tiles
+		surroundingTiles.clear();
+		for(int i = 0; i < gameWorld.getTiles().size; i++) {
+			Tile tile = gameWorld.getTiles().get(i);
+			if(tile.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
+				surroundingTiles.add(tile);
+			}
+		}
+		//Get new surrounding entities
+		surroundingEntities.clear();
+		for(int i = 0; i < gameWorld.getEntities().size; i++) {
+			MoveableEntity entity = gameWorld.getEntities().get(i);
+			if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
+				surroundingEntities.add(entity);
+			}
+		}
 	}
 	
-	public abstract void checkCollisions();
+	public void checkCollisions() {
+		//Update last position
+		lastPos.set(position);
+		
+		//Move this entity in x axis
+		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+		bounds.setPosition(position.x, bounds.getY());
+		//Check collisions with tiles and then with entities and then with player
+		for(int i = 0; i < surroundingTiles.size; i++) {
+			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
+				position.x = lastPos.x;
+				bounds.setPosition(lastPos.x, bounds.getY());
+				break;
+			}
+		}
+		for(int i = 0; i < surroundingEntities.size; i++) {
+			//Entity shouldn't check collisions with itself
+			if(!this.equals(surroundingEntities.get(i))) {
+				//Entity vs. other entities
+				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
+					position.x = lastPos.x;
+					bounds.setPosition(lastPos.x, bounds.getY());
+					break;
+					//Move player in other axis, so it wont get stuck when in contact with entity
+					/*if(this.position.y <= surroundingEntities.get(i).getPosition().y)
+						this.position.y -= 1.5f;
+					else
+						this.position.y += 1.5f;*/
+				}
+			}
+		}
+		//If this entity is not player
+		if(!gameWorld.getPlayer().equals(this)) {
+			//Entity vs player
+			if(Intersector.overlapConvexPolygons(bounds, gameWorld.getPlayer().getBounds())) {
+				position.x = lastPos.x;
+				bounds.setPosition(lastPos.x, bounds.getY());
+			}
+		}
+				
+		//Move this entity in y axis
+		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+		bounds.setPosition(bounds.getX(), position.y);
+		//Check collisions with tiles and then with entities
+		for(int i = 0; i < surroundingTiles.size; i++) {
+			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
+				position.y = lastPos.y;
+				bounds.setPosition(bounds.getX(), lastPos.y);
+				break;
+			}
+		}
+		for(int i = 0; i < surroundingEntities.size; i++) {
+			if(!this.equals(surroundingEntities.get(i))) { 
+				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
+					position.y = lastPos.y;
+					bounds.setPosition(bounds.getX(), lastPos.y);
+					break;
+					//Move player in other axis, so it wont get stuck when in contact with entity
+					/*if(this.position.x <= surroundingEntities.get(i).getPosition().x)
+						this.position.x -= 1.5f;
+					else
+						this.position.x += 1.5f;*/
+				}
+			}
+		}
+		//If this entity is not player
+		if(!gameWorld.getPlayer().equals(this)) {
+			//Entity vs player
+			if(Intersector.overlapConvexPolygons(bounds, gameWorld.getPlayer().getBounds())) {
+				position.y = lastPos.y;
+				bounds.setPosition(bounds.getX(), lastPos.y);
+			}
+		}
+	}
 	
 	public void attack(int button) {
 		if(button == 0) {  //LMB
@@ -94,11 +186,11 @@ public abstract class MoveableEntity extends Entity {
 		return rightHand;
 	}
 
-	public Circle getBounds() {
+	public Polygon getBounds() {
 		return bounds;
 	}
 
-	public void setBounds(Circle bounds) {
+	public void setBounds(Polygon bounds) {
 		this.bounds = bounds;
 	}
 

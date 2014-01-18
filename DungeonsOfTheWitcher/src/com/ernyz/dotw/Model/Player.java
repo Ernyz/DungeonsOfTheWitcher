@@ -2,7 +2,6 @@ package com.ernyz.dotw.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -15,7 +14,8 @@ public final class Player extends MoveableEntity {
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());
-		bounds.setRadius(19);
+		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
+		bounds.setOrigin(getWidth()/2, getHeight()/2);
 		
 		surroundingTiles = new Array<Tile>();
 		surroundingEntities = new Array<MoveableEntity>();
@@ -32,34 +32,21 @@ public final class Player extends MoveableEntity {
 		//TODO temp
 		currentWeapon = gameWorld.getItems().get(0);
 		
-		//Get new surrounding tiles
-		surroundingTiles.clear();
-		for(int i = 0; i < gameWorld.getTiles().size; i++) {
-			Tile tile = gameWorld.getTiles().get(i);
-			if(tile.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
-				surroundingTiles.add(tile);
-			}
-		}
-		//Get new surrounding entities
-		surroundingEntities.clear();
-		for(int i = 0; i < gameWorld.getEntities().size; i++) {
-			MoveableEntity entity = gameWorld.getEntities().get(i);
-			if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
-				surroundingEntities.add(entity);
-			}
-		}
-		
 		checkCollisions();
 	}
 	
-	@Override
+	/*@Override
 	public void checkCollisions() {
 		//Update last position
 		lastPos.set(position);
 		
+		//Rotate bounds
+		bounds.setRotation(this.rotation);
+		
 		//Move this entity in x axis
 		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.x = position.x + this.getWidth()/2;
+		//bounds.x = position.x + this.getWidth()/2;
+		bounds.setPosition(position.x, bounds.getY());
 		//Check collisions with tiles and then with entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlaps(bounds, surroundingTiles.get(i).getBounds())) {
@@ -81,7 +68,8 @@ public final class Player extends MoveableEntity {
 		
 		//Move this entity in y axis
 		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
-		bounds.y = position.y+this.getHeight()/2;
+		//bounds.y = position.y+this.getHeight()/2;
+		bounds.setPosition(bounds.getX(), position.y);
 		//Check collisions with tiles and then with entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlaps(bounds, surroundingTiles.get(i).getBounds())) {
@@ -100,5 +88,5 @@ public final class Player extends MoveableEntity {
 					this.position.x += 1.5f;
 			}
 		}
-	}
+	}*/
 }
