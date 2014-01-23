@@ -30,6 +30,7 @@ public class MoveableEntity extends Entity {
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
+	protected boolean isDead;
 	private Array<Attack> attacks;  //All attacks in progress are held in here
 	
 	//TODO type should be an integer, an id of an item TODO should be private/protected
@@ -64,10 +65,17 @@ public class MoveableEntity extends Entity {
 		this.lastPos = position.cpy();
 		this.speed = speed;
 		bounds = new Polygon();
+		isDead = false;
 		attacks = new Array<Attack>();
 	}
 	
 	public void update() {
+		//Check to see if this entity is still alive
+		if(health <= 0) {
+			isDead = true;
+			return;
+		}
+		
 		//Dispose of finished attacks
 		for(int i = 0; i < attacks.size; i++) {
 			if(attacks.get(i).getIsFinished())

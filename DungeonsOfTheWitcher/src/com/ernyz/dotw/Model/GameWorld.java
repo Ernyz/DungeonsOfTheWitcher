@@ -71,11 +71,15 @@ public final class GameWorld {
 	}
 	
 	public void update() {
-		//update everything
+		//Update everything
 		if(gameState == GameStateEnum.PLAYING) {
 			player.update();
+			
 			for(MoveableEntity entity : entities) {
-				entity.update();
+				if(entity.isDead)
+					entities.removeValue(entity, false);
+				else
+					entity.update();
 			}
 		}
 	}
