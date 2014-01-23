@@ -94,7 +94,7 @@ public class MoveableEntity extends Entity {
 				surroundingTiles.add(tile);
 			}
 		}
-		//Get new surrounding entities
+		//Get new surrounding entities  //TODO Should i include this entity into it's array or not?..
 		surroundingEntities.clear();
 		for(int i = 0; i < gameWorld.getEntities().size; i++) {
 			MoveableEntity entity = gameWorld.getEntities().get(i);
@@ -111,7 +111,7 @@ public class MoveableEntity extends Entity {
 		//Move this entity in x axis
 		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
 		bounds.setPosition(position.x, bounds.getY());
-		//Check collisions with tiles and then with entities and then with player
+		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
@@ -135,19 +135,11 @@ public class MoveableEntity extends Entity {
 				}
 			}
 		}
-		//If this entity is not player
-		if(!gameWorld.getPlayer().equals(this)) {
-			//Entity vs player
-			if(Intersector.overlapConvexPolygons(bounds, gameWorld.getPlayer().getBounds())) {
-				position.x = lastPos.x;
-				bounds.setPosition(lastPos.x, bounds.getY());
-			}
-		}
 				
 		//Move this entity in y axis
 		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
 		bounds.setPosition(bounds.getX(), position.y);
-		//Check collisions with tiles and then with entities
+		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.y = lastPos.y;
@@ -167,14 +159,6 @@ public class MoveableEntity extends Entity {
 					else
 						this.position.x += 1.5f;*/
 				}
-			}
-		}
-		//If this entity is not player
-		if(!gameWorld.getPlayer().equals(this)) {
-			//Entity vs player
-			if(Intersector.overlapConvexPolygons(bounds, gameWorld.getPlayer().getBounds())) {
-				position.y = lastPos.y;
-				bounds.setPosition(bounds.getX(), lastPos.y);
 			}
 		}
 	}

@@ -64,7 +64,7 @@ public final class GameWorld {
 		tiles = l.laodTiles("level1");
 		player = l.loadPlayer();
 		entities = l.loadEntities();
-		entities.add(player);
+		entities.add(player);  //Player is an entity too...
 		items = l.loadItems();
 		
 		//Set game state to PLAYING, because the game has finished loading
@@ -74,7 +74,7 @@ public final class GameWorld {
 	public void update() {
 		//Update everything
 		if(gameState == GameStateEnum.PLAYING) {
-			player.update();
+			//player.update();
 			
 			for(MoveableEntity entity : entities) {
 				if(entity.isDead)

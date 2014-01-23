@@ -108,14 +108,15 @@ public final class WorldRenderer {
 		if(debug) {
 			sr.setProjectionMatrix(camera.combined);
 			sr.begin(ShapeType.Line);
-			//Player
-			sr.setColor(Color.CYAN);
-			sr.polygon(player.getBounds().getTransformedVertices());
+			
 			//Entities
 			for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
 				sr.polygon(entities.get(i).getBounds().getTransformedVertices());
 			}
+			//Player
+			sr.setColor(Color.CYAN);
+			sr.polygon(player.getBounds().getTransformedVertices());
 			//Walls
 			for(int i = 0; i < tiles.size; i++) {
 				sr.setColor(Color.GREEN);

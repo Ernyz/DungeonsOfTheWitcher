@@ -82,11 +82,13 @@ public class MeleeAttack implements Attack {
 			//Stop the attack if it's out of range
 			isFinished = true;
 		}
-		//Check for collisions with enemies
+		//Check for collisions with entities
 		for(int i = 0; i < attacker.getSurroundingEntities().size; i++) {
-			if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingEntities().get(i).getBounds())) {
-				hitEnemy(attacker.getSurroundingEntities().get(i));
-				isFinished = true;
+			if(!attacker.getSurroundingEntities().get(i).equals(attacker)) {
+				if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingEntities().get(i).getBounds())) {
+					hitEnemy(attacker.getSurroundingEntities().get(i));
+					isFinished = true;
+				}
 			}
 		}
 		//Check for collisions with walls
