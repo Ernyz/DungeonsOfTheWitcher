@@ -79,7 +79,7 @@ public class MeleeAttack implements Attack {
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {
-			//Stop the attack
+			//Stop the attack if it's out of range
 			isFinished = true;
 		}
 		//Check for collisions with enemies
@@ -103,7 +103,7 @@ public class MeleeAttack implements Attack {
 		//Calculate damage according to targets resistances and other stuff, then apply it
 		//TODO dmg recalculation will be here when resistances are implemented
 		target.setHealth(target.getHealth()+damage);
-		GameWorld.addMessage("You hit "+ target.getName() + " for " + String.valueOf(damage) + " damage!");
+		GameWorld.addMessage(attacker.getName() + " hits "+ target.getName() + " for " + String.valueOf(damage) + " damage!");
 		return damage;
 	}
 	

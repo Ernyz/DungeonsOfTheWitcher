@@ -26,6 +26,7 @@ public class Goblin extends Enemy {
 		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
+		rightHand = new Vector2(-75, 19);  //Values are hard coded and found by trial and error.
 		
 		state = StateEnum.WANDER;
 	}
@@ -34,12 +35,15 @@ public class Goblin extends Enemy {
 	public void update() {
 		super.update();
 		
+		//TODO temp
+		currentWeapon = gameWorld.getItems().get(0);
+		
 		examineSurroundings();
 		checkCollisions();
 	}
 
 	@Override
-	public void examineSurroundings() {
+	public void examineSurroundings() {  //TODO I should move this into an enemy class
 		//Set the state of the monster
 		if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 200) {
 			state = StateEnum.ATTACK;
@@ -55,67 +59,16 @@ public class Goblin extends Enemy {
 			this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			//Attack or move closer if needed
-			velocity.set(dirVector.x/Math.abs(dirVector.x), dirVector.y/Math.abs(dirVector.y));  //Velocity only needs values of +/- 0 or 1 to indicate direction
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 50) {
+				attack(0);  //Primary attack
+			}
+			else {
+				//Attack or move closer if needed
+				velocity.set(dirVector.x/Math.abs(dirVector.x), dirVector.y/Math.abs(dirVector.y));  //Velocity only needs values of +/- 0 or 1 to indicate direction
+			}
 		}
 		else if(state == StateEnum.WANDER) {
 			velocity.set(0, 0);
 		}
 	}
-
-	/*@Override
-	public void checkCollisions() {
-		//Update last position
-		lastPos.set(position);
-		
-		//Rotate bounds
-		bounds.setRotation(this.rotation);
-		
-		//Move this entity in x axis
-		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(position.x, bounds.getY());
-		//Check collisions with tiles, player and then with entities
-		for(int i = 0; i < surroundingTiles.size; i++) {
-			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlaps(bounds, surroundingTiles.get(i).getBounds())) {
-				position.x = lastPos.x;
-				bounds.x = lastPos.x + this.getWidth()/2;
-			}
-		}
-		if(Intersector.overlaps(bounds, gameWorld.getPlayer().getBounds())) {
-			position.x = lastPos.x;
-			bounds.x = lastPos.x + this.getWidth()/2;
-		}
-		for(int i = 0; i < surroundingEntities.size; i++) {
-			if(Intersector.overlaps(bounds, surroundingEntities.get(i).getBounds())) {
-				if(!this.equals(surroundingEntities.get(i))) {
-					position.x = lastPos.x;
-					bounds.x = lastPos.x + this.getWidth()/2;
-				}
-			}
-		}
-				
-		//Move this entity in y axis
-		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
-		//bounds.y = position.y+this.getHeight()/2;
-		bounds.setPosition(bounds.getX(), position.y);
-		//Check collisions with tiles, player and then with entities
-		for(int i = 0; i < surroundingTiles.size; i++) {
-			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlaps(bounds, surroundingTiles.get(i).getBounds())) {
-				position.y = lastPos.y;
-				bounds.y = lastPos.y + this.getHeight()/2;
-			}
-		}
-		if(Intersector.overlaps(bounds, gameWorld.getPlayer().getBounds())) {
-			position.y = lastPos.y;
-			bounds.y = lastPos.y + this.getHeight()/2;
-		}
-		for(int i = 0; i < surroundingEntities.size; i++) {
-			if(Intersector.overlaps(bounds, surroundingEntities.get(i).getBounds())) {
-				if(!this.equals(surroundingEntities.get(i))) {
-					position.y = lastPos.y;
-					bounds.y = lastPos.y + this.getHeight()/2;
-				}
-			}
-		}
-	}*/
 }
