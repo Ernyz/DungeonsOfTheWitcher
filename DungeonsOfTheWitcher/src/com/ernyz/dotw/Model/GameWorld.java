@@ -64,6 +64,7 @@ public final class GameWorld {
 		tiles = l.laodTiles("level1");
 		player = l.loadPlayer();
 		entities = l.loadEntities();
+		entities.add(player);
 		items = l.loadItems();
 		
 		//Set game state to PLAYING, because the game has finished loading
