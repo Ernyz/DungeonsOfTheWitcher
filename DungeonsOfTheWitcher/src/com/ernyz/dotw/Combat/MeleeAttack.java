@@ -3,6 +3,7 @@ package com.ernyz.dotw.Combat;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 
 /**
@@ -21,6 +22,7 @@ public class MeleeAttack implements Attack {
 	/*
 	 * Value of how much damage will this attack do. It depends on weapon, attacker's stats and etc.
 	 * Note, that enemies will probably resist some/all of this damage.
+	 * Also, if damage is positive, it means that it will heal the target, instead of reducing it's hp.
 	 */
 	private float damage;
 	
@@ -40,16 +42,21 @@ public class MeleeAttack implements Attack {
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
 		isFinished = false;
-		if(attacker.currentWeapon.getName().equals("Dagger")) {
-			//Set damage
-			damage = attacker.getDexterity() + attacker.currentWeapon.getInt("Damage");
-			//Set boundaries TODO make bounds dependent on weapon texture dimensions?
-			bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
-			bounds.setOrigin(0, 0);
-			bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
-			distCovered = 0;
-			range = 25;
+		
+		//Attack's damage, rotation, position and other values depend on attack type and weapon
+		if(attackType.equals("Stab")) {
+			if(attacker.currentWeapon.getName().equals("Dagger")) {
+				//Set damage
+				damage = (-1)*(attacker.getDexterity() + attacker.currentWeapon.getInt("Damage"));
+				//Set boundaries TODO make bounds dependent on weapon texture dimensions?
+				bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
+				bounds.setOrigin(0, 0);
+				bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
+				distCovered = 0;
+				range = 25;
+			}
 		}
+		
 		//Set starting rotation
 		startRot = attacker.getRotation();
 		currentRot = startRot;
@@ -66,7 +73,7 @@ public class MeleeAttack implements Attack {
 					MathUtils.cosDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y, 
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
-		//Move projectile
+		//Move the attack according to attackers rotation
 		float dX = MathUtils.cosDeg(attacker.getRotation());
 		float dY = MathUtils.sinDeg(attacker.getRotation());
 		distCovered += Math.sqrt(dX*dX + dY*dY);
@@ -75,16 +82,29 @@ public class MeleeAttack implements Attack {
 			//Stop the attack
 			isFinished = true;
 		}
-		//Check for collisions with enemies and walls
+		//Check for collisions with enemies
 		for(int i = 0; i < attacker.getSurroundingEntities().size; i++) {
 			if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingEntities().get(i).getBounds())) {
-				System.out.println("Hit");
+				hitEnemy(attacker.getSurroundingEntities().get(i));
 				isFinished = true;
 			}
 		}
+		//Check for collisions with walls
 		for(int i = 0; i < attacker.getSurroundingTiles().size; i++) {
-			//TODO
+			if(!attacker.getSurroundingTiles().get(i).getWalkable()) {
+				if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingTiles().get(i).getBounds())) {
+					isFinished = true;
+				}
+			}
 		}
+	}
+	
+	private float hitEnemy(MoveableEntity target) {
+		//Calculate damage according to targets resistances and other stuff, then apply it
+		//TODO dmg recalculation will be here when resistances are implemented
+		target.setHealth(target.getHealth()+damage);
+		GameWorld.addMessage("You hit "+ target.getName() + " for " + String.valueOf(damage) + " damage!");
+		return damage;
 	}
 	
 	@Override

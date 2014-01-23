@@ -31,22 +31,17 @@ public class InputView implements InputProcessor {
 		switch(keycode) {
 		case Keys.W:
 			player.setVelocity(new Vector2(player.getVelocity().x, 1));
-			gameWorld.addMessage("W pressed");
  			break;
 		case Keys.A:
 			player.setVelocity(new Vector2(-1, player.getVelocity().y));
-			gameWorld.addMessage("A pressed");
 			break;
 		case Keys.S:
 			player.setVelocity(new Vector2(player.getVelocity().x, -1));
-			gameWorld.addMessage("S pressed");
 			break;
 		case Keys.D:
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
-			gameWorld.addMessage("D pressed");
 			break;
 		case Keys.P:
-			gameWorld.addMessage("P pressed");
 			SaveGame save = new SaveGame(gameWorld);
 			save.save();
 			break;

@@ -23,6 +23,8 @@ public class WeaponFactory {
 		Item i = new Item();
 		i.setId(0L);
 		i.setName("Dagger");
+		i.set("PrimaryAttack", "Stab");
+		i.set("SecondaryAttack", "Cut");
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);
 		i.set("Damage", 20);

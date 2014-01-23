@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
-import com.ernyz.dotw.Combat.Combat;
+import com.ernyz.dotw.Combat.AttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
@@ -173,7 +173,7 @@ public class MoveableEntity extends Entity {
 	
 	public void attack(int button) {
 		if(button == 0) {  //LMB
-			attacks.add(Combat.primaryAttack(this));
+			attacks.add(AttackCreator.primaryAttack(this));
 		}
 	}
 	

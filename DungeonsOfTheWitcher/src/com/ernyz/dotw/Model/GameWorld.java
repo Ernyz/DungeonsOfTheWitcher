@@ -26,8 +26,8 @@ public final class GameWorld {
 	private HeadsUpDisplay headsUpDisplay;
 	
 	//Messages
-	private Array<String> messageHistory;  //Will contain all game messages
-	private int maxMessagesSaved;  //Will denote number of maximum number of messages saved
+	private static Array<String> messageHistory;  //Will contain all game messages
+	private static int maxMessagesSaved;  //Will denote number of maximum number of messages saved
 	
 	private Player player;
 	
@@ -107,7 +107,7 @@ public final class GameWorld {
 		return wallBody;
 	}
 	
-	public void addMessage(String msg) {
+	public static void addMessage(String msg) {
 		if(messageHistory.size >= maxMessagesSaved) {
 			//Remove the oldest message which is at index zero, put the new message at the end of the array
 			for(int i = 1; i < messageHistory.size; i++) {

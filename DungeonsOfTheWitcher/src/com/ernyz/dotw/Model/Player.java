@@ -14,7 +14,7 @@ public final class Player extends MoveableEntity {
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());
-		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
+		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight()-5, 0, getHeight()-5});//This hardcoding is temporary
 		bounds.setOrigin(getWidth()/2, getHeight()/2);
 		
 		surroundingTiles = new Array<Tile>();
