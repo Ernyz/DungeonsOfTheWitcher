@@ -124,8 +124,11 @@ public final class WorldRenderer {
 					sr.polygon(tiles.get(i).getBounds().getTransformedVertices());
 			}
 			//Attacks
-			for(int i = 0; i < player.getAttacks().size; i++) {
-				sr.polygon(player.getAttacks().get(i).getBounds().getTransformedVertices());
+			for(int i = 0; i < entities.size; i++) {
+				sr.setColor(Color.RED);
+				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
+				}
 			}
 			
 			sr.end();

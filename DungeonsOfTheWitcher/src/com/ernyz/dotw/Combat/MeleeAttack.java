@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -74,8 +75,8 @@ public class MeleeAttack implements Attack {
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
 		//Move the attack according to attackers rotation
-		float dX = MathUtils.cosDeg(attacker.getRotation());
-		float dY = MathUtils.sinDeg(attacker.getRotation());
+		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * attacker.currentWeapon.getInt("Speed");
+		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * attacker.currentWeapon.getInt("Speed");
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {
