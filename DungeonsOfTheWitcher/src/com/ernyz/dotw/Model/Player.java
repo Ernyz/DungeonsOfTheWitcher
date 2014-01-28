@@ -23,14 +23,13 @@ public final class Player extends MoveableEntity {
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
 		rightHand = new Vector2(-75, 19);  //Values are hard coded and found by trial and error.
+		
+		equipItem("RightHand", 0);  //TODO this is temporary
 	}
 
 	@Override
 	public void update() {
 		super.update();
-		
-		//TODO temp
-		currentWeapon = gameWorld.getItems().get(0);
 		
 		checkCollisions();
 	}

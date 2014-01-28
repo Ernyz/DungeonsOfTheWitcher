@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Combat;
 
+import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 
 /**
@@ -16,10 +17,16 @@ public class AttackCreator {
 		
 	}
 	
+	//TODO for now, this function assumes, that weapon is in right hand
 	public static Attack primaryAttack(MoveableEntity attacker) {
 		Attack a;
-		if(attacker.currentWeapon.getBool("IsMelee")) {
-			if(attacker.currentWeapon.getName().equals("Dagger")) {
+		//Check if attacker has no weapon and is going to use unarmed combat
+		if(attacker.getEquipedItem("RightHand") == -1 && attacker.getEquipedItem("LeftHand") == -1) {
+			//TODO Implement unarmed combat
+		}
+		//Check if attacker is armed
+		else if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getBool("IsMelee")) {
+			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
 				a = new MeleeAttack(attacker, "Stab");
 				return a;
 			}

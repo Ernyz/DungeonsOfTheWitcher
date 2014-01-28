@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.ernyz.dotw.Generators.EntityFactory;
+import com.ernyz.dotw.Generators.ItemFactory;
 import com.ernyz.dotw.Generators.TileFactory;
-import com.ernyz.dotw.Generators.WeaponFactory;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -141,8 +141,8 @@ public class LoadGame {
 	}
 	
 	public Array<Item> loadItems() {
-		//Create all item factories
-		WeaponFactory weaponFactory = new WeaponFactory();
+		//Create item factory
+		ItemFactory itemFactory = new ItemFactory();
 		
 		Array<Item> items = new Array<Item>();
 		//Scan the save file
@@ -156,7 +156,11 @@ public class LoadGame {
 				scanner.close();
 		}
 		
-		items.add(weaponFactory.createDagger());
+		//Create few items. Just because we can.
+		items.add(itemFactory.createWeapon("Dagger"));
+		items.add(itemFactory.createWeapon("Dagger"));
+		items.add(itemFactory.createWeapon("Dagger"));
+		items.add(itemFactory.createWeapon("Dagger"));
 		
 		return items;
 	}

@@ -19,9 +19,9 @@ public class WeaponFactory {
 	 * 
 	 * @return {@link Item}
 	 */
-	public Item createDagger() {
+	public Item createDagger(long id) {
 		Item i = new Item();
-		i.setId(0L);
+		i.setId(id);
 		i.setName("Dagger");
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");

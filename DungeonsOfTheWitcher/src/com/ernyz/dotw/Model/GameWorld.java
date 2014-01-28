@@ -32,7 +32,9 @@ public final class GameWorld {
 	private Player player;
 	
 	//Item array
-	private Array<Item> items;
+	//Im not sure if making this static is a good idea, but for now it seems to be the best option.
+	//Might make other arrays like entities and tiles static too, if this proves to be ok.
+	public static Array<Item> items;
 	
 	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
@@ -74,10 +76,8 @@ public final class GameWorld {
 	public void update() {
 		//Update everything
 		if(gameState == GameStateEnum.PLAYING) {
-			//player.update();
-			
 			for(MoveableEntity entity : entities) {
-				if(entity.isDead)
+				if(entity.getIsDead())
 					entities.removeValue(entity, false);
 				else
 					entity.update();

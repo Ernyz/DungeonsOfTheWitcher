@@ -1,5 +1,7 @@
 package com.ernyz.dotw.Model;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -7,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Combat.AttackCreator;
-import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -30,17 +31,22 @@ public class MoveableEntity extends Entity {
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
-	protected boolean isDead;
+	private boolean isDead;
 	private Array<Attack> attacks;  //All attacks in progress are held in here
 	
-	//TODO type should be an integer, an id of an item TODO should be private/protected
-	public Item currentWeapon;
+	//private Long currentWeapon;
 	
 	/*
-	 * Item slots. The first digit of the vector is the rotation offset from centre of the entity to the slot;
+	 * Holds id's of items which are equipped in these slots.
+	 */
+	private HashMap equipmentSlots;
+	
+	/*
+	 * Item slot locations with respect to entity's centre.
+	 * The first digit of the vector is the rotation offset from entity's rotation to the slot;
 	 * The second is the distance from centre of entity to the slot.
 	 */
-	protected Vector2 rightHand;  //TODO Change to private later
+	protected Vector2 rightHand;
 	
 	/*
 	 * Stats
@@ -66,6 +72,13 @@ public class MoveableEntity extends Entity {
 		this.speed = speed;
 		bounds = new Polygon();
 		isDead = false;
+		
+		//Create equipment slots
+		equipmentSlots = new HashMap();
+		equipmentSlots.put("LeftHand", -1L);
+		equipmentSlots.put("RightHand", -1L);
+		equipmentSlots.put("RightHand", 0L);  //Give each entity a weapon, until unarmed combat is implemented.
+		
 		attacks = new Array<Attack>();
 	}
 	
@@ -169,6 +182,14 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
+	public long getEquipedItem(String slotName) {
+		return (Long) equipmentSlots.get(slotName);
+	}
+	
+	public void equipItem(String slotName, long itemId) {  //For now it only changes the value of the slot
+		equipmentSlots.put(slotName, itemId);
+	}
+	
 	//Attacks are needed for renderer when it is in debug mode.
 	public Array<Attack> getAttacks() {
 		return attacks;
@@ -177,7 +198,7 @@ public class MoveableEntity extends Entity {
 	public Vector2 getRightHand() {
 		return rightHand;
 	}
-
+	
 	public Polygon getBounds() {
 		return bounds;
 	}
@@ -208,6 +229,10 @@ public class MoveableEntity extends Entity {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+	
+	public boolean getIsDead() {
+		return isDead;
 	}
 	
 	public float getHealth() {

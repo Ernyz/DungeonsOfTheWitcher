@@ -46,9 +46,9 @@ public class MeleeAttack implements Attack {
 		
 		//Attack's damage, rotation, position and other values depend on attack type and weapon
 		if(attackType.equals("Stab")) {
-			if(attacker.currentWeapon.getName().equals("Dagger")) {
+			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
 				//Set damage
-				damage = (-1)*(attacker.getDexterity() + attacker.currentWeapon.getInt("Damage"));
+				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Damage"));
 				//Set boundaries TODO make bounds dependent on weapon texture dimensions?
 				bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
 				bounds.setOrigin(0, 0);
@@ -75,8 +75,8 @@ public class MeleeAttack implements Attack {
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
 		//Move the attack according to attackers rotation
-		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * attacker.currentWeapon.getInt("Speed");
-		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * attacker.currentWeapon.getInt("Speed");
+		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Speed");
+		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Speed");
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {

@@ -35,9 +35,6 @@ public class Goblin extends Enemy {
 	public void update() {
 		super.update();
 		
-		//TODO temp
-		currentWeapon = gameWorld.getItems().get(0);
-		
 		examineSurroundings();
 		checkCollisions();
 	}
