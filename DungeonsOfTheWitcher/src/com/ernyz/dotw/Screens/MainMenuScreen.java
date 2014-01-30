@@ -25,16 +25,16 @@ public class MainMenuScreen implements Screen {
 	private DOTW game;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
-	private Texture crystals;
 	private Texture bgTexture;
+	private Texture parchmentTexture;
 	
-	//stuff needed for light emitted by crystal(s)
+	//Stuff needed for box2d lighting
 	/*private World world;
 	private Box2DDebugRenderer debugRenderer;
 	private RayHandler rayHandler;
 	private PointLight crystalLight;*/
 	
-	//scene2d variables
+	//Scene2d variables
 	private Stage stage;
 	private Skin skin;
 	private TextureAtlas atlas;
@@ -52,24 +52,23 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		/*batch.begin();
-		batch.draw(bgTexture, 0, 0);
-		batch.end();*/
+		batch.begin();
+		batch.draw(bgTexture, 0, 0);  //Draw wooden BG
+		/*batch.draw(bgTexture, 300, 0);  //Draw wooden BG
+		batch.draw(bgTexture, 600, 0);  //Draw wooden BG
+		batch.draw(bgTexture, 900, 0);  //Draw wooden BG*/
+		batch.draw(parchmentTexture, 300, 0);
+		batch.end();
 		
 		stage.act(delta);
 		batch.begin();
 		stage.draw();
 		batch.end();
 		
-		//deal with light stuff
+		//Deal with light stuff
 		/*debugRenderer.render(world, camera.combined);
 		rayHandler.setCombinedMatrix(camera.combined);
 		rayHandler.updateAndRender();*/
-		
-		//draw crystals
-		batch.begin();
-		batch.draw(crystals, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.end();
 	}
 
 	@Override
@@ -134,8 +133,8 @@ public class MainMenuScreen implements Screen {
 		atlas = new TextureAtlas("data/Button.atlas");
 		skin = new Skin();
 		skin.addRegions(atlas);
-		crystals = new Texture(Gdx.files.internal("data/MainMenuScreen.png"));
-		bgTexture = new Texture(Gdx.files.internal("data/RockTextureBG.png"));
+		bgTexture = new Texture(Gdx.files.internal("data/GUI/WoodTexture2.png"));
+		parchmentTexture = new Texture(Gdx.files.internal("data/GUI/Parchment.png"));
 		ringbearerFont = new BitmapFont(Gdx.files.internal("data/fonts/ringbearerFont.fnt"), false);
 		
 		//init box2d stuff
@@ -173,7 +172,6 @@ public class MainMenuScreen implements Screen {
 		batch.dispose();
 		stage.dispose();
 		ringbearerFont.dispose();
-		crystals.dispose();
 		bgTexture.dispose();
 	}
 

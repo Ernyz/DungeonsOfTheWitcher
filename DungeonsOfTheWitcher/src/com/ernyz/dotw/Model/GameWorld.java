@@ -53,7 +53,7 @@ public final class GameWorld {
 		//Set game state
 		gameState = GameStateEnum.LOADING;
 		
-		//Initialize box2d world
+		//Initialise box2d world
 		world = new World(new Vector2(0, 0), false);
 		
 		maxMessagesSaved = 50;

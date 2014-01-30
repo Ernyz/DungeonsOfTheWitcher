@@ -34,8 +34,6 @@ public class MoveableEntity extends Entity {
 	private boolean isDead;
 	private Array<Attack> attacks;  //All attacks in progress are held in here
 	
-	//private Long currentWeapon;
-	
 	/*
 	 * Holds id's of items which are equipped in these slots.
 	 */
