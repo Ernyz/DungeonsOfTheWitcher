@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,11 +23,12 @@ public class CharacterSelectionScreen implements Screen {
 	private DOTW game;
 	
 	private SpriteBatch batch;
+	private Texture bgTexture;
 	
 	private File file;
 	private FileHandle fileHandle;
 	
-	//Scene2d variables for gui
+	//Scene2d variables for GUI
 	private Stage stage;
 	private TextureAtlas atlas;
 	private Skin skin;
@@ -42,6 +44,10 @@ public class CharacterSelectionScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+		batch.draw(bgTexture, 0, 0);
+		batch.end();
 		
 		stage.act();
 		batch.begin();
@@ -75,11 +81,25 @@ public class CharacterSelectionScreen implements Screen {
 			});
 			stage.addActor(button);
 		}
+		//Finally create "Back" button
+		button = new TextButton("Back", textButtonStyle);
+		button.setX(700);
+		button.setY(30);
+		button.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new MainMenuScreen(game));
+			}
+		});
+		stage.addActor(button);
 	}
 
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
+		bgTexture = new Texture("data/GUI/StoneTexture.png");
 		
 		file = new File("save");
 		fileHandle = new FileHandle(file);

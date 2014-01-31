@@ -57,7 +57,7 @@ public class MainMenuScreen implements Screen {
 		/*batch.draw(bgTexture, 300, 0);  //Draw wooden BG
 		batch.draw(bgTexture, 600, 0);  //Draw wooden BG
 		batch.draw(bgTexture, 900, 0);  //Draw wooden BG*/
-		batch.draw(parchmentTexture, 300, 0);
+		batch.draw(parchmentTexture, 290, 0);
 		batch.end();
 		
 		stage.act(delta);
@@ -133,7 +133,7 @@ public class MainMenuScreen implements Screen {
 		atlas = new TextureAtlas("data/Button.atlas");
 		skin = new Skin();
 		skin.addRegions(atlas);
-		bgTexture = new Texture(Gdx.files.internal("data/GUI/WoodTexture2.png"));
+		bgTexture = new Texture(Gdx.files.internal("data/GUI/StoneTexture.png"));
 		parchmentTexture = new Texture(Gdx.files.internal("data/GUI/Parchment.png"));
 		ringbearerFont = new BitmapFont(Gdx.files.internal("data/fonts/ringbearerFont.fnt"), false);
 		

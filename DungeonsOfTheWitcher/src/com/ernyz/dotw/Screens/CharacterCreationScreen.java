@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,6 +26,7 @@ public class CharacterCreationScreen implements Screen {
 	
 	private DOTW game;
 	private SpriteBatch batch;
+	private Texture bgTexture;
 	
 	//Generators
 	private PlayerGenerator playerGenerator;
@@ -42,7 +44,7 @@ public class CharacterCreationScreen implements Screen {
 	private TextField nameTextField;
 	//Buttons
 	private TextButtonStyle textButtonStyle;
-	private TextButton confirmBtn;
+	private TextButton button;
 	
 	public CharacterCreationScreen(DOTW game) {
 		this.game = game;
@@ -54,6 +56,10 @@ public class CharacterCreationScreen implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
+		batch.draw(bgTexture, 0, 0);
+		batch.end();
 		
 		stage.act();
 		batch.begin();
@@ -77,8 +83,10 @@ public class CharacterCreationScreen implements Screen {
 		textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.getDrawable("PlayBtn");
 		textButtonStyle.font = ringbearerFont;
-		confirmBtn = new TextButton("Confirm", textButtonStyle);
-		confirmBtn.addListener(new InputListener() {
+		button = new TextButton("Confirm", textButtonStyle);
+		button.setX(30);
+		button.setY(30);
+		button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
@@ -94,12 +102,27 @@ public class CharacterCreationScreen implements Screen {
 				game.setScreen(new CharacterSelectionScreen(game));
 			}
 		});
-		stage.addActor(confirmBtn);
+		stage.addActor(button);
+		
+		//Create "Back" button
+		button = new TextButton("Back", textButtonStyle);
+		button.setX(700);
+		button.setY(30);
+		button.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new MainMenuScreen(game));
+			}
+		});
+		stage.addActor(button);
 	}
 
 	@Override
 	public void show() {
 		batch = new SpriteBatch();
+		bgTexture = new Texture("data/GUI/StoneTexture.png");
 		atlas = new TextureAtlas("data/Button.atlas");
 		skin = new Skin();
 		skin.addRegions(atlas);
