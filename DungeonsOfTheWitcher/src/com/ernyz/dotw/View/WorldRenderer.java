@@ -24,7 +24,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
+	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
 	
 	private GameWorld gameWorld;

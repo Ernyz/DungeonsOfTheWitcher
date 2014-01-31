@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Combat;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -27,6 +28,8 @@ public class MeleeAttack implements Attack {
 	 */
 	private float damage;
 	
+	private Texture attackTexture;
+	
 	private float startRot;  //Attack's starting rotation.
 	private float currentRot;  //Attack's current rotation.
 	private float range;  //Range of an attack
@@ -43,6 +46,7 @@ public class MeleeAttack implements Attack {
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
 		isFinished = false;
+		attackTexture = new Texture("data/Attack.png");
 		
 		//Attack's damage, rotation, position and other values depend on attack type and weapon
 		if(attackType.equals("Stab")) {
