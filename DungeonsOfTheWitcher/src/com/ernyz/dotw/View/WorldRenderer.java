@@ -105,7 +105,6 @@ public final class WorldRenderer {
 		
 		//TODO
 		batch.begin();
-		//player.pe.draw(batch, Gdx.graphics.getDeltaTime());
 		for(Attack a : player.getAttacks())
 			a.getParticles().draw(batch, Gdx.graphics.getDeltaTime());
 		batch.end();

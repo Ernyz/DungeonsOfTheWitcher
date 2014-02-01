@@ -35,7 +35,7 @@ public class MeleeAttack implements Attack {
 	private ParticleEmitter attackParticleEmitter;
 	
 	private float startRot;  //Attack's starting rotation.
-	private float currentRot;  //Attack's current rotation.
+	private float currentRot;  //Attack's current rotation. TODO i should probably just use bounds rotation...
 	private float range;  //Range of an attack
 	private float distCovered;  //Distance covered.
 	private float endRot;  //Attack's finishing rotation.
@@ -118,6 +118,9 @@ public class MeleeAttack implements Attack {
 		//Update particles
 		attackParticleEmitter.start();
 		attackParticleEmitter.setPosition(bounds.getX(), bounds.getY());
+		attackParticleEmitter.getAngle().setLow(bounds.getRotation());
+		attackParticleEmitter.getAngle().setHighMin(bounds.getRotation());
+		attackParticleEmitter.getAngle().setHighMax(bounds.getRotation());
 	}
 	
 	private float hitEnemy(MoveableEntity target) {
