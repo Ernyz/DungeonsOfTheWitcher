@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -99,6 +100,14 @@ public final class WorldRenderer {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
+		batch.end();
+		
+		
+		//TODO
+		batch.begin();
+		//player.pe.draw(batch, Gdx.graphics.getDeltaTime());
+		for(Attack a : player.getAttacks())
+			a.getParticles().draw(batch, Gdx.graphics.getDeltaTime());
 		batch.end();
 		
 		//Draw HUD

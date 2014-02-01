@@ -1,7 +1,11 @@
 package com.ernyz.dotw.Combat;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -28,7 +32,7 @@ public class MeleeAttack implements Attack {
 	 */
 	private float damage;
 	
-	private Texture attackTexture;
+	private ParticleEmitter attackParticleEmitter;
 	
 	private float startRot;  //Attack's starting rotation.
 	private float currentRot;  //Attack's current rotation.
@@ -46,7 +50,14 @@ public class MeleeAttack implements Attack {
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
 		isFinished = false;
-		attackTexture = new Texture("data/Attack.png");
+		//Set the particle emitter
+		attackParticleEmitter = new ParticleEmitter();
+		try {
+			attackParticleEmitter.load(Gdx.files.internal("data/particleEffect").reader(2024));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		attackParticleEmitter.setSprite(new Sprite(new Texture(Gdx.files.internal("data/Attack.png"))));
 		
 		//Attack's damage, rotation, position and other values depend on attack type and weapon
 		if(attackType.equals("Stab")) {
@@ -104,6 +115,9 @@ public class MeleeAttack implements Attack {
 				}
 			}
 		}
+		//Update particles
+		attackParticleEmitter.start();
+		attackParticleEmitter.setPosition(bounds.getX(), bounds.getY());
 	}
 	
 	private float hitEnemy(MoveableEntity target) {
@@ -122,6 +136,11 @@ public class MeleeAttack implements Attack {
 	@Override
 	public boolean getIsFinished() {
 		return isFinished;
+	}
+	
+	@Override
+	public ParticleEmitter getParticles() {
+		return attackParticleEmitter;
 	}
 
 }

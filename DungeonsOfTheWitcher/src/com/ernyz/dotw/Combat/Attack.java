@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.Polygon;
 
 /**
@@ -24,4 +25,9 @@ public interface Attack {
 	 * Returns true if this attack is finished.
 	 */
 	public boolean getIsFinished();
+	
+	/**
+	 * Returns particles of this attack.
+	 */
+	public ParticleEmitter getParticles();
 }
