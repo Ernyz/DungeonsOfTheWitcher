@@ -53,11 +53,11 @@ public class MeleeAttack implements Attack {
 		//Set the particle emitter
 		attackParticleEmitter = new ParticleEmitter();
 		try {
-			attackParticleEmitter.load(Gdx.files.internal("data/particleEffect").reader(2024));
+			attackParticleEmitter.load(Gdx.files.internal("data/Particles/MeleeAttack/MeleeAttack").reader(2024));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		attackParticleEmitter.setSprite(new Sprite(new Texture(Gdx.files.internal("data/Attack.png"))));
+		attackParticleEmitter.setSprite(new Sprite(new Texture(Gdx.files.internal("data/Particles/MeleeAttack/attack.png"))));
 		
 		//Attack's damage, rotation, position and other values depend on attack type and weapon
 		if(attackType.equals("Stab")) {
