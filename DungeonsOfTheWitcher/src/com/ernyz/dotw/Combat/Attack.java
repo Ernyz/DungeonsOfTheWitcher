@@ -2,6 +2,7 @@ package com.ernyz.dotw.Combat;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Every melee/ranged attack, every spell or anything that damages anything in any way
@@ -25,9 +26,9 @@ public interface Attack {
 	 * Returns true if this attack is finished.
 	 */
 	public boolean getIsFinished();
-	
-	/**
-	 * Returns particles of this attack.
+
+	/*
+	 * Returns path of the attack, so it can be rendered.
 	 */
-	public ParticleEmitter getParticles();
+	Vector2[] getPath();
 }

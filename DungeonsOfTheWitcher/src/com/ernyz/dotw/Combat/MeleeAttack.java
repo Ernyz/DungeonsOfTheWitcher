@@ -1,14 +1,11 @@
 package com.ernyz.dotw.Combat;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 
@@ -32,8 +29,6 @@ public class MeleeAttack implements Attack {
 	 */
 	private float damage;
 	
-	private ParticleEmitter attackParticleEmitter;
-	
 	private float startRot;  //Attack's starting rotation.
 	private float currentRot;  //Attack's current rotation. TODO i should probably just use bounds rotation...
 	private float range;  //Range of an attack
@@ -41,6 +36,12 @@ public class MeleeAttack implements Attack {
 	private float endRot;  //Attack's finishing rotation.
 	private boolean isFinished;  //If true, attack is finished and should be removed.
 	private MoveableEntity attacker;
+	
+	/*
+	 * Stuff needed for attack animation.
+	 */
+	private Vector2[] path;
+	private int pointCount;
 	
 	/**
 	 * Creates melee attack.
@@ -50,14 +51,9 @@ public class MeleeAttack implements Attack {
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
 		isFinished = false;
-		//Set the particle emitter
-		attackParticleEmitter = new ParticleEmitter();
-		try {
-			attackParticleEmitter.load(Gdx.files.internal("data/Particles/MeleeAttack/MeleeAttack").reader(2024));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		attackParticleEmitter.setSprite(new Sprite(new Texture(Gdx.files.internal("data/Particles/MeleeAttack/attack.png"))));
+		
+		path = new Vector2[50];
+		pointCount = 0;
 		
 		//Attack's damage, rotation, position and other values depend on attack type and weapon
 		if(attackType.equals("Stab")) {
@@ -115,12 +111,15 @@ public class MeleeAttack implements Attack {
 				}
 			}
 		}
-		//Update particles
-		attackParticleEmitter.start();
-		attackParticleEmitter.setPosition(bounds.getX(), bounds.getY());
-		attackParticleEmitter.getAngle().setLow(bounds.getRotation());
-		attackParticleEmitter.getAngle().setHighMin(bounds.getRotation());
-		attackParticleEmitter.getAngle().setHighMax(bounds.getRotation());
+		
+		pointCount = Math.min(pointCount+1, 50);  //Capacity is set to 50
+		for(int i = pointCount-1; i > 0; i--) {
+			path[i] = path[i-1];
+		}
+		//Point shouldn't point to the origin of the rectangle bound, but to the 'tip' of the rectangle bound
+		dX = (float)(Math.cos(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(30*30+5*5));
+		dY = (float)(Math.sin(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(30*30+5*5));
+		path[0] = new Vector2(bounds.getX()+dX, bounds.getY()+dY);
 	}
 	
 	private float hitEnemy(MoveableEntity target) {
@@ -142,8 +141,8 @@ public class MeleeAttack implements Attack {
 	}
 	
 	@Override
-	public ParticleEmitter getParticles() {
-		return attackParticleEmitter;
+	public Vector2[] getPath() {
+		return path;
 	}
 
 }

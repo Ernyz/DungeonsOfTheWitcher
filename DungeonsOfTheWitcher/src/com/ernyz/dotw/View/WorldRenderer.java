@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -25,7 +25,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
+	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
 	
 	private GameWorld gameWorld;
@@ -102,13 +102,6 @@ public final class WorldRenderer {
 		batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
 		batch.end();
 		
-		
-		//TODO
-		batch.begin();
-		for(Attack a : player.getAttacks())
-			a.getParticles().draw(batch, Gdx.graphics.getDeltaTime());
-		batch.end();
-		
 		//Draw HUD
 		gameWorld.getHUD().updateAndRender();
 		
@@ -134,8 +127,20 @@ public final class WorldRenderer {
 			//Attacks
 			for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
-				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+				//AttackBounds
+				/*for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
 					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
+				}*/
+				//Attack lines
+				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+					if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {
+						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().length-1; k++) {
+							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath()[k];
+							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath()[k+1];
+							if(v0 != null && v1 != null)
+								sr.line(v0, v1);
+						}
+					}
 				}
 			}
 			
