@@ -56,7 +56,7 @@ public class Goblin extends Enemy {
 			this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 50) {
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 80) {
 				attack(0);  //Primary attack
 			}
 			else {

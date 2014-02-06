@@ -6,13 +6,17 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Swipe.SwipeTriStrip;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -25,7 +29,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
+	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
 	
 	private GameWorld gameWorld;
@@ -40,6 +44,10 @@ public final class WorldRenderer {
 	private Box2DDebugRenderer debugRenderer;
 	private RayHandler rayHandler;
 	private ConeLight playerLight;
+	
+	//Stuff needed for attack 'swipes'
+	//SwipeHandler swipe;
+	SwipeTriStrip tris;
 	
 	public WorldRenderer(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -61,6 +69,10 @@ public final class WorldRenderer {
 		rayHandler.setCombinedMatrix(camera.combined);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
 		//Good for testing: playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
+		
+		//Swipe stuff
+		//the triangle strip renderer
+		tris = new SwipeTriStrip();
 	}
 	
 	public void render() {
@@ -102,6 +114,36 @@ public final class WorldRenderer {
 		batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
 		batch.end();
 		
+		//Render swipe
+		//the thickness of the line
+		tris.thickness = 5f;
+		//generate the triangle strip from our path
+		for(int i = 0; i < entities.size; i++) {
+			//Attack lines
+			for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+				Array<Vector2> path = new Array<Vector2>();
+				if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {
+					for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().length; k++) {  //Convert Vector2[] to Array<Vector2>
+						if(entities.get(i).getAttacks().get(j).getPath()[k] != null) {
+							path.add(entities.get(i).getAttacks().get(j).getPath()[k]);
+						}
+					}
+					tris.update(path);
+				}
+			}
+		}
+		//we will use a texture for the smooth edge, and also for stroke effects
+		Texture tex = new Texture("data/gradient.png");
+		tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		tex.bind();
+		//tris.update(path);
+		//the vertex color for tinting, i.e. for opacity
+		tris.color = Color.WHITE;
+		//render the triangles to the screen
+		tris.draw(camera);
+		
 		//Draw HUD
 		gameWorld.getHUD().updateAndRender();
 		
@@ -128,9 +170,9 @@ public final class WorldRenderer {
 			for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
 				//AttackBounds
-				/*for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
 					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
-				}*/
+				}
 				//Attack lines
 				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
 					if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {

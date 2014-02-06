@@ -38,10 +38,11 @@ public class MeleeAttack implements Attack {
 	private MoveableEntity attacker;
 	
 	/*
-	 * Stuff needed for attack animation.
+	 * Stuff needed for 'swipe' attack animation.
 	 */
 	private Vector2[] path;
 	private int pointCount;
+	private int capacity = 50;
 	
 	/**
 	 * Creates melee attack.
@@ -65,13 +66,29 @@ public class MeleeAttack implements Attack {
 				bounds.setOrigin(0, 0);
 				bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
 				distCovered = 0;
-				range = 25;
+				range = 8;
 			}
 		}
 		
 		//Set starting rotation
 		startRot = attacker.getRotation();
 		currentRot = startRot;
+		
+		//Set position according to attackers rotation
+		bounds.setPosition(
+				attacker.getPosition().x + attacker.getWidth()/2 + 
+					MathUtils.cosDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y, 
+				attacker.getPosition().y + attacker.getHeight()/2 + 
+					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
+		//Add first point of the 'swipe'
+		pointCount = Math.min(pointCount+1, capacity);
+		for(int i = pointCount-1; i > 0; i--) {
+			path[i] = path[i-1];
+		}
+		//Point shouldn't point to the origin of the rectangle bound, but to the 'tip' of the rectangle bound
+		float dX = (float)(Math.cos(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
+		float dY = (float)(Math.sin(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
+		path[0] = new Vector2(bounds.getX()+dX, bounds.getY()+dY);
 	}
 
 	@Override
@@ -111,8 +128,8 @@ public class MeleeAttack implements Attack {
 				}
 			}
 		}
-		
-		pointCount = Math.min(pointCount+1, 50);  //Capacity is set to 50
+		//Update 'swipe'
+		pointCount = Math.min(pointCount+1, capacity);
 		for(int i = pointCount-1; i > 0; i--) {
 			path[i] = path[i-1];
 		}
