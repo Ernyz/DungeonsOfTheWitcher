@@ -35,15 +35,22 @@ public class AttackCreator {
 		
 		//Check if attacker is armed
 		if(rightHand != null && rightHand.getBool("IsMelee")) {  //If right hand is equipped with melee weapon
-			if(rightHand.getName().equals("Dagger")) {
-				a = new MeleeAttack(attacker, "Stab");
-				return a;
+			if(rightHand.getFloat("TimeUntilAttack") <= 0) {
+				if(rightHand.getName().equals("Dagger")) {
+					a = new MeleeAttack(attacker, rightHand.getString("PrimaryAttack"));
+					rightHand.set("TimeUntilAttack", rightHand.getFloat("AttackInterval"));
+					return a;
+				}
 			}
 		}
 		else if(leftHand != null && leftHand.getBool("IsMelee")) {  //If left hand is equipped with melee weapon
-			if(leftHand.getName().equals("Dagger")) {
-				a = new MeleeAttack(attacker, "Stab");
-				return a;
+			if(rightHand.getFloat("TimeUntilAttack") <= 0) {
+				if(leftHand.getName().equals("Dagger")) {
+					a = new MeleeAttack(attacker, leftHand.getString("PrimaryAttack"));
+					leftHand.set("TimeUntilAttack", leftHand.getFloat("AttackInterval"));
+					leftHand.set("TimeUntilAttack", leftHand.getFloat("AttackInterval"));
+					return a;
+				}
 			}
 		}
 		return null;
