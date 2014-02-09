@@ -1,12 +1,8 @@
 package com.ernyz.dotw.Model;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -90,7 +86,7 @@ public class MoveableEntity extends Entity {
 			isDead = true;
 			return;
 		}
-		
+		System.out.println(attacks.size);
 		//Dispose of finished attacks
 		for(int i = 0; i < attacks.size; i++) {
 			if(attacks.get(i).getIsFinished())

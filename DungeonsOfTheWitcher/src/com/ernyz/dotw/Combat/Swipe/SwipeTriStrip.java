@@ -1,3 +1,7 @@
+/*
+ * This is taken from https://github.com/mattdesl/gdx-swiper.
+ */
+
 package com.ernyz.dotw.Combat.Swipe;
 
 import com.badlogic.gdx.graphics.Camera;

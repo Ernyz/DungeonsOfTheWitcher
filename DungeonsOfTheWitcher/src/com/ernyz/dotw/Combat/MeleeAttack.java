@@ -34,15 +34,19 @@ public class MeleeAttack implements Attack {
 	private float range;  //Range of an attack
 	private float distCovered;  //Distance covered.
 	private float endRot;  //Attack's finishing rotation.
+	private boolean isFinishing;  //If true, attack has ended and is now fading away
+	private float fadeTimer;  //Time it takes for this attack to fade and be removed from entities attacks' array
+	private float fadeSpeed;  //The bigger this is, the faster the attack will fade out.
 	private boolean isFinished;  //If true, attack is finished and should be removed.
 	private MoveableEntity attacker;
 	
 	/*
 	 * Stuff needed for 'swipe' attack animation.
 	 */
+	private float alpha;
 	private Vector2[] path;
 	private int pointCount;
-	private int capacity = 50;
+	private int capacity;
 	
 	/**
 	 * Creates melee attack.
@@ -51,12 +55,19 @@ public class MeleeAttack implements Attack {
 	 */
 	public MeleeAttack(MoveableEntity attacker, String attackType) {
 		this.attacker = attacker;
+		isFinishing = false;
 		isFinished = false;
+		fadeTimer = 0.2f;
+		fadeSpeed = 0.05f;
 		
-		path = new Vector2[50];
+		alpha = 1;
+		capacity = 10;
+		path = new Vector2[capacity];
 		pointCount = 0;
 		
-		//Attack's damage, rotation, position and other values depend on attack type and weapon
+		/*
+		 * Attack's damage, rotation, position and other values depend on attack type and weapon
+		 */
 		if(attackType.equals("Stab")) {
 			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
 				//Set damage
@@ -73,7 +84,6 @@ public class MeleeAttack implements Attack {
 		//Set starting rotation
 		startRot = attacker.getRotation();
 		currentRot = startRot;
-		
 		//Set position according to attackers rotation
 		bounds.setPosition(
 				attacker.getPosition().x + attacker.getWidth()/2 + 
@@ -85,7 +95,7 @@ public class MeleeAttack implements Attack {
 		for(int i = pointCount-1; i > 0; i--) {
 			path[i] = path[i-1];
 		}
-		//Point shouldn't point to the origin of the rectangle bound, but to the 'tip' of the rectangle bound
+		//Point shouldn't point to the origin of the rectangle bound, but to the '...' of the rectangle bound
 		float dX = (float)(Math.cos(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
 		float dY = (float)(Math.sin(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
 		path[0] = new Vector2(bounds.getX()+dX, bounds.getY()+dY);
@@ -94,6 +104,15 @@ public class MeleeAttack implements Attack {
 	@Override
 	public void update() {
 		if(isFinished) return;
+		
+		if(isFinishing) {
+			alpha -= fadeSpeed;
+			fadeTimer -= Gdx.graphics.getDeltaTime();
+			if(fadeTimer <= 0) {
+				isFinished = true;
+			}
+			return;
+		}
 		//Set rotation
 		bounds.setRotation(attacker.getRotation());
 		//Set position according to attackers rotation
@@ -109,14 +128,16 @@ public class MeleeAttack implements Attack {
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {
 			//Stop the attack if it's out of range
-			isFinished = true;
+			isFinishing = true;
+			return;
 		}
 		//Check for collisions with entities
 		for(int i = 0; i < attacker.getSurroundingEntities().size; i++) {
 			if(!attacker.getSurroundingEntities().get(i).equals(attacker)) {
 				if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingEntities().get(i).getBounds())) {
 					hitEnemy(attacker.getSurroundingEntities().get(i));
-					isFinished = true;
+					isFinishing = true;
+					return;
 				}
 			}
 		}
@@ -124,7 +145,8 @@ public class MeleeAttack implements Attack {
 		for(int i = 0; i < attacker.getSurroundingTiles().size; i++) {
 			if(!attacker.getSurroundingTiles().get(i).getWalkable()) {
 				if(Intersector.overlapConvexPolygons(bounds, attacker.getSurroundingTiles().get(i).getBounds())) {
-					isFinished = true;
+					isFinishing = true;
+					return;
 				}
 			}
 		}

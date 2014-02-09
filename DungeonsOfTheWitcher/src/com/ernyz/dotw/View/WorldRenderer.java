@@ -47,7 +47,7 @@ public final class WorldRenderer {
 	
 	//Stuff needed for attack 'swipes'
 	//SwipeHandler swipe;
-	SwipeTriStrip tris;
+	//SwipeTriStrip tris;
 	
 	public WorldRenderer(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -69,10 +69,6 @@ public final class WorldRenderer {
 		rayHandler.setCombinedMatrix(camera.combined);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
 		//Good for testing: playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
-		
-		//Swipe stuff
-		//the triangle strip renderer
-		tris = new SwipeTriStrip();
 	}
 	
 	public void render() {
@@ -115,11 +111,12 @@ public final class WorldRenderer {
 		batch.end();
 		
 		//Render swipe
-		//the thickness of the line
-		tris.thickness = 5f;
-		//generate the triangle strip from our path
+		//The triangle strip renderer
+		SwipeTriStrip tris = new SwipeTriStrip();
+		//Thickness of the line
+		tris.thickness = 5f;  //TODO
+		//Generate the triangle strip from attack's path
 		for(int i = 0; i < entities.size; i++) {
-			//Attack lines
 			for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
 				Array<Vector2> path = new Array<Vector2>();
 				if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {
@@ -132,16 +129,15 @@ public final class WorldRenderer {
 				}
 			}
 		}
-		//we will use a texture for the smooth edge, and also for stroke effects
+		//Use a texture for the smooth edge, and also for stroke effects
 		Texture tex = new Texture("data/gradient.png");
 		tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		tex.bind();
-		//tris.update(path);
-		//the vertex color for tinting, i.e. for opacity
-		tris.color = Color.WHITE;
-		//render the triangles to the screen
+		//Vertex colour for tinting, i.e. for opacity
+		tris.color = new Color(1, 1, 1, 0.9f);
+		//Render the triangles to the screen
 		tris.draw(camera);
 		
 		//Draw HUD
