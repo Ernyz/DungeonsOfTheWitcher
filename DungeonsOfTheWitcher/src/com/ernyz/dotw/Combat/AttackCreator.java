@@ -2,6 +2,7 @@ package com.ernyz.dotw.Combat;
 
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Items.Item;
 
 /**
  * All attacks (magical or non-magical) are created in here.
@@ -17,21 +18,35 @@ public class AttackCreator {
 		
 	}
 	
-	//TODO for now, this function assumes, that weapon is in right hand
 	public static Attack primaryAttack(MoveableEntity attacker) {
 		Attack a;
+		Item rightHand = null;
+		Item leftHand = null;
+		if(attacker.getEquipedItem("RightHand") != -1)
+			rightHand = GameWorld.items.get((int)attacker.getEquipedItem("RightHand"));  //Item held in right hand
+		if(attacker.getEquipedItem("LeftHand") != -1)
+			leftHand = GameWorld.items.get((int)attacker.getEquipedItem("LeftHand"));  //Item held in left hand
+		
 		//Check if attacker has no weapon and is going to use unarmed combat
-		if(attacker.getEquipedItem("RightHand") == -1 && attacker.getEquipedItem("LeftHand") == -1) {
+		if(rightHand == null && leftHand == null) {
 			//TODO Implement unarmed combat
+			return null;
 		}
+		
 		//Check if attacker is armed
-		else if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getBool("IsMelee")) {
-			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
+		if(rightHand != null && rightHand.getBool("IsMelee")) {  //If right hand is equipped with melee weapon
+			if(rightHand.getName().equals("Dagger")) {
 				a = new MeleeAttack(attacker, "Stab");
 				return a;
 			}
 		}
-		return null;  //TODO I probably shouldn't return null...
+		else if(leftHand != null && leftHand.getBool("IsMelee")) {  //If left hand is equipped with melee weapon
+			if(leftHand.getName().equals("Dagger")) {
+				a = new MeleeAttack(attacker, "Stab");
+				return a;
+			}
+		}
+		return null;
 	}
 	
 }

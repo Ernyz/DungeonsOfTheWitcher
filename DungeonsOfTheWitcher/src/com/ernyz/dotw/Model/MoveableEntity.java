@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Combat.AttackCreator;
+import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -33,6 +34,7 @@ public class MoveableEntity extends Entity {
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
 	private Array<Attack> attacks;  //All attacks in progress are held in here
+	private Array<Integer> inventory;  //Holds id's of items player possesses
 	
 	/*
 	 * Holds id's of items which are equipped in these slots.
@@ -71,6 +73,10 @@ public class MoveableEntity extends Entity {
 		bounds = new Polygon();
 		isDead = false;
 		
+		//Initialise inventory
+		inventory = new Array<Integer>();
+		inventory.add(0);
+		
 		//Create equipment slots
 		equipmentSlots = new HashMap();
 		equipmentSlots.put("LeftHand", -1L);
@@ -86,7 +92,7 @@ public class MoveableEntity extends Entity {
 			isDead = true;
 			return;
 		}
-		System.out.println(attacks.size);
+		
 		//Dispose of finished attacks
 		for(int i = 0; i < attacks.size; i++) {
 			if(attacks.get(i).getIsFinished())
@@ -95,6 +101,15 @@ public class MoveableEntity extends Entity {
 		//Update unfinished ones
 		for(int i = 0; i < attacks.size; i++) {
 			attacks.get(i).update();
+		}
+		
+		//Update weapon attack timers
+		for(int i = 0; i < inventory.size; i++) {
+			Item item = GameWorld.items.get(inventory.get(i));
+			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {
+				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+			}
+			//System.out.println(item.getFloat("TimeUntilAttack"));
 		}
 		
 		//Get new surrounding tiles
@@ -176,14 +191,17 @@ public class MoveableEntity extends Entity {
 	
 	public void attack(int button) {
 		if(button == 0) {  //LMB
-			attacks.add(AttackCreator.primaryAttack(this));
+			Attack a = AttackCreator.primaryAttack(this);
+			if(a != null) {
+				attacks.add(a);
+			}
 		}
 	}
 	
+	//I should probably create some kind of class designed to deal with inventory management
 	public long getEquipedItem(String slotName) {
 		return (Long) equipmentSlots.get(slotName);
 	}
-	
 	public void equipItem(String slotName, long itemId) {  //For now it only changes the value of the slot
 		equipmentSlots.put(slotName, itemId);
 	}

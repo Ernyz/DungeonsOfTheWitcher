@@ -44,7 +44,8 @@ public class MeleeAttack implements Attack {
 	 * Stuff needed for 'swipe' attack animation.
 	 */
 	private float alpha;
-	private Vector2[] path;
+	private float thickness;
+	private Array<Vector2> path;
 	private int pointCount;
 	private int capacity;
 	
@@ -61,8 +62,9 @@ public class MeleeAttack implements Attack {
 		fadeSpeed = 0.05f;
 		
 		alpha = 1;
+		thickness = 5f;
 		capacity = 10;
-		path = new Vector2[capacity];
+		path = new Array<Vector2>();
 		pointCount = 0;
 		
 		/*
@@ -71,7 +73,7 @@ public class MeleeAttack implements Attack {
 		if(attackType.equals("Stab")) {
 			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
 				//Set damage
-				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Damage"));
+				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Damage"));
 				//Set boundaries TODO make bounds dependent on weapon texture dimensions?
 				bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
 				bounds.setOrigin(0, 0);
@@ -90,15 +92,15 @@ public class MeleeAttack implements Attack {
 					MathUtils.cosDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y, 
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
-		//Add first point of the 'swipe'
-		pointCount = Math.min(pointCount+1, capacity);
-		for(int i = pointCount-1; i > 0; i--) {
-			path[i] = path[i-1];
-		}
-		//Point shouldn't point to the origin of the rectangle bound, but to the '...' of the rectangle bound
+		
+		//Point shouldn't point to the origin of the rectangle bound, but to the 'middle' of the rectangle bound
 		float dX = (float)(Math.cos(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
 		float dY = (float)(Math.sin(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(0*30+5*5));
-		path[0] = new Vector2(bounds.getX()+dX, bounds.getY()+dY);
+		path.insert(0, new Vector2(bounds.getX()+dX, bounds.getY()+dY));
+		//Ensure that array size does not exceed capacity
+		while(path.size > capacity) {
+			path.pop();
+		}
 	}
 
 	@Override
@@ -122,8 +124,8 @@ public class MeleeAttack implements Attack {
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
 		//Move the attack according to attackers rotation
-		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Speed");
-		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getInt("Speed");
+		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Speed");
+		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Speed");
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {
@@ -151,14 +153,14 @@ public class MeleeAttack implements Attack {
 			}
 		}
 		//Update 'swipe'
-		pointCount = Math.min(pointCount+1, capacity);
-		for(int i = pointCount-1; i > 0; i--) {
-			path[i] = path[i-1];
-		}
-		//Point shouldn't point to the origin of the rectangle bound, but to the 'tip' of the rectangle bound
+		//Point shouldn't point to the origin of the rectangle bound, but to the middle of the rectangle bound
 		dX = (float)(Math.cos(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(30*30+5*5));
 		dY = (float)(Math.sin(Math.atan2(5, 30)+bounds.getRotation()*Math.PI/180) * Math.sqrt(30*30+5*5));
-		path[0] = new Vector2(bounds.getX()+dX, bounds.getY()+dY);
+		path.insert(0, new Vector2(bounds.getX()+dX, bounds.getY()+dY));
+		//Ensure that array size does not exceed capacity
+		while(path.size > capacity) {
+			path.pop();
+		}
 	}
 	
 	private float hitEnemy(MoveableEntity target) {
@@ -180,8 +182,18 @@ public class MeleeAttack implements Attack {
 	}
 	
 	@Override
-	public Vector2[] getPath() {
+	public Array<Vector2> getPath() {
 		return path;
+	}
+	
+	@Override
+	public float getAlpha() {
+		return alpha;
+	}
+	
+	@Override
+	public float getThickness() {
+		return thickness;
 	}
 
 }

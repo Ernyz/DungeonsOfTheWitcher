@@ -40,11 +40,19 @@ public class Item {
 		return false;
 	}
 	
-	public void set(String key, int value) {
+	//TODO Temporarily shut down
+	/*public void set(String key, int value) {
 		attributes.put(key, value);
 	}
 	public int getInt(String key) {
 		return (Integer)attributes.get(key);
+	}*/
+	
+	public void set(String key, float value) {
+		attributes.put(key, value);
+	}
+	public float getFloat(String key) {
+		return (Float)attributes.get(key);
 	}
 
 	public Long getId() {

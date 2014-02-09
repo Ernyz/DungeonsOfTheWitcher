@@ -111,34 +111,31 @@ public final class WorldRenderer {
 		batch.end();
 		
 		//Render swipe
-		//The triangle strip renderer
-		SwipeTriStrip tris = new SwipeTriStrip();
-		//Thickness of the line
-		tris.thickness = 5f;  //TODO
+		SwipeTriStrip tris;
 		//Generate the triangle strip from attack's path
 		for(int i = 0; i < entities.size; i++) {
 			for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
 				Array<Vector2> path = new Array<Vector2>();
-				if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {
-					for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().length; k++) {  //Convert Vector2[] to Array<Vector2>
-						if(entities.get(i).getAttacks().get(j).getPath()[k] != null) {
-							path.add(entities.get(i).getAttacks().get(j).getPath()[k]);
-						}
-					}
+				if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
+					path = entities.get(i).getAttacks().get(j).getPath();
+					//The triangle strip renderer
+					tris = new SwipeTriStrip();
+					//Thickness of the line
+					tris.thickness = entities.get(i).getAttacks().get(j).getThickness();
 					tris.update(path);
+					//Use a texture for the smooth edge, and also for stroke effects
+					Texture tex = new Texture("data/gradient.png");  //TODO I doubt that this is efficient...
+					tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+					Gdx.gl.glEnable(GL20.GL_BLEND);
+					Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+					tex.bind();
+					//Colour
+					tris.color = new Color(1, 1, 1, entities.get(i).getAttacks().get(j).getAlpha());
+					//Render the triangles to the screen
+					tris.draw(camera);
 				}
 			}
 		}
-		//Use a texture for the smooth edge, and also for stroke effects
-		Texture tex = new Texture("data/gradient.png");
-		tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		tex.bind();
-		//Vertex colour for tinting, i.e. for opacity
-		tris.color = new Color(1, 1, 1, 0.9f);
-		//Render the triangles to the screen
-		tris.draw(camera);
 		
 		//Draw HUD
 		gameWorld.getHUD().updateAndRender();
@@ -171,10 +168,10 @@ public final class WorldRenderer {
 				}
 				//Attack lines
 				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
-					if(entities.get(i).getAttacks().get(j).getPath().length >= 2) {
-						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().length-1; k++) {
-							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath()[k];
-							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath()[k+1];
+					if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
+						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().size-1; k++) {
+							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath().get(k);
+							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath().get(k+1);
 							if(v0 != null && v1 != null)
 								sr.line(v0, v1);
 						}

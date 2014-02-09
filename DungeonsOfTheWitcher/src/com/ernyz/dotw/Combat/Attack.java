@@ -1,8 +1,8 @@
 package com.ernyz.dotw.Combat;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Every melee/ranged attack, every spell or anything that damages anything in any way
@@ -27,8 +27,18 @@ public interface Attack {
 	 */
 	public boolean getIsFinished();
 
-	/*
+	/**
 	 * Returns path of the attack, so it can be rendered.
 	 */
-	Vector2[] getPath();
+	Array<Vector2> getPath();
+	
+	/**
+	 * Returns alpha of the attack 'swipe'.
+	 */
+	public float getAlpha();
+	
+	/**
+	 * Returns the thickness of the attack 'swipe'.
+	 */
+	public float getThickness();
 }
