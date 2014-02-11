@@ -31,6 +31,10 @@ public class HeadsUpDisplay {
 	private Texture bgTexture, outputBGTexture;
 	private Image bgImage, outputBGImage;
 	
+	//TODO temp texture for testing
+	private Texture hudTexture;
+	private Image hudImage;
+	
 	public HeadsUpDisplay(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 		
@@ -40,6 +44,10 @@ public class HeadsUpDisplay {
 		height = Gdx.graphics.getHeight();
 		
 		messagesShown = 5;
+		
+		//Init test vars
+		hudTexture = new Texture(Gdx.files.internal("data/HUD/wholeHUD.png"));
+		hudImage = new Image(hudTexture);
 		
 		//Initialize scene2d variables
 		stage = new Stage(width, height, true);
@@ -65,6 +73,9 @@ public class HeadsUpDisplay {
 		stage.addActor(outputBGImage);
 		stage.addActor(healthLabel);
 		stage.addActor(outputLabel);
+		
+		//TODO temp
+		stage.addActor(hudImage);
 	}
 	
 	public void updateAndRender() {

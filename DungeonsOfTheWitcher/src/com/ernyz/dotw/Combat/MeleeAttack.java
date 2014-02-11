@@ -46,7 +46,6 @@ public class MeleeAttack implements Attack {
 	private float alpha;
 	private float thickness;
 	private Array<Vector2> path;
-	private int pointCount;
 	private int capacity;
 	
 	/**
@@ -63,9 +62,8 @@ public class MeleeAttack implements Attack {
 		
 		alpha = 1;
 		thickness = 5f;
-		capacity = 100;
+		capacity = 15;
 		path = new Array<Vector2>();
-		pointCount = 0;
 		
 		/*
 		 * Attack's damage, rotation, position and other values depend on attack type and weapon
