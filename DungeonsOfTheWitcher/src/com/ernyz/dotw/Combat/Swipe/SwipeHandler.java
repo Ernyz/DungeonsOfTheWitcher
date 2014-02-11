@@ -9,6 +9,9 @@ public class SwipeHandler extends InputAdapter {
 	
 	private FixedList<Vector2> inputPoints;
 	
+	//
+	private Array<Vector2> inputPath;
+	
 	/** The pointer associated with this swipe event. */
 	private int inputPointer = 0;
 	
@@ -25,8 +28,9 @@ public class SwipeHandler extends InputAdapter {
 	private SwipeResolver simplifier = new ResolverRadialChaikin();
 	private Array<Vector2> simplified;
 	
-	public SwipeHandler(int maxInputPoints) {
+	public SwipeHandler(Array<Vector2> inputPath, int maxInputPoints) {
 		this.inputPoints = new FixedList<Vector2>(maxInputPoints, Vector2.class);
+		this.inputPath = inputPath;
 		simplified = new Array<Vector2>(true, maxInputPoints, Vector2.class);
 		resolve(); //copy initial empty list
 	}
@@ -51,7 +55,8 @@ public class SwipeHandler extends InputAdapter {
 	 * If the points are dirty, the line is simplified.
 	 */
 	public void resolve() {
-		simplifier.resolve(inputPoints, simplified);
+		//simplifier.resolve(inputPoints, simplified);
+		simplifier.resolve(inputPath, simplified);
 	}
 	
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {

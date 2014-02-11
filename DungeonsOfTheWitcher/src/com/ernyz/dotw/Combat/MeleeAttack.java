@@ -63,7 +63,7 @@ public class MeleeAttack implements Attack {
 		
 		alpha = 1;
 		thickness = 5f;
-		capacity = 10;
+		capacity = 100;
 		path = new Array<Vector2>();
 		pointCount = 0;
 		
@@ -79,7 +79,8 @@ public class MeleeAttack implements Attack {
 				bounds.setOrigin(0, 0);
 				bounds.setPosition(attacker.getPosition().x, attacker.getPosition().y);
 				distCovered = 0;
-				range = 8;
+				//range = 8;
+				range = 20;
 			}
 		}
 		

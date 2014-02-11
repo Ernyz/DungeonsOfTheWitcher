@@ -26,7 +26,7 @@ public class WeaponFactory {
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
 		i.set("Speed", 170);
-		i.set("AttackInterval", 2f);  //Two second interval between attacks with dagger
+		i.set("AttackInterval", 0.3f);  //Two second interval between attacks with dagger
 		i.set("TimeUntilAttack", 0);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);

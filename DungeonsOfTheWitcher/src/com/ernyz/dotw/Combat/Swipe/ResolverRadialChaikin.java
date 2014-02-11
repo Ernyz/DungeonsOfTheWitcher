@@ -12,8 +12,8 @@ public class ResolverRadialChaikin implements SwipeResolver {
 	
 	private Array<Vector2> tmp = new Array<Vector2>(Vector2.class);
 	
-	public static int iterations = 2;
-	public static float simplifyTolerance = 35f;
+	public static int iterations = 1;
+	public static float simplifyTolerance = 15f;
 	
 	public void resolve(Array<Vector2> input, Array<Vector2> output) {
 		output.clear();

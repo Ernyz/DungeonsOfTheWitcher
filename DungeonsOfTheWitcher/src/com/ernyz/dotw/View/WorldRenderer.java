@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Swipe.SwipeHandler;
 import com.ernyz.dotw.Combat.Swipe.SwipeTriStrip;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
@@ -118,11 +119,12 @@ public final class WorldRenderer {
 				Array<Vector2> path = new Array<Vector2>();
 				if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
 					path = entities.get(i).getAttacks().get(j).getPath();
+					SwipeHandler swipeHandler = new SwipeHandler(path, 10);  //Used for smoothing the path out
 					//The triangle strip renderer
 					tris = new SwipeTriStrip();
 					//Thickness of the line
 					tris.thickness = entities.get(i).getAttacks().get(j).getThickness();
-					tris.update(path);
+					tris.update(swipeHandler.path());
 					//Use a texture for the smooth edge, and also for stroke effects
 					Texture tex = new Texture("data/gradient.png");  //TODO I doubt that this is efficient...
 					tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
