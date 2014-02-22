@@ -52,7 +52,7 @@ public class MoveableEntity extends Entity {
 	 * Stats
 	 */
 	protected int dungeonLevel;
-	//protected int experienceLevel;
+	protected int experienceLevel;
 	
 	protected int strength;
 	protected int dexterity;
@@ -61,6 +61,11 @@ public class MoveableEntity extends Entity {
 	protected int spirit;
 	
 	protected float health;
+	protected float maxHealth = 100;  //TODO Values in this line and below should be set during generation/load process.
+	protected float mana = 10;
+	protected float maxMana = 10;
+	protected float stamina = 50;
+	protected float maxStamina = 50;
 	protected float speed;
 	protected float damage;
 
@@ -321,6 +326,46 @@ public class MoveableEntity extends Entity {
 
 	public void setSpirit(int spirit) {
 		this.spirit = spirit;
+	}
+
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(float maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+
+	public float getMana() {
+		return mana;
+	}
+
+	public void setMana(float mana) {
+		this.mana = mana;
+	}
+
+	public float getMaxMana() {
+		return maxMana;
+	}
+
+	public void setMaxMana(float maxMana) {
+		this.maxMana = maxMana;
+	}
+
+	public float getStamina() {
+		return stamina;
+	}
+
+	public void setStamina(float stamina) {
+		this.stamina = stamina;
+	}
+
+	public float getMaxStamina() {
+		return maxStamina;
+	}
+
+	public void setMaxStamina(float maxStamina) {
+		this.maxStamina = maxStamina;
 	}
 	
 }

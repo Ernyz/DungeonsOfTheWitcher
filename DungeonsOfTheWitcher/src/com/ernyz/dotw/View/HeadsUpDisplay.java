@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -18,11 +21,14 @@ public class HeadsUpDisplay {
 	private SpriteBatch batch;
 	private int width;
 	private int height;
+	private final int barMaxWidth = 160;  //Denotes maximum bar (health, mana, xp and etc.) width
+	private final int barMaxHeight = 16;  //Denotes maximum bar (health, mana, xp and etc.) height
 	
 	private int messagesShown;  //How many messages are shown in message window at a time
 	
 	//scene2d variables
 	private Stage stage;
+	private TextureAtlas atlas;
 	private Skin skin;
 	private LabelStyle ls;
 	private BitmapFont serpentis;
@@ -32,6 +38,8 @@ public class HeadsUpDisplay {
 	private Texture leftBorderTexture, topBorderTexture, rightBorderTexture, bottomBorderTexture;
 	private Image bgImage, outputBGImage;
 	private Image leftBorderImage, topBorderImage, rightBorderImage, bottomBorderImage;
+	
+	private Button hpBar, manaBar, staminaBar;
 	
 	//TODO temp texture for testing
 	private Texture hudTexture;
@@ -59,7 +67,8 @@ public class HeadsUpDisplay {
 		
 		//Initialize scene2d variables
 		stage = new Stage(width, height, true);
-		skin = new Skin();  //Might wanna use the other constructor with TextureAtlas
+		atlas = new TextureAtlas("data/HUD/PackOutput/Bars.pack");
+		skin = new Skin(atlas);
 		//Set images
 		bgImage = new Image(bgTexture);
 		bgImage.setX(Gdx.graphics.getWidth() - bgImage.getWidth());
@@ -74,6 +83,32 @@ public class HeadsUpDisplay {
 		bottomBorderImage = new Image(bottomBorderTexture);
 		bottomBorderImage.setY(outputBGImage.getHeight());
 		
+		//Set bars
+		ButtonStyle btnStyle = new ButtonStyle();
+		//HP bar
+		btnStyle.up = skin.getDrawable("hp_bar");
+		hpBar = new Button(btnStyle);
+		stage.addActor(hpBar);
+		hpBar.setWidth(barMaxWidth);
+		hpBar.setHeight(barMaxHeight);
+		hpBar.setPosition(820, 618);
+		//Mana bar
+		btnStyle = new ButtonStyle();
+		btnStyle.up = skin.getDrawable("mana_bar");
+		manaBar = new Button(btnStyle);
+		stage.addActor(manaBar);
+		manaBar.setWidth(barMaxWidth);
+		manaBar.setHeight(barMaxHeight);
+		manaBar.setPosition(820, 598);
+		//Stamina bar
+		btnStyle = new ButtonStyle();
+		btnStyle.up = skin.getDrawable("stamina_bar");
+		staminaBar = new Button(btnStyle);
+		stage.addActor(staminaBar);
+		staminaBar.setWidth(barMaxWidth);
+		staminaBar.setHeight(barMaxHeight);
+		staminaBar.setPosition(820, 578);
+		
 		serpentis = new BitmapFont(Gdx.files.internal("data/fonts/Serpentis.fnt"), false);
 		ls = new LabelStyle(serpentis, Color.WHITE);
 		healthLabel = new Label("Health: ", ls);  //create health label
@@ -86,22 +121,29 @@ public class HeadsUpDisplay {
 		outputLabel.setX(0);
 		outputLabel.setY(48);  //haaard coded!!!!!96
 		
-		stage.addActor(bgImage);
+		/*stage.addActor(bgImage);
 		stage.addActor(outputBGImage);
 		stage.addActor(leftBorderImage);
 		stage.addActor(topBorderImage);
 		stage.addActor(rightBorderImage);
-		stage.addActor(bottomBorderImage);
+		stage.addActor(bottomBorderImage);*/
 		stage.addActor(healthLabel);
 		stage.addActor(outputLabel);
-		
+
 		//TODO temp
 		stage.addActor(hudImage);
+		
+		stage.addActor(hpBar);
+		stage.addActor(manaBar);
+		stage.addActor(staminaBar);
 	}
 	
 	public void updateAndRender() {
 		//Update HUD
 		healthLabel.setText("Health: " + (int)gameWorld.getPlayer().getHealth());
+		hpBar.setWidth(barMaxWidth * gameWorld.getPlayer().getHealth() / gameWorld.getPlayer().getMaxHealth());
+		manaBar.setWidth(barMaxWidth * gameWorld.getPlayer().getMana() / gameWorld.getPlayer().getMaxMana());
+		staminaBar.setWidth(barMaxWidth * gameWorld.getPlayer().getStamina() / gameWorld.getPlayer().getMaxStamina());
 		//Update output text
 		//Set its text
 		outputLabel.setText("");
@@ -126,6 +168,7 @@ public class HeadsUpDisplay {
 	public void dispose() {
 		batch.dispose();
 		stage.dispose();
+		atlas.dispose();
 		skin.dispose();
 		serpentis.dispose();
 		bgTexture.dispose();
