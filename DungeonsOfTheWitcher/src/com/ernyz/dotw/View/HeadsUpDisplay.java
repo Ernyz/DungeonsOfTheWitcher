@@ -29,7 +29,9 @@ public class HeadsUpDisplay {
 	private Label healthLabel;
 	private Label outputLabel;
 	private Texture bgTexture, outputBGTexture;
+	private Texture leftBorderTexture, topBorderTexture, rightBorderTexture, bottomBorderTexture;
 	private Image bgImage, outputBGImage;
+	private Image leftBorderImage, topBorderImage, rightBorderImage, bottomBorderImage;
 	
 	//TODO temp texture for testing
 	private Texture hudTexture;
@@ -45,18 +47,33 @@ public class HeadsUpDisplay {
 		
 		messagesShown = 5;
 		
-		//Init test vars
+		//Set textures
+		bgTexture = new Texture(Gdx.files.internal("data/HUD/HUD_BG.png"));
+		outputBGTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Output_BG.png"));
+		leftBorderTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Left_Border.png"));
+		topBorderTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Top_Border.png"));
+		rightBorderTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Right_Border.png"));
+		bottomBorderTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Bottom_Border.png"));
 		hudTexture = new Texture(Gdx.files.internal("data/HUD/wholeHUD.png"));
 		hudImage = new Image(hudTexture);
 		
 		//Initialize scene2d variables
 		stage = new Stage(width, height, true);
 		skin = new Skin();  //Might wanna use the other constructor with TextureAtlas
-		bgTexture = new Texture(Gdx.files.internal("data/HUD/HUD_BG.png"));
-		outputBGTexture = new Texture(Gdx.files.internal("data/HUD/HUD_Output_BG.png"));
+		//Set images
 		bgImage = new Image(bgTexture);
-		outputBGImage = new Image(outputBGTexture);
 		bgImage.setX(Gdx.graphics.getWidth() - bgImage.getWidth());
+		outputBGImage = new Image(outputBGTexture);
+		leftBorderImage = new Image(leftBorderTexture);
+		leftBorderImage.setY(outputBGImage.getHeight());
+		topBorderImage = new Image(topBorderTexture);
+		topBorderImage.setY(height - topBorderImage.getHeight());
+		rightBorderImage = new Image(rightBorderTexture);
+		rightBorderImage.setY(outputBGImage.getHeight());
+		rightBorderImage.setX(width-bgImage.getWidth() - rightBorderImage.getWidth());
+		bottomBorderImage = new Image(bottomBorderTexture);
+		bottomBorderImage.setY(outputBGImage.getHeight());
+		
 		serpentis = new BitmapFont(Gdx.files.internal("data/fonts/Serpentis.fnt"), false);
 		ls = new LabelStyle(serpentis, Color.WHITE);
 		healthLabel = new Label("Health: ", ls);  //create health label
@@ -71,6 +88,10 @@ public class HeadsUpDisplay {
 		
 		stage.addActor(bgImage);
 		stage.addActor(outputBGImage);
+		stage.addActor(leftBorderImage);
+		stage.addActor(topBorderImage);
+		stage.addActor(rightBorderImage);
+		stage.addActor(bottomBorderImage);
 		stage.addActor(healthLabel);
 		stage.addActor(outputLabel);
 		
