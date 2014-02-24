@@ -262,6 +262,8 @@ public class MoveableEntity extends Entity {
 	
 	public void setHealth(float health) {
 		this.health = health;
+		if(this.health <= 0)
+			this.health = 0;
 	}
 	
 	public String getName() {
@@ -342,6 +344,8 @@ public class MoveableEntity extends Entity {
 
 	public void setMana(float mana) {
 		this.mana = mana;
+		if(this.mana <= 0)
+			this.mana = 0;
 	}
 
 	public float getMaxMana() {
@@ -358,6 +362,8 @@ public class MoveableEntity extends Entity {
 
 	public void setStamina(float stamina) {
 		this.stamina = stamina;
+		if(this.stamina <= 0)
+			this.stamina = 0;
 	}
 
 	public float getMaxStamina() {
