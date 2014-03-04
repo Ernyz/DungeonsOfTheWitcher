@@ -1,18 +1,12 @@
 package com.ernyz.dotw.Generators;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Random;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Enemies.Goblin;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.ernyz.dotw.View.SaveGame;
 
 /**
  * Generates whole dungeon of the game.
@@ -21,8 +15,6 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 
 public class DungeonGenerator {
-	private Writer tileWriter;
-	private Writer entityWriter;
 	private Array<Tile> tiles;
 	private Array<MoveableEntity> entities;
 	private TileFactory tileFactory;
@@ -40,8 +32,8 @@ public class DungeonGenerator {
 		tiles = tileFactory.createTiles(map);
 		fillWithEntities(tiles);
 		
-		writeMapToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels; use SaveGame class
-		writeEntitiesToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels; use SaveGame class
+		SaveGame.saveMap(name, tiles, "1");
+		SaveGame.saveEntities(name, entities);
 	}
 	
 	private void generateDrunkardWalk(char[][] map) {
@@ -111,59 +103,11 @@ public class DungeonGenerator {
 		for(Tile t : tiles) {
 			if(t.getWalkable()) {
 				//if(Math.random() < 0.001) {  //x percent chance for goblin to spawn on a walkable tile
-				if(Math.random() < 0.02) {
+				if(Math.random() < 0.009) {
 					Goblin g = entityFactory.createGoblin(t.getPosition().x, t.getPosition().y, null);
 					entities.add(g);
 				}
 			}
-		}
-	}
-	
-	private void writeMapToTextFile(String name) {
-		try {
-			tileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("save/"+name+"/"+"level1.txt"), "utf-8"));
-			StringWriter result = new StringWriter();
-			JsonWriter writer = new JsonWriter(result);
-			writer.array();
-			for(int i = 0; i < tiles.size; i++) {
-				writer.object()
-					.set("name", tiles.get(i).getName())
-					.set("x", tiles.get(i).getPosition().x)
-					.set("y", tiles.get(i).getPosition().y)
-					.pop();
-			}
-			writer.pop();
-			writer.close();
-			tileWriter.write(result.toString());
-			tileWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void writeEntitiesToTextFile(String name) {
-		try {
-			entityWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("save/"+name+"/"+"entities.txt"), "utf-8"));
-			StringWriter result = new StringWriter();
-			JsonWriter writer = new JsonWriter(result);
-			writer.array();
-			for(int i = 0; i < entities.size; i++) {
-				writer.object()
-					.set("name", entities.get(i).getName())
-					.set("dungeonLevel", entities.get(i).getDungeonLevel())
-					.set("x", entities.get(i).getPosition().x)
-					.set("y", entities.get(i).getPosition().y)
-					.set("speed", entities.get(i).getSpeed())
-					.set("rotation", entities.get(i).getRotation())
-					.set("health", entities.get(i).getHealth())
-					.pop();
-			}
-			writer.pop();
-			writer.close();
-			entityWriter.write(result.toString());
-			entityWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

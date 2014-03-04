@@ -1,24 +1,16 @@
 package com.ernyz.dotw.Generators;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.ernyz.dotw.Model.Player;
+import com.ernyz.dotw.View.SaveGame;
 
 /**
- * Generates new player and outputs it to a save file.
+ * Generates new player and uses {@link SaveGame} to output it to a save file.
  * 
  * @author Ernyz
  */
 public class PlayerGenerator {
 	
-	private Writer playerWriter;
 	private Player player;
 	
 	public PlayerGenerator() {
@@ -36,28 +28,7 @@ public class PlayerGenerator {
 		player.setRotation(0);
 		player.setHealth(100);
 		
-		writeToTextFile(name);
+		SaveGame.savePlayer(player);
 	}
 	
-	private void writeToTextFile(String name) {
-		try {
-			playerWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("save/"+name+"/"+name+".txt"), "utf-8"));
-			StringWriter result = new StringWriter();
-			JsonWriter writer = new JsonWriter(result);
-			writer.object()
-				.set("name", player.getName())
-				.set("dungeonLevel", player.getDungeonLevel())
-				.set("x", player.getPosition().x)
-				.set("y", player.getPosition().y)
-				.set("speed", player.getSpeed())
-				.set("rotation", player.getRotation())
-				.set("health", player.getHealth())
-			.pop();
-			writer.close();
-			playerWriter.write(result.toString());
-			playerWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }

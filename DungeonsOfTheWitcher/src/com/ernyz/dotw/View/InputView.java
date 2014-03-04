@@ -42,8 +42,7 @@ public class InputView implements InputProcessor {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
 			break;
 		case Keys.P:
-			SaveGame save = new SaveGame(gameWorld);
-			save.save();
+			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities());
 			break;
 		default:
 			break;

@@ -25,27 +25,37 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public class SaveGame {
 	
-	private GameWorld gameWorld;
+	//Save file creation variables
+	private static Writer writer;
+	private static final String dir = "save/";  //Directory for player save games
 	
-	//save file creation variables
-	private Writer writer;
-	private String dir = "save";  //directory for player save games
-	
-	public SaveGame(GameWorld gameWorld) {
-		this.gameWorld = gameWorld;
+	public SaveGame() {
+		
 	}
 	
 	/**
 	 * Saves all the current game data (Map, player, enemies, items).
 	 */
-	public void save() {
+	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities) {
 		GameWorld.addMessage("Saving game...");
+		
+		/*//Create new save dir, if for some reason there is none
+		String saveDir = dir + player.getName() + "/";
+		(new File(dir)).mkdirs();*/
+		
+		saveMap(player.getName(), tiles, String.valueOf(player.getDungeonLevel()));
+		savePlayer(player);
+		saveEntities(player.getName(), entities);
+		saveItems();
+		
+		GameWorld.addMessage("Game saved!");
+	}
+	
+	public static void saveMap(String playerName, Array<Tile> tiles, String level) {
 		//Create new save dir, if for some reason there is none
-		dir = dir + "/" + gameWorld.getPlayer().getName() + "/";
+		String saveDir = dir + playerName + "/";
 		(new File(dir)).mkdirs();
 		
-		//Save the map
-		Array<Tile> tiles = gameWorld.getTiles();
 		StringWriter result = new StringWriter();
 		JsonWriter jsonWriter = new JsonWriter(result);
 		try {
@@ -63,7 +73,7 @@ public class SaveGame {
 			e.printStackTrace();
 		}
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "level" + gameWorld.getPlayer().getDungeonLevel() + ".txt"), "utf-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "level" + level + ".txt"), "utf-8"));
 			writer.write(result.toString());
 		}
 		catch(IOException e) {e.printStackTrace();}
@@ -75,10 +85,10 @@ public class SaveGame {
 		//Save map in compact format
 		String res = "";
 		char tmp[][] = new char[50][50];  //TODO Remove this hardcoding
-		for(int i = 0; i < gameWorld.getTiles().size; i++) {
-			tmp[(int) (tmp.length-gameWorld.getTiles().get(i).getPosition().y/50)-1]
-					[(int) (gameWorld.getTiles().get(i).getPosition().x/50)] 
-							= gameWorld.getTiles().get(i).getAsciiSymbol();
+		for(int i = 0; i < tiles.size; i++) {
+			tmp[(int) (tmp.length-tiles.get(i).getPosition().y/50)-1]
+					[(int) (tiles.get(i).getPosition().x/50)] 
+							= tiles.get(i).getAsciiSymbol();
 		}
 		for(int i = 0; i < tmp.length; i++) {
 			for(int j = 0; j < tmp[i].length; j++) {
@@ -89,18 +99,18 @@ public class SaveGame {
 			//System.out.println();
 		}
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "levell" + gameWorld.getPlayer().getDungeonLevel() + ".txt"), "utf-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "levell" + level + ".txt"), "utf-8"));
 			writer.write(res);
 		}
 		catch(IOException e) {e.printStackTrace();}
 		finally {
 			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
-		
-		//Then save player
-		Player player = gameWorld.getPlayer();
-		result = new StringWriter();
-		jsonWriter = new JsonWriter(result);
+	}
+	
+	public static void savePlayer(Player player) {
+		StringWriter result = new StringWriter();
+		JsonWriter jsonWriter = new JsonWriter(result);
 		try {
 			jsonWriter.object()
 				.set("name", player.getName())
@@ -116,18 +126,19 @@ public class SaveGame {
 			e.printStackTrace();
 		}
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + gameWorld.getPlayer().getName() + ".txt"), "utf-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + player.getName() + "/" + player.getName() + ".txt"), "utf-8"));
 			writer.write(result.toString());
 		}
 		catch(IOException e) {e.printStackTrace();}
 		finally {
 			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
-		
-		//Then entities TODO DONT SAVE PLAYER IN HERE
-		Array<MoveableEntity> entities = gameWorld.getEntities();
-		result = new StringWriter();
-		jsonWriter = new JsonWriter(result);
+	}
+	
+	public static void saveEntities(String playerName, Array<MoveableEntity> entities) {
+		//TODO DONT SAVE PLAYER IN HERE
+		StringWriter result = new StringWriter();
+		JsonWriter jsonWriter = new JsonWriter(result);
 		try {
 			jsonWriter.array();
 			for(int i = 0; i < entities.size; i++) {
@@ -148,15 +159,17 @@ public class SaveGame {
 		}
 		
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "entities" + ".txt"), "utf-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + playerName + "/entities" + ".txt"), "utf-8"));
 			writer.write(result.toString());
 		} catch(IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
+	}
+	
+	public static void saveItems() {
 		
-		GameWorld.addMessage("Game saved!");
 	}
 
 }
