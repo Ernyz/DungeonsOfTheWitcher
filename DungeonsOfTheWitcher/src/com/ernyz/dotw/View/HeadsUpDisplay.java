@@ -131,7 +131,7 @@ public class HeadsUpDisplay {
 		stage.addActor(outputLabel);
 
 		//TODO temp
-		stage.addActor(hudImage);
+		//stage.addActor(hudImage);
 		
 		stage.addActor(hpBar);
 		stage.addActor(manaBar);

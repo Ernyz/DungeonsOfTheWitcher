@@ -64,10 +64,10 @@ public final class GameWorld {
 		//Load the game
 		LoadGame l = new LoadGame(playerName, this);
 		tiles = l.laodTiles("level1");
+		items = l.loadItems();
 		player = l.loadPlayer();
 		entities = l.loadEntities();
-		entities.add(player);  //Player is an entity too...
-		items = l.loadItems();
+		entities.add(player);  //Player is an entity too, so add it
 		
 		//Set game state to PLAYING, because the game has finished loading
 		gameState = GameStateEnum.PLAYING;
@@ -75,7 +75,7 @@ public final class GameWorld {
 	
 	public void update() {
 		//Update everything
-		if(gameState == GameStateEnum.PLAYING) {
+ 		if(gameState == GameStateEnum.PLAYING) {
 			for(MoveableEntity entity : entities) {
 				if(entity.getIsDead())
 					entities.removeValue(entity, false);

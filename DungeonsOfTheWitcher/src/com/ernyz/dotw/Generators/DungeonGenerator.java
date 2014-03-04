@@ -40,8 +40,8 @@ public class DungeonGenerator {
 		tiles = tileFactory.createTiles(map);
 		fillWithEntities(tiles);
 		
-		writeMapToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels
-		writeEntitiesToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels
+		writeMapToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels; use SaveGame class
+		writeEntitiesToTextFile(name);  //TODO fix this to be suitable for multiple dungeon levels; use SaveGame class
 	}
 	
 	private void generateDrunkardWalk(char[][] map) {
@@ -110,7 +110,8 @@ public class DungeonGenerator {
 		entityFactory = new EntityFactory();
 		for(Tile t : tiles) {
 			if(t.getWalkable()) {
-				if(Math.random() < 0.001) {  //x percent chance for goblin to spawn on a walkable tile
+				//if(Math.random() < 0.001) {  //x percent chance for goblin to spawn on a walkable tile
+				if(Math.random() < 0.02) {
 					Goblin g = entityFactory.createGoblin(t.getPosition().x, t.getPosition().y, null);
 					entities.add(g);
 				}
@@ -126,7 +127,6 @@ public class DungeonGenerator {
 			writer.array();
 			for(int i = 0; i < tiles.size; i++) {
 				writer.object()
-					.set("id", i)
 					.set("name", tiles.get(i).getName())
 					.set("x", tiles.get(i).getPosition().x)
 					.set("y", tiles.get(i).getPosition().y)
@@ -149,7 +149,6 @@ public class DungeonGenerator {
 			writer.array();
 			for(int i = 0; i < entities.size; i++) {
 				writer.object()
-					.set("id", i)
 					.set("name", entities.get(i).getName())
 					.set("dungeonLevel", entities.get(i).getDungeonLevel())
 					.set("x", entities.get(i).getPosition().x)

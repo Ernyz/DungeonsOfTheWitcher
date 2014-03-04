@@ -15,7 +15,7 @@ public class ItemFactory {
 	private WeaponFactory weaponFactory;
 	
 	public ItemFactory() {
-		//Because id isn't stored anywhere yet, it's initialised when game starts
+		//TODO Because id isn't stored anywhere yet, it's initialised when game starts
 		id = -1;
 		//Initialise factories
 		weaponFactory = new WeaponFactory();

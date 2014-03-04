@@ -1,5 +1,8 @@
 package com.ernyz.dotw.Screens;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -9,6 +12,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,10 +35,10 @@ public class MainMenuScreen implements Screen {
 	private Texture parchmentTexture;
 	
 	//Stuff needed for box2d lighting
-	/*private World world;
+	private World world;
 	private Box2DDebugRenderer debugRenderer;
 	private RayHandler rayHandler;
-	private PointLight crystalLight;*/
+	private PointLight crystalLight;
 	
 	//Scene2d variables
 	private Stage stage;
@@ -66,9 +72,9 @@ public class MainMenuScreen implements Screen {
 		batch.end();
 		
 		//Deal with light stuff
-		/*debugRenderer.render(world, camera.combined);
+		debugRenderer.render(world, camera.combined);
 		rayHandler.setCombinedMatrix(camera.combined);
-		rayHandler.updateAndRender();*/
+		rayHandler.updateAndRender();
 	}
 
 	@Override
@@ -138,14 +144,14 @@ public class MainMenuScreen implements Screen {
 		ringbearerFont = new BitmapFont(Gdx.files.internal("data/fonts/ringbearerFont.fnt"), false);
 		
 		//init box2d stuff
-		/*world = new World(new Vector2(0, 0), false);
+		world = new World(new Vector2(0, 0), false);
 		debugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
 		rayHandler = new RayHandler(world);
 		rayHandler.setCombinedMatrix(camera.combined);
-		crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 1200, 0, 0);
-		crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 500, 600, 650);
-		crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 600, 1000, 100);
-		crystalLight = new PointLight(rayHandler, 360, Color.PINK, 200, 0, 650);*/
+		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 1200, 0, 0);
+		crystalLight = new PointLight(rayHandler, 30, Color.BLACK, 1000, 500, 650);
+		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 600, 1000, 100);
+		//crystalLight = new PointLight(rayHandler, 360, Color.PINK, 200, 0, 650);
 	}
 
 	@Override

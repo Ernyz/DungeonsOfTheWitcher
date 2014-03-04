@@ -11,6 +11,7 @@ import com.ernyz.dotw.Model.Entity;
  * @author ernyz
  */
 public class Tile extends Entity {
+	protected char asciiSymbol;
 	protected Boolean walkable;
 	protected Polygon bounds;
 
@@ -33,4 +34,13 @@ public class Tile extends Entity {
 	public void setWalkable(Boolean walkable) {
 		this.walkable = walkable;
 	}
+
+	public char getAsciiSymbol() {
+		return asciiSymbol;
+	}
+
+	public void setAsciiSymbol(char asciiSymbol) {
+		this.asciiSymbol = asciiSymbol;
+	}
+	
 }

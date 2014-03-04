@@ -3,6 +3,7 @@ package com.ernyz.dotw.Combat;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.ItemManager;
 
 /**
  * All attacks (magical or non-magical) are created in here.
@@ -22,10 +23,10 @@ public class AttackCreator {
 		Attack a;
 		Item rightHand = null;
 		Item leftHand = null;
-		if(attacker.getEquipedItem("RightHand") != -1)
-			rightHand = GameWorld.items.get((int)attacker.getEquipedItem("RightHand"));  //Item held in right hand
-		if(attacker.getEquipedItem("LeftHand") != -1)
-			leftHand = GameWorld.items.get((int)attacker.getEquipedItem("LeftHand"));  //Item held in left hand
+		if(ItemManager.getEquippedItem(attacker, "RightHand") != -1)
+			rightHand = GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand"));  //Item held in right hand
+		if(ItemManager.getEquippedItem(attacker, "LeftHand") != -1)
+			leftHand = GameWorld.items.get(ItemManager.getEquippedItem(attacker, "LeftHand"));  //Item held in left hand
 		
 		//Check if attacker has no weapon and is going to use unarmed combat
 		if(rightHand == null && leftHand == null) {

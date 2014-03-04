@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Combat.AttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.ItemManager;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -39,7 +40,7 @@ public class MoveableEntity extends Entity {
 	/*
 	 * Holds id's of items which are equipped in these slots.
 	 */
-	private HashMap equipmentSlots;
+	private HashMap<String, Integer> equipmentSlots;
 	
 	/*
 	 * Item slot locations with respect to entity's centre.
@@ -80,13 +81,13 @@ public class MoveableEntity extends Entity {
 		
 		//Initialise inventory
 		inventory = new Array<Integer>();
-		inventory.add(0);
+		inventory.add(0);  //TODO this is temporary.
 		
 		//Create equipment slots
-		equipmentSlots = new HashMap();
-		equipmentSlots.put("LeftHand", -1L);
-		equipmentSlots.put("RightHand", -1L);
-		equipmentSlots.put("RightHand", 0L);  //Give each entity a weapon, until unarmed combat is implemented.
+		equipmentSlots = new HashMap<String, Integer>();
+		equipmentSlots.put("LeftHand", -1);
+		equipmentSlots.put("RightHand", -1);
+		//ItemManager.equipItem(this, 0);  //TODO Give each entity a weapon, until unarmed combat is implemented.
 		
 		attacks = new Array<Attack>();
 	}
@@ -125,12 +126,14 @@ public class MoveableEntity extends Entity {
 				surroundingTiles.add(tile);
 			}
 		}
-		//Get new surrounding entities  //TODO Should i include this entity into it's array or not?..
+		//Get new surrounding entities
 		surroundingEntities.clear();
 		for(int i = 0; i < gameWorld.getEntities().size; i++) {
 			MoveableEntity entity = gameWorld.getEntities().get(i);
-			if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
-				surroundingEntities.add(entity);
+			if(!entity.equals(this)) {
+				if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
+					surroundingEntities.add(entity);
+				}
 			}
 		}
 	}
@@ -203,15 +206,28 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
-	//I should probably create some kind of class designed to deal with inventory management
+	/*//I should probably create some kind of class designed to deal with inventory management
 	public long getEquipedItem(String slotName) {
 		return (Long) equipmentSlots.get(slotName);
 	}
 	public void equipItem(String slotName, long itemId) {  //For now it only changes the value of the slot
 		equipmentSlots.put(slotName, itemId);
+	}*/
+	//TODO move these elswhere(bottom probably)
+	public Array<Integer> getInventory() {
+		return inventory;
+	}
+	public void setInventory(Array<Integer> inventory) {
+		this.inventory = inventory;
+	}
+	public HashMap<String, Integer> getEquipmentSlots() {
+		return equipmentSlots;
+	}
+	public void setEquipmentSlots(HashMap<String, Integer> equipmentSlots) {
+		this.equipmentSlots = equipmentSlots;
 	}
 	
-	//Attacks are needed for renderer when it is in debug mode.
+	//Attacks are needed for renderer
 	public Array<Attack> getAttacks() {
 		return attacks;
 	}

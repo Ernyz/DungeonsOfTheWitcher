@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Items.ItemManager;
 
 /**
  * Holds all the data needed for a melee attack.
@@ -68,10 +69,10 @@ public class MeleeAttack implements Attack {
 		/*
 		 * Attack's damage, rotation, position and other values depend on attack type and weapon
 		 */
-		if(attackType.equals("Stab")) {
-			if(GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getName().equals("Dagger")) {
+		if(attackType.equals("Stab")) {  //TODO: This is hardcoded to right hand. Fix it!!!
+			if(GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getName().equals("Dagger")) {
 				//Set damage
-				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Damage"));
+				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Damage"));
 				//Set boundaries TODO make bounds dependent on weapon texture dimensions?
 				bounds = new Polygon(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
 				bounds.setOrigin(0, 0);
@@ -123,8 +124,8 @@ public class MeleeAttack implements Attack {
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
 		//Move the attack according to attackers rotation
-		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Speed");
-		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get((int)attacker.getEquipedItem("RightHand")).getFloat("Speed");
+		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Speed");
+		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Speed");
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
 		if(distCovered >= range) {

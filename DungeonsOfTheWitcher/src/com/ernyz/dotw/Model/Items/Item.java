@@ -2,6 +2,8 @@ package com.ernyz.dotw.Model.Items;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.utils.Array;
+
 /**
  * Base class for all items, like weapons, scrolls, potions and etc.
  * 
@@ -9,11 +11,24 @@ import java.util.HashMap;
  */
 public class Item {
 	
+	public static enum ItemType {
+		WEAPON,
+		PROJECTILE,
+		ARMOUR,
+		CONSUMABLE
+	}
+	
 	private Long id;
 	private String name;
+	private ItemType type;
+	private Boolean isCursed;
+	private Boolean isStackable;
+	private Boolean isContainer;
+	private Array<Integer> itemsContained;
+	private Float weight;
 	/*
-	 * Attributes of an item will be here, for example:
-	 * quantity, type, various booleans and so on...
+	 * Attributes (non-general ones) of an item will be here, for example:
+	 * various booleans, damage, effect upon consumption and so on...
 	 * Key naming is upper camel case (IsWeapon, IsConsumable and etc.)
 	 */
 	private HashMap attributes;
@@ -69,6 +84,14 @@ public class Item {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ItemType getType() {
+		return type;
+	}
+
+	public void setType(ItemType type) {
+		this.type = type;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.ernyz.dotw.Model.Enemies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
@@ -14,7 +15,8 @@ public class Goblin extends Enemy {
 	
 	public Goblin(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
-		texture = new Texture(Gdx.files.internal("data/enemies/Enemy.png"));
+		texture = new Texture(Gdx.files.internal("data/enemies/Goblin.png"));
+		//texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());

@@ -39,12 +39,12 @@ public class SaveGame {
 	 * Saves all the current game data (Map, player, enemies, items).
 	 */
 	public void save() {
-		gameWorld.addMessage("Saving game...");
+		GameWorld.addMessage("Saving game...");
 		//Create new save dir, if for some reason there is none
 		dir = dir + "/" + gameWorld.getPlayer().getName() + "/";
 		(new File(dir)).mkdirs();
 		
-		//save the map
+		//Save the map
 		Array<Tile> tiles = gameWorld.getTiles();
 		StringWriter result = new StringWriter();
 		JsonWriter jsonWriter = new JsonWriter(result);
@@ -52,7 +52,6 @@ public class SaveGame {
 			jsonWriter.array();
 			for(int i = 0; i < tiles.size; i++) {
 				jsonWriter.object()
-					.set("id", i)
 					.set("name", tiles.get(i).getName())
 					.set("x", tiles.get(i).getPosition().x)
 					.set("y", tiles.get(i).getPosition().y)
@@ -67,9 +66,35 @@ public class SaveGame {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "level" + gameWorld.getPlayer().getDungeonLevel() + ".txt"), "utf-8"));
 			writer.write(result.toString());
 		}
-		catch(IOException ex) {}
+		catch(IOException e) {e.printStackTrace();}
 		finally {
-			try {writer.close();} catch(IOException ex) {}
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
+		}
+		
+		//TODO All levels, not only the current one should be saved
+		//Save map in compact format
+		String res = "";
+		char tmp[][] = new char[50][50];  //TODO Remove this hardcoding
+		for(int i = 0; i < gameWorld.getTiles().size; i++) {
+			tmp[(int) (tmp.length-gameWorld.getTiles().get(i).getPosition().y/50)-1]
+					[(int) (gameWorld.getTiles().get(i).getPosition().x/50)] 
+							= gameWorld.getTiles().get(i).getAsciiSymbol();
+		}
+		for(int i = 0; i < tmp.length; i++) {
+			for(int j = 0; j < tmp[i].length; j++) {
+				res = res.concat(String.valueOf(tmp[i][j]));
+				//System.out.print(tmp[i][j]);
+			}
+			res = res.concat("\n");
+			//System.out.println();
+		}
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "levell" + gameWorld.getPlayer().getDungeonLevel() + ".txt"), "utf-8"));
+			writer.write(res);
+		}
+		catch(IOException e) {e.printStackTrace();}
+		finally {
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
 		
 		//Then save player
@@ -94,12 +119,12 @@ public class SaveGame {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + gameWorld.getPlayer().getName() + ".txt"), "utf-8"));
 			writer.write(result.toString());
 		}
-		catch(IOException ex) {}
+		catch(IOException e) {e.printStackTrace();}
 		finally {
-			try {writer.close();} catch(IOException ex) {}
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
 		
-		//Then entities
+		//Then entities TODO DONT SAVE PLAYER IN HERE
 		Array<MoveableEntity> entities = gameWorld.getEntities();
 		result = new StringWriter();
 		jsonWriter = new JsonWriter(result);
@@ -121,34 +146,17 @@ public class SaveGame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "entities" + ".txt"), "utf-8"));
 			writer.write(result.toString());
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
 		}
-		catch(IOException ex) {}
-		finally {
-			try {writer.close();} catch(IOException ex) {}
-		}
-		/*JSONArray entities = new JSONArray();
-		for(int i = 0; i < gameWorld.getEntities().size; i++) {
-			JSONObject temp = new JSONObject();
-			temp.put("name", gameWorld.getEntities().get(i).getName());
-			temp.put("x", gameWorld.getEntities().get(i).getPosition().x);
-			temp.put("y", gameWorld.getEntities().get(i).getPosition().y);
-			entities.add(temp);
-		}
-		obj.put("entities", entities);
-		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + "entities" + ".txt"), "utf-8"));
-			writer.write(obj.toString());
-		}
-		catch(IOException ex) {}
-		finally {
-			try {writer.close();} catch(IOException ex) {}
-		}
-		entities.clear();
-		obj.clear();*/
-		gameWorld.addMessage("Game saved!");
+		
+		GameWorld.addMessage("Game saved!");
 	}
 
 }
