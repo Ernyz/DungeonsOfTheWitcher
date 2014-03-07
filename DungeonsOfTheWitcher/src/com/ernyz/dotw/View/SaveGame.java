@@ -39,10 +39,6 @@ public class SaveGame {
 	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities) {
 		GameWorld.addMessage("Saving game...");
 		
-		/*//Create new save dir, if for some reason there is none
-		String saveDir = dir + player.getName() + "/";
-		(new File(dir)).mkdirs();*/
-		
 		saveMap(player.getName(), tiles, String.valueOf(player.getDungeonLevel()));
 		savePlayer(player);
 		saveEntities(player.getName(), entities);
@@ -56,44 +52,19 @@ public class SaveGame {
 		String saveDir = dir + playerName + "/";
 		(new File(dir)).mkdirs();
 		
-		StringWriter result = new StringWriter();
-		JsonWriter jsonWriter = new JsonWriter(result);
-		try {
-			jsonWriter.array();
-			for(int i = 0; i < tiles.size; i++) {
-				jsonWriter.object()
-					.set("name", tiles.get(i).getName())
-					.set("x", tiles.get(i).getPosition().x)
-					.set("y", tiles.get(i).getPosition().y)
-				.pop();
-			}
-			jsonWriter.pop();
-			jsonWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "level" + level + ".txt"), "utf-8"));
-			writer.write(result.toString());
-		}
-		catch(IOException e) {e.printStackTrace();}
-		finally {
-			try {writer.close();} catch(IOException e) {e.printStackTrace();}
-		}
-		
 		//TODO All levels, not only the current one should be saved
 		//Save map in compact format
 		String res = "";
 		char tmp[][] = new char[50][50];  //TODO Remove this hardcoding
 		for(int i = 0; i < tiles.size; i++) {
-			tmp[(int) (tmp.length-tiles.get(i).getPosition().y/50)-1]
-					[(int) (tiles.get(i).getPosition().x/50)] 
-							= tiles.get(i).getAsciiSymbol();
+			tmp[(int) (tiles.get(i).getPosition().x/50)]
+					[(int) (tiles.get(i).getPosition().y/50)]
+							 = tiles.get(i).getAsciiSymbol();
 		}
-		for(int i = 0; i < tmp.length; i++) {
-			for(int j = 0; j < tmp[i].length; j++) {
-				res = res.concat(String.valueOf(tmp[i][j]));
-				//System.out.print(tmp[i][j]);
+		for(int y = 0; y < tmp[0].length; y++) {
+			for(int x = 0; x < tmp.length; x++) {
+				res = res.concat(String.valueOf(tmp[x][y]));
+				//System.out.print(tmp[x][y]);
 			}
 			res = res.concat("\n");
 			//System.out.println();

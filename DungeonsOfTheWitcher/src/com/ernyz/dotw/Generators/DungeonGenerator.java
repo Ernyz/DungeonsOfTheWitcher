@@ -32,15 +32,15 @@ public class DungeonGenerator {
 		tiles = tileFactory.createTiles(map);
 		fillWithEntities(tiles);
 		
-		SaveGame.saveMap(name, tiles, "1");
+		SaveGame.saveMap(name, tiles, "1");  //TODO Level shouldnt be hardcoded
 		SaveGame.saveEntities(name, entities);
 	}
 	
 	private void generateDrunkardWalk(char[][] map) {
 		//Fill map with walls
-		for(int i = 0; i < map.length; i++) {
-			for(int j = 0; j < map[0].length; j++) {
-				map[i][j] = '#';
+		for(int x = 0; x < map.length; x++) {
+			for(int y = 0; y < map[x].length; y++) {
+				map[x][y] = '#';
 			}
 		}
 		//Set random starting position (not random while in testing stage)
@@ -70,9 +70,9 @@ public class DungeonGenerator {
 				}
 			}
 			else if(dir == 2) {  //Down
-				if(y+1 < map.length-1) {
-					map[x][y+1] = '.';
-					y++;
+				if(y-1 > 0) {
+					map[x][y-1] = '.';
+					y--;
 					count++;
 				}
 			}
@@ -84,9 +84,9 @@ public class DungeonGenerator {
 				}
 			}
 			else if(dir == 4) {  //Up
-				if(y-1 > 0) {
-					map[x][y-1] = '.';
-					y--;
+				if(y+1 < map[0].length-1) {
+					map[x][y+1] = '.';
+					y++;
 					count++;
 				}
 			}
@@ -102,7 +102,6 @@ public class DungeonGenerator {
 		entityFactory = new EntityFactory();
 		for(Tile t : tiles) {
 			if(t.getWalkable()) {
-				//if(Math.random() < 0.001) {  //x percent chance for goblin to spawn on a walkable tile
 				if(Math.random() < 0.009) {
 					Goblin g = entityFactory.createGoblin(t.getPosition().x, t.getPosition().y, null);
 					entities.add(g);

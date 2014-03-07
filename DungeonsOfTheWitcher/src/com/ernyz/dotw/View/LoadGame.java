@@ -44,29 +44,26 @@ public class LoadGame {
 	 */
 	public Array<Tile> laodTiles(String mapFile) {
 		TileFactory tileFactory = new TileFactory();
-		Array<Tile> tiles = new Array<Tile>();
-		//Scan the save file
+		Array<Tile> tiles;// = new Array<Tile>();
+		char[][] tmp = new char[50][50];  //TODO Fix hardcoding!
+		int y = 0;  //TODO Fix hardcoding!
+		//Scan the save file and put it into an array of char
 		try {
 			scanner = new Scanner(new File("save/" + playerName + "/" + mapFile + ".txt"));
-			scanResult = scanner.nextLine();
+			while(scanner.hasNext()) {
+				scanResult = scanner.nextLine();
+				for(int x = 0; x < scanResult.length(); x++) {
+					tmp[x][y] = scanResult.charAt(x);
+				}
+				y++;
+			}
 		}
 		catch(IOException ex) {}
 		finally {
 			if(scanner != null)
 				scanner.close();
 		}
-		//Loop through all the tiles in the save file array, and take the info from them to fill in tiles array
-		JsonReader reader = new JsonReader();
-		JsonValue json = reader.parse(scanResult);
-		for(int i = 0; i < json.size; i++) {
-			String name = json.get(i).getString("name");
-			JsonValue tile = json.get(i);
-			
-			if(name.equals("floor"))
-				tiles.add(tileFactory.createFloor(tile.getFloat("x"), tile.getFloat("y")));
-			else if(name.equals("wall"))
-				tiles.add(tileFactory.createWall(tile.getFloat("x"), tile.getFloat("y")));
-		}
+		tiles = tileFactory.createTiles(tmp);
 		
 		return tiles;
 	}
