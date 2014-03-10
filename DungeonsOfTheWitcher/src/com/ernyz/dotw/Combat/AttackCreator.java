@@ -19,6 +19,11 @@ public class AttackCreator {
 		
 	}
 	
+	/**
+	 * Creates an attack and returns it if creation was successful.
+	 * @param attacker - entity which calls this function.
+	 * @return {@link Attack} if attack was created, or null if attack wasn't created.
+	 */
 	public static Attack primaryAttack(MoveableEntity attacker) {
 		Attack a;
 		Item rightHand = null;
@@ -38,6 +43,7 @@ public class AttackCreator {
 		if(rightHand != null && rightHand.getBool("IsMelee")) {  //If right hand is equipped with melee weapon
 			if(rightHand.getFloat("TimeUntilAttack") <= 0) {
 				if(rightHand.getName().equals("Dagger")) {
+					System.out.println("attack");
 					a = new MeleeAttack(attacker, rightHand.getString("PrimaryAttack"));
 					rightHand.set("TimeUntilAttack", rightHand.getFloat("AttackInterval"));
 					return a;

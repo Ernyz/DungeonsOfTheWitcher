@@ -14,6 +14,9 @@ import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.View.LoadGame;
 
+/**
+ * Class in which all the game objects are held.
+ */
 public final class GameWorld {
 	
 	private enum GameStateEnum {
@@ -77,10 +80,12 @@ public final class GameWorld {
 		//Update everything
  		if(gameState == GameStateEnum.PLAYING) {
 			for(MoveableEntity entity : entities) {
-				if(entity.getIsDead())
+				if(entity.getIsDead()) {
+					entity.dispose();
 					entities.removeValue(entity, false);
-				else
+				} else {
 					entity.update();
+				}
 			}
 		}
 	}

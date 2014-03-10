@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Generators;
 
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.Item.ItemType;
 
 /**
  * This class contains all the methods which are needed
@@ -23,11 +24,12 @@ public class WeaponFactory {
 		Item i = new Item();
 		i.setId(id);
 		i.setName("Dagger");
+		i.setType(ItemType.WEAPON);
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
 		i.set("Speed", 170);
-		i.set("AttackInterval", .8f);  //Interval between attacks with dagger
-		i.set("TimeUntilAttack", 0);
+		i.set("AttackInterval", .8f);  //Interval between attacks
+		i.set("TimeUntilAttack", 0f);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);
 		i.set("Damage", 4);

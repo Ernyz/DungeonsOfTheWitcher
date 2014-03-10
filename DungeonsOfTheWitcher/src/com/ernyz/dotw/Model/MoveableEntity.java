@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Combat.AttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
-import com.ernyz.dotw.Model.Items.ItemManager;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -35,7 +34,7 @@ public class MoveableEntity extends Entity {
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
 	private Array<Attack> attacks;  //All attacks in progress are held in here
-	private Array<Integer> inventory;  //Holds id's of items player possesses
+	protected Array<Integer> inventory;  //Holds id's of items player possesses
 	
 	/*
 	 * Holds id's of items which are equipped in these slots.
@@ -81,13 +80,11 @@ public class MoveableEntity extends Entity {
 		
 		//Initialise inventory
 		inventory = new Array<Integer>();
-		inventory.add(0);  //TODO this is temporary.
 		
 		//Create equipment slots
 		equipmentSlots = new HashMap<String, Integer>();
 		equipmentSlots.put("LeftHand", -1);
 		equipmentSlots.put("RightHand", -1);
-		//ItemManager.equipItem(this, 0);  //TODO Give each entity a weapon, until unarmed combat is implemented.
 		
 		attacks = new Array<Attack>();
 	}
@@ -130,10 +127,8 @@ public class MoveableEntity extends Entity {
 		surroundingEntities.clear();
 		for(int i = 0; i < gameWorld.getEntities().size; i++) {
 			MoveableEntity entity = gameWorld.getEntities().get(i);
-			if(!entity.equals(this)) {
-				if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
-					surroundingEntities.add(entity);
-				}
+			if(entity.getPosition().dst(this.getPosition()) <= activeSurroundingsRange) {
+				surroundingEntities.add(entity);
 			}
 		}
 	}
@@ -144,12 +139,12 @@ public class MoveableEntity extends Entity {
 		
 		//Move this entity in x axis
 		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(position.x, bounds.getY());
+		bounds.setPosition(position.x-texture.getWidth()/2, bounds.getY());
 		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
-				bounds.setPosition(lastPos.x, bounds.getY());
+				bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
 				break;
 			}
 		}
@@ -159,7 +154,7 @@ public class MoveableEntity extends Entity {
 				//Entity vs. other entities
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
 					position.x = lastPos.x;
-					bounds.setPosition(lastPos.x, bounds.getY());
+					bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
 					break;
 					//Move player in other axis, so it wont get stuck when in contact with entity
 					/*if(this.position.y <= surroundingEntities.get(i).getPosition().y)
@@ -206,14 +201,6 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
-	/*//I should probably create some kind of class designed to deal with inventory management
-	public long getEquipedItem(String slotName) {
-		return (Long) equipmentSlots.get(slotName);
-	}
-	public void equipItem(String slotName, long itemId) {  //For now it only changes the value of the slot
-		equipmentSlots.put(slotName, itemId);
-	}*/
-	//TODO move these elswhere(bottom probably)
 	public Array<Integer> getInventory() {
 		return inventory;
 	}

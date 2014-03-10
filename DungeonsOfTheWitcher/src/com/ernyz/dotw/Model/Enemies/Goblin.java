@@ -20,8 +20,18 @@ public class Goblin extends Enemy {
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());
-		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
-		bounds.setOrigin(getWidth()/2, getHeight()/2);
+		//bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
+		//bounds.setOrigin(getWidth()/2, getHeight()/2);
+		
+		int radius = texture.getHeight()/2;
+		float[] tmp = new float[]{0, radius,
+				radius/2, 2*radius,
+				radius+radius/2, 2*radius,
+				2*radius, radius,
+				radius+radius/2, 0,
+				radius/2, 0};
+		bounds.setVertices(tmp);
+		bounds.setOrigin(19, 19);
 		
 		surroundingTiles = new Array<Tile>();
 		surroundingEntities = new Array<MoveableEntity>();

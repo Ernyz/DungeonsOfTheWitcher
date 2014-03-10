@@ -30,7 +30,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
+	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
 	
 	private GameWorld gameWorld;
@@ -46,10 +46,6 @@ public final class WorldRenderer {
 	private RayHandler rayHandler;
 	private ConeLight playerLight;
 	
-	//Stuff needed for attack 'swipes'
-	//SwipeHandler swipe;
-	//SwipeTriStrip tris;
-	
 	public WorldRenderer(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 
@@ -63,13 +59,14 @@ public final class WorldRenderer {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 		
-		/*box2d stuff for lights*/
+		/*Box2d stuff for lights*/
 		//Create renderer and light
 		debugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
 		rayHandler = new RayHandler(gameWorld.getWorld());
 		rayHandler.setCombinedMatrix(camera.combined);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
-		//Good for testing: playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
+		//Good for testing: 
+		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
 	}
 	
 	public void render() {

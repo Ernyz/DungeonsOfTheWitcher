@@ -1,1 +1,1 @@
-{"name":"Player","dungeonLevel":1,"x":105,"y":105,"speed":100,"rotation":0,"health":100}
+{"name":"Player","dungeonLevel":1,"x":200.0,"y":115.0,"speed":100,"rotation":153.14554,"health":100}
