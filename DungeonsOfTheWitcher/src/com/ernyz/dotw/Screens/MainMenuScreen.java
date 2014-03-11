@@ -154,7 +154,7 @@ public class MainMenuScreen implements Screen {
 		rayHandler = new RayHandler(world);
 		rayHandler.setCombinedMatrix(camera.combined);
 		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 1200, 0, 0);
-		crystalLight = new PointLight(rayHandler, 30, Color.BLACK, 2500, 500, 650);
+		crystalLight = new PointLight(rayHandler, 30, Color.BLACK, 800, 500, 650);
 		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 600, 1000, 100);
 		//crystalLight = new PointLight(rayHandler, 360, Color.PINK, 200, 0, 650);
 	}
