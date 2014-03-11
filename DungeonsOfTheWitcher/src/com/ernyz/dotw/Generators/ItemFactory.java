@@ -21,6 +21,11 @@ public class ItemFactory {
 		weaponFactory = new WeaponFactory();
 	}
 	
+	/**
+	 * Creates and returns desired weapon.
+	 * @param weapon - name of the desired weapon
+	 * @return - weapon of type {@link Item}
+	 */
 	public Item createWeapon(String weapon) {
 		id++;
 		if(weapon.equals("Dagger"))

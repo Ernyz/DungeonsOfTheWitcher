@@ -9,6 +9,11 @@ import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
+/**
+ * This class can represent any kind of goblin.
+ * 
+ * @author Ernyz
+ */
 public class Goblin extends Enemy {
 	
 	private Vector2 dirVector = new Vector2();  //Direction that entity faces

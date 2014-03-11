@@ -9,7 +9,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.View.SaveGame;
 
 /**
- * Generates whole dungeon of the game.
+ * Generates whole dungeon of the game with multiple levels, branches and monsters.
  * 
  * @author Ernyz
  */

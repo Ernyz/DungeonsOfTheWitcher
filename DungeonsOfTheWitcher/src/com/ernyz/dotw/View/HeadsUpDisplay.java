@@ -15,6 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.ernyz.dotw.Model.GameWorld;
 
+/**
+ * Holds all the resources/logic/etc. needed for HUD.
+ * 
+ * @author Ernyz
+ */
 public class HeadsUpDisplay {
 	
 	private GameWorld gameWorld;

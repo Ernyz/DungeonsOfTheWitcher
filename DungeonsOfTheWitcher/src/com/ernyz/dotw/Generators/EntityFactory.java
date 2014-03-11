@@ -16,6 +16,13 @@ public class EntityFactory {
 		
 	}
 	
+	/**
+	 * Creates player whose values then can be set according to save file values.
+	 * @param x - x coordinate of the player
+	 * @param y - y coordinate of the player
+	 * @param gameWorld - {@link GameWorld}
+	 * @return {@link Player} instance
+	 */
 	public Player createPlayer(float x, float y, GameWorld gameWorld) {
 		Player player = new Player(new Vector2(), new Vector2(), 0f, 0f, gameWorld);
 		return player;

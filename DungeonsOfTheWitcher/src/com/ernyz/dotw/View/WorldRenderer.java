@@ -5,7 +5,6 @@ import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,8 +29,8 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
-	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging
+	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
+	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging.
 	
 	private GameWorld gameWorld;
 	private SpriteBatch batch;
@@ -66,12 +65,13 @@ public final class WorldRenderer {
 		rayHandler.setCombinedMatrix(camera.combined);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
 		//Good for testing: 
-		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
+		if(debug)
+			playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 360);
 	}
 	
 	public void render() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Get player and other entities
 		player = gameWorld.getPlayer();

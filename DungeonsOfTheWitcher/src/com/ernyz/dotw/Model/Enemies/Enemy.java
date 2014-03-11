@@ -4,6 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 
+/**
+ * Parent class of all enemies.
+ * 
+ * @author Ernyz
+ */
 public abstract class Enemy extends MoveableEntity {
 	
 	protected enum StateEnum {

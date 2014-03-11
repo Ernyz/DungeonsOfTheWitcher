@@ -43,7 +43,6 @@ public class AttackCreator {
 		if(rightHand != null && rightHand.getBool("IsMelee")) {  //If right hand is equipped with melee weapon
 			if(rightHand.getFloat("TimeUntilAttack") <= 0) {
 				if(rightHand.getName().equals("Dagger")) {
-					System.out.println("attack");
 					a = new MeleeAttack(attacker, rightHand.getString("PrimaryAttack"));
 					rightHand.set("TimeUntilAttack", rightHand.getFloat("AttackInterval"));
 					return a;

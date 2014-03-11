@@ -2,19 +2,24 @@ package com.ernyz.dotw.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.Items.ItemManager;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
+/**
+ * Player class which contains player related code, which can not be moved to {@link MoveableEntity}.
+ * 
+ * @author Ernyz
+ */
 public final class Player extends MoveableEntity {
 	
 	public Player(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
 		//texture = new Texture(Gdx.files.internal("data/player/player.png"));
-		//texture = new Texture(Gdx.files.internal("data/player/PlayerMedium.png"));
 		texture = new Texture(Gdx.files.internal("data/player/PlayerLarge.png"));
+		//texture = new Texture(Gdx.files.internal("data/player/PlayerMedium.png"));
+		//texture = new Texture(Gdx.files.internal("data/player/PlayerSmall.png"));
 		
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());

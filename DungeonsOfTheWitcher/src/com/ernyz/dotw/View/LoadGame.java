@@ -18,7 +18,7 @@ import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
- * Some kind of factory class which has the separate methods to load the map, player and everything else.
+ * Class which has separate methods to load the map, player and everything else.
  * 
  * @author ernyz
  */
@@ -132,13 +132,6 @@ public class LoadGame {
 				e.setHealth(entity.getFloat("health"));
 				entities.add(e);
 			}
-			/*else if(name.equals("Player")) {
-				e = entityFactory.createGoblin(entity.getFloat("x"), entity.getFloat("y"), gameWorld);
-				e.setRotation(entity.getFloat("rotation"));
-				e.setSpeed(entity.getFloat("speed"));
-				e.setHealth(entity.getFloat("health"));
-			}*/
-			//entities.add(e);
 		}
 		
 		return entities;
