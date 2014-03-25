@@ -10,7 +10,7 @@ import com.ernyz.dotw.Model.Player;
 /**
  * Accepts input and directly modifies Model.
  * 
- * @author ernyz
+ * @author Ernyz
  */
 public class InputView implements InputProcessor {
 	
@@ -28,24 +28,25 @@ public class InputView implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		player = gameWorld.getPlayer();
-		switch(keycode) {
-		case Keys.W:
+		if(keycode == Keys.W) {
 			player.setVelocity(new Vector2(player.getVelocity().x, 1));
- 			break;
-		case Keys.A:
+		} else if(keycode == Keys.A) {
 			player.setVelocity(new Vector2(-1, player.getVelocity().y));
-			break;
-		case Keys.S:
+		} else if(keycode == Keys.S) {
 			player.setVelocity(new Vector2(player.getVelocity().x, -1));
-			break;
-		case Keys.D:
+		} else if(keycode == Keys.D) {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
-			break;
-		case Keys.P:
+		}
+		if(keycode == Keys.I) {
+			if(!gameWorld.getWindows().containsKey("Inventory")) {
+				gameWorld.windowManager.createInventoryWindow();
+			} else if(!gameWorld.getWindows().get("Inventory").isVisible()) {
+				gameWorld.getWindows().get("Inventory").setVisible(true);
+			} else {
+				gameWorld.getWindows().get("Inventory").setVisible(false);
+			}
+		} else if(keycode == Keys.P) {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities());
-			break;
-		default:
-			break;
 		}
 		
 		return false;

@@ -137,7 +137,7 @@ public final class WorldRenderer {
 		}
 		
 		//Draw HUD
-		gameWorld.getHUD().updateAndRender();
+		gameWorld.getHUD().updateAndRender(batch);
 		
 		//ShapeRenderer, useful to see bounds
 		if(debug) {

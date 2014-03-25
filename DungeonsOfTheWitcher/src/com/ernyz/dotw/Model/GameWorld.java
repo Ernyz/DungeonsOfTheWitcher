@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Model;
 
-import com.badlogic.gdx.Gdx;
+import java.util.HashMap;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -8,15 +9,19 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.ernyz.dotw.Utils.WindowManager;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.View.LoadGame;
 
 /**
  * Class in which all the game objects are held.
+ * 
+ * @author Ernyz
  */
 public final class GameWorld {
 	
@@ -34,17 +39,18 @@ public final class GameWorld {
 	private static int maxMessagesSaved;  //Will denote number of maximum number of messages saved
 	
 	private Player player;
-	
 	//Item array
 	//Im not sure if making this static is a good idea, but for now it seems to be the best option.
 	//Might make other arrays like entities and tiles static too, if this proves to be ok.
-	public static Array<Item> items;
-	
+	public static Array<Item> items;  //TODO make non-static?
 	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
-	
 	//Tiles
 	private Array<Tile> tiles;  //Holds all tiles
+	
+	//Manager class to manage an array of windows like inventory window, character window and etc.
+	public WindowManager windowManager;
+	private HashMap<String, Window> windows;
 	
 	//Box2d variables (lighting variables are in renderer class)
 	private static World world;
@@ -72,6 +78,10 @@ public final class GameWorld {
 		player = l.loadPlayer();
 		entities = l.loadEntities();
 		entities.add(player);  //Player is an entity too, so add it
+
+		//Initialise window related stuff
+		windowManager = new WindowManager(this);
+		windows = new HashMap<String, Window>();
 		
 		//Set game state to PLAYING, because the game has finished loading
 		gameState = GameStateEnum.PLAYING;
@@ -158,4 +168,13 @@ public final class GameWorld {
 	public Array<Item> getItems() {
 		return items;
 	}
+
+	public HashMap<String, Window> getWindows() {
+		return windows;
+	}
+
+	public void setWindows(HashMap<String, Window> windows) {
+		this.windows = windows;
+	}
+
 }

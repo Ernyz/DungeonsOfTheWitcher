@@ -23,7 +23,6 @@ import com.ernyz.dotw.Model.GameWorld;
 public class HeadsUpDisplay {
 	
 	private GameWorld gameWorld;
-	private SpriteBatch batch;
 	private int width;
 	private int height;
 	private final int barMaxWidth = 160;  //Denotes maximum bar (health, mana, xp and etc.) width
@@ -52,8 +51,6 @@ public class HeadsUpDisplay {
 	
 	public HeadsUpDisplay(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
-		
-		batch = new SpriteBatch();
 		
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
@@ -143,7 +140,7 @@ public class HeadsUpDisplay {
 		stage.addActor(staminaBar);
 	}
 	
-	public void updateAndRender() {
+	public void updateAndRender(SpriteBatch batch) {
 		//Update HUD
 		healthLabel.setText("Health: " + (int)gameWorld.getPlayer().getHealth());
 		hpBar.setWidth(barMaxWidth * gameWorld.getPlayer().getHealth() / gameWorld.getPlayer().getMaxHealth());
@@ -171,7 +168,6 @@ public class HeadsUpDisplay {
 	}
 	
 	public void dispose() {
-		batch.dispose();
 		stage.dispose();
 		atlas.dispose();
 		skin.dispose();
@@ -186,6 +182,10 @@ public class HeadsUpDisplay {
 
 	public Texture getOutputBGTexture() {
 		return outputBGTexture;
+	}
+	
+	public Stage getStage() {
+		return stage;
 	}
 	
 }
