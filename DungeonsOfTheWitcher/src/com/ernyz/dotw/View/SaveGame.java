@@ -52,7 +52,6 @@ public class SaveGame {
 		String saveDir = dir + playerName + "/";
 		(new File(dir)).mkdirs();
 		
-		//TODO All levels, not only the current one should be saved
 		//Save map in compact format
 		String res = "";
 		char tmp[][] = new char[50][50];  //TODO Remove this hardcoding
@@ -70,7 +69,7 @@ public class SaveGame {
 			//System.out.println();
 		}
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "levell" + level + ".txt"), "utf-8"));
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "level" + level + ".txt"), "utf-8"));
 			writer.write(res);
 		}
 		catch(IOException e) {e.printStackTrace();}

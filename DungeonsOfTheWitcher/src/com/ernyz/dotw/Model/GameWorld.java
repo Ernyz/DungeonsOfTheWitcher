@@ -73,7 +73,7 @@ public final class GameWorld {
 		
 		//Load the game
 		LoadGame l = new LoadGame(playerName, this);
-		tiles = l.laodTiles("levell1");
+		tiles = l.laodTiles("level0");
 		items = l.loadItems();
 		player = l.loadPlayer();
 		entities = l.loadEntities();

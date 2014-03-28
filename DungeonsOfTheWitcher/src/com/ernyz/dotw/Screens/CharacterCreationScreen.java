@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Generators.DungeonGenerator;
 import com.ernyz.dotw.Generators.PlayerGenerator;
+import com.ernyz.dotw.Generators.WorldGenerator;
 
 /**
  * Screen in which player can create new character.
@@ -100,8 +101,12 @@ public class CharacterCreationScreen implements Screen {
 				dir = dir + "/" + nameTextField.getText() + "/";
 				boolean success = (new File(dir)).mkdirs();
 				if(success) {
-					playerGenerator.generatePlayer(nameTextField.getText());
-					dungeonGenerator.generateDungeon(nameTextField.getText());
+					//All data in the text fields should be put into some object here, and only then sent to the generator.
+					//Main generator should be called here instead of these two.
+					WorldGenerator wg = new WorldGenerator(nameTextField.getText());
+					//dungeonGenerator.generateDungeon(nameTextField.getText());
+					//playerGenerator.generatePlayer(nameTextField.getText());
+					
 				}
 				//Change screen to character selection screen
 				game.setScreen(new CharacterSelectionScreen(game));

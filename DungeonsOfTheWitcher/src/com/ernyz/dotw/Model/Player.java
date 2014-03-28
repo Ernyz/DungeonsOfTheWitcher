@@ -46,8 +46,8 @@ public final class Player extends MoveableEntity {
 		rightHand = new Vector2(-75, 19);  //Values are hard coded for each different entity and found by trial and error.
 		
 		//TODO Give this entity a weapon, until unarmed combat is implemented.
-		inventory.add(0);  //TODO this is temporary.
-		ItemManager.equipItem(this, 0);
+		//inventory.add(0);  //TODO this is temporary.
+		//ItemManager.equipItem(this, 0);
 	}
 
 	@Override

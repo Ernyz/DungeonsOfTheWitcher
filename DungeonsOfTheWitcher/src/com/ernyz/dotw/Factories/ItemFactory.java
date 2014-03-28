@@ -1,4 +1,4 @@
-package com.ernyz.dotw.Generators;
+package com.ernyz.dotw.Factories;
 
 import com.ernyz.dotw.Model.Items.Item;
 

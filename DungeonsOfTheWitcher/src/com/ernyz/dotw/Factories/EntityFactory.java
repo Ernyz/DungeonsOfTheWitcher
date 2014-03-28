@@ -1,4 +1,4 @@
-package com.ernyz.dotw.Generators;
+package com.ernyz.dotw.Factories;
 
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.GameWorld;

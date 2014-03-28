@@ -3,6 +3,8 @@ package com.ernyz.dotw.Generators;
 import java.util.Random;
 
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Factories.EntityFactory;
+import com.ernyz.dotw.Factories.TileFactory;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Enemies.Goblin;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -30,6 +32,7 @@ public class DungeonGenerator {
 		generateDrunkardWalk(map);
 		
 		tiles = tileFactory.createTiles(map);
+		fillWithItems(tiles);
 		fillWithEntities(tiles);
 		
 		SaveGame.saveMap(name, tiles, "1");  //TODO Level shouldnt be hardcoded
@@ -108,5 +111,12 @@ public class DungeonGenerator {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Fills given level with items.
+	 */
+	private void fillWithItems(Array<Tile> tiles) {
+		//TODO: Implement functionality.
 	}
 }
