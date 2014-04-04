@@ -2,6 +2,7 @@ package com.ernyz.dotw.Generators;
 
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Generators.EntityGenerators.EntityGenerator;
+import com.ernyz.dotw.Generators.ItemGenerators.ItemGenerator;
 import com.ernyz.dotw.Generators.LevelGenerators.LevelGenerator;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -27,7 +28,6 @@ public class WorldGenerator {
 	private String playerName;
 	private Player player;
 	
-	private Array<Tile> tiles;
 	private Array<Array<Tile>> levels;
 	private Array<MoveableEntity> entities;
 	private Array<Item> items;
@@ -39,7 +39,7 @@ public class WorldGenerator {
 		
 		generateWorld();
 		//Dump generated content to save files?
-		save();
+		saveWorld();
 	}
 	
 	/**
@@ -74,15 +74,15 @@ public class WorldGenerator {
 		
 		//Generate items (in the world, not in entities inventories)
 		for(int i = 0; i < levels.size; i++) {
-			//TODO: generateItemsInLevel(levels.get(i));
+			items.addAll(ItemGenerator.generateItemsInLevel(i, levels.get(i)));
 		}
 		
 		//Generate player
-		//Generate it in some good starting position. Maybe there should be one generated in the map on purpose.
+		//TODO: Generate it in some good starting position. Maybe there should be one generated in the map on purpose.
 		player = PlayerGenerator.generatePlayer(playerName, levels.get(0), items);
 	}
 	
-	private void save() {
+	private void saveWorld() {
 		//Save levels
 		for(int i = 0; i < levels.size; i++) {
 			SaveGame.saveMap(playerName, levels.get(i), String.valueOf(i));
@@ -90,7 +90,7 @@ public class WorldGenerator {
 		//Save entities
 		SaveGame.saveEntities(playerName, entities);
 		//Save items
-		
+		SaveGame.saveItems(playerName, items);  //TODO: Implement saving.
 		//Save player
 		SaveGame.savePlayer(player);
 	}

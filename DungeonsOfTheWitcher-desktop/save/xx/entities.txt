@@ -1,0 +1,1 @@
+[{"name":"Goblin","dungeonLevel":1,"x":500,"y":500,"speed":70,"rotation":0,"health":50},{"name":"Goblin","dungeonLevel":1,"x":650,"y":1150,"speed":70,"rotation":0,"health":50},{"name":"Goblin","dungeonLevel":1,"x":700,"y":750,"speed":70,"rotation":0,"health":50},{"name":"Goblin","dungeonLevel":1,"x":1300,"y":900,"speed":70,"rotation":0,"health":50}]

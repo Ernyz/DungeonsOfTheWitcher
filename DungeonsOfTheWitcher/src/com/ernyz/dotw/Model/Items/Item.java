@@ -2,6 +2,7 @@ package com.ernyz.dotw.Model.Items;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -18,9 +19,13 @@ public class Item {
 		CONSUMABLE
 	}
 	
+	private Texture texture;
+	
 	private Long id;
 	private String name;
 	private ItemType type;
+	private Boolean isInInventory;  //If true - this item is in someone's inventory, if false - it's laying on the ground.
+	private Float x, y;  //Only used, if isInInventory == false
 	private Boolean isCursed;
 	private Boolean isStackable;
 	private Boolean isContainer;
@@ -94,4 +99,36 @@ public class Item {
 		this.type = type;
 	}
 
+	public Boolean getIsInInventory() {
+		return isInInventory;
+	}
+
+	public void setIsInInventory(Boolean isInInventory) {
+		this.isInInventory = isInInventory;
+	}
+
+	public Float getX() {
+		return x;
+	}
+
+	public void setX(Float x) {
+		this.x = x;
+	}
+
+	public Float getY() {
+		return y;
+	}
+
+	public void setY(Float y) {
+		this.y = y;
+	}
+
+	public Texture getTexture() {
+		return texture;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+	
 }

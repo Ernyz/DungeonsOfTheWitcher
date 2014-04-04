@@ -30,14 +30,14 @@ public class PlayerGenerator {
 		//Create player
 		player = new Player(new Vector2(), new Vector2(), 0, 0, null);
 		player.setName(name);
-		player.setDungeonLevel(1);
+		player.setDungeonLevel(0);
 		player.setPosition(new Vector2(105, 105));
 		player.setSpeed(100f);
 		player.setRotation(0);
 		player.setHealth(100);
 		
 		//Give player items. TODO Later it will depend on his race, class, etc.
-		itemFactory = new ItemFactory();
+		//itemFactory = new ItemFactory();
 		
 		return player;
 	}

@@ -19,8 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.ernyz.dotw.DOTW;
-import com.ernyz.dotw.Generators.DungeonGenerator;
-import com.ernyz.dotw.Generators.PlayerGenerator;
 import com.ernyz.dotw.Generators.WorldGenerator;
 
 /**
@@ -34,9 +32,6 @@ public class CharacterCreationScreen implements Screen {
 	private SpriteBatch batch;
 	private Texture bgTexture;
 	
-	//Generators
-	private PlayerGenerator playerGenerator;
-	private DungeonGenerator dungeonGenerator;
 	//Fonts
 	private BitmapFont ringbearerFont;
 	//Directory for player save games
@@ -54,8 +49,6 @@ public class CharacterCreationScreen implements Screen {
 	
 	public CharacterCreationScreen(DOTW game) {
 		this.game = game;
-		playerGenerator = new PlayerGenerator();
-		dungeonGenerator = new DungeonGenerator();
 	}
 	
 	@Override
@@ -103,9 +96,8 @@ public class CharacterCreationScreen implements Screen {
 				if(success) {
 					//All data in the text fields should be put into some object here, and only then sent to the generator.
 					//Main generator should be called here instead of these two.
+					@SuppressWarnings("unused")
 					WorldGenerator wg = new WorldGenerator(nameTextField.getText());
-					//dungeonGenerator.generateDungeon(nameTextField.getText());
-					//playerGenerator.generatePlayer(nameTextField.getText());
 					
 				}
 				//Change screen to character selection screen

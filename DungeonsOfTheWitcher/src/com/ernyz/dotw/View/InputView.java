@@ -45,8 +45,12 @@ public class InputView implements InputProcessor {
 			} else {
 				gameWorld.getWindows().get("Inventory").setVisible(false);
 			}
+			//TODO temp
+			for(int i = 0; i < gameWorld.getItems().size; i++) {
+				System.out.println(gameWorld.getItems().get(i).getId());
+			}
 		} else if(keycode == Keys.P) {
-			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities());
+			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
 		}
 		
 		return false;

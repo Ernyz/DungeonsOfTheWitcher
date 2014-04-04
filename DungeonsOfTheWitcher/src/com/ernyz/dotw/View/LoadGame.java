@@ -137,9 +137,12 @@ public class LoadGame {
 		return entities;
 	}
 	
+	/**
+	 * Returns the item array which is loaded from save file.
+	 * 
+	 * @return - an array of {@link Item}s.
+	 */
 	public Array<Item> loadItems() {
-		//Create item factory
-		ItemFactory itemFactory = new ItemFactory();
 		
 		Array<Item> items = new Array<Item>();
 		//Scan the save file
@@ -153,11 +156,27 @@ public class LoadGame {
 				scanner.close();
 		}
 		
-		//Create few items. Just because we can.
-		items.add(itemFactory.createWeapon("Dagger"));
-		items.add(itemFactory.createWeapon("Dagger"));
-		items.add(itemFactory.createWeapon("Dagger"));
-		items.add(itemFactory.createWeapon("Dagger"));
+		JsonReader reader = new JsonReader();
+		JsonValue json = reader.parse(scanResult);
+		
+		/**
+		 * TODO: All this ItemFactory.id value scanning should be replanned.
+		 * I should probably create separate properties file to hold this and similar data.
+		 */
+		
+		//Create item factory
+		JsonValue factoryId = json.get(0);
+		ItemFactory itemFactory = new ItemFactory(factoryId.getLong("itemGeneretorState"));
+		
+		//Convert scanned data to item array and return it
+		for(int i = 1; i < json.size; i++) {
+			JsonValue scannedItem = json.get(i);
+			
+			Item item = itemFactory.createWeapon(scannedItem.getLong("id"),
+					scannedItem.getString("name"), scannedItem.getFloat("x"), scannedItem.getFloat("y"),
+					scannedItem.getBoolean("isInInventory"));
+			items.add(item);
+		}
 		
 		return items;
 	}

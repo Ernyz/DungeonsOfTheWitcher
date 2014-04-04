@@ -20,6 +20,7 @@ import com.ernyz.dotw.Combat.Swipe.SwipeTriStrip;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
+import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -88,6 +89,15 @@ public final class WorldRenderer {
 		for(int i = 0; i < tiles.size; i++) {
 			batch.draw(tiles.get(i).getTexture(), tiles.get(i).getPosition().x, tiles.get(i).getPosition().y);
 		}
+		
+		//Then items
+		Array<Item> items = gameWorld.getItems();
+		for(int i = 0; i < items.size; i++) {
+			if(!items.get(i).getIsInInventory()) {
+				batch.draw(items.get(i).getTexture(), items.get(i).getY(), items.get(i).getY());
+			}
+		}
+		
 		//Then entities
 		Array<MoveableEntity> entities = player.getSurroundingEntities();
 		for(int i = 0; i < entities.size; i++) {

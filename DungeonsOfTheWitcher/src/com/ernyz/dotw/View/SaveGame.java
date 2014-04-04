@@ -13,9 +13,11 @@ import java.io.Writer;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.ernyz.dotw.Factories.ItemFactory;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
+import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -36,13 +38,13 @@ public class SaveGame {
 	/**
 	 * Saves all the current game data (Map, player, enemies, items).
 	 */
-	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities) {
+	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
 		GameWorld.addMessage("Saving game...");
 		
 		saveMap(player.getName(), tiles, String.valueOf(player.getDungeonLevel()));
 		savePlayer(player);
 		saveEntities(player.getName(), entities);
-		saveItems();
+		saveItems(player.getName(), items);
 		
 		GameWorld.addMessage("Game saved!");
 	}
@@ -138,8 +140,37 @@ public class SaveGame {
 		}
 	}
 	
-	public static void saveItems() {
+	public static void saveItems(String playerName, Array<Item> items) {
+		StringWriter result = new StringWriter();
+		JsonWriter jsonWriter = new JsonWriter(result);
+		try {
+			jsonWriter.array();
+			jsonWriter.object().name("itemGeneretorState").value(ItemFactory.id)
+				//.set("itemGeneretorState", ItemFactory.id)
+			.pop();
+			for(int i = 0; i < items.size; i++) {
+				jsonWriter.object()
+					.set("id", items.get(i).getId())
+					.set("name", items.get(i).getName())
+					.set("x", items.get(i).getX())
+					.set("y", items.get(i).getY())
+					.set("isInInventory", items.get(i).getIsInInventory())
+				.pop();
+			}
+			jsonWriter.pop();
+			jsonWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir + playerName + "/items" + ".txt"), "utf-8"));
+			writer.write(result.toString());
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
+		}
 	}
 
 }

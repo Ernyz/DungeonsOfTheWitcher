@@ -1,0 +1,1 @@
+[{"itemGeneretorState":1},{"id":0,"name":"Dagger","x":600,"y":800,"isInInventory":false},{"id":1,"name":"Dagger","x":1250,"y":950,"isInInventory":false}]
