@@ -17,6 +17,7 @@ import com.ernyz.dotw.Model.GameWorld;
 
 /**
  * Holds all the resources/logic/etc. needed for HUD.
+ * TODO: Major code clean-up/rework needed.
  * 
  * @author Ernyz
  */
