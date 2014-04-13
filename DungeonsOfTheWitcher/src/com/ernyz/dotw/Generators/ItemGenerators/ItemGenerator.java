@@ -14,7 +14,7 @@ public class ItemGenerator {
 		
 		for(int i = 0; i < tiles.size; i++) {
 			if(tiles.get(i).getAsciiSymbol() == '.') {
-				if(Math.random() < 0.009) {
+				if(Math.random() < 0.079) {
 					//TODO: Document this.
 					Item item = itemFactory.createWeapon("Dagger", tiles.get(i).getPosition().x, tiles.get(i).getPosition().y, false);
 					items.add(item);

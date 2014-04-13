@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Player;
+import com.ernyz.dotw.Model.Items.ItemManager;
 
 /**
  * Accepts input and directly modifies Model.
@@ -41,6 +42,8 @@ public class InputView implements InputProcessor {
 			gameWorld.windowManager.toggleWindow("Inventory");
 		} else if(keycode == Keys.P) {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
+		} else if(keycode == Keys.G) {
+			ItemManager.takeItem(gameWorld.getItems(), player);
 		}
 		
 		return false;
@@ -75,6 +78,7 @@ public class InputView implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		player.attack(button);
+		GameWorld.addMessage("attack");
 		return false;
 	}
 

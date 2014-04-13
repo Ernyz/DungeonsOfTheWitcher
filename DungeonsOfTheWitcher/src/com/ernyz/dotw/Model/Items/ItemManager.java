@@ -67,10 +67,19 @@ public class ItemManager {
 	//TODO
 	
 	/**
-	 * TODO: add documentation.
+	 * Gets item from the ground
+	 * TODO: Add documentation.
 	 */
-	public static String takeItem() {
-		//TODO
+	public static String takeItem(Array<Item> items, MoveableEntity entity) {
+		for(Item i : items) {
+			//TODO: This is temporary, remake this!
+			float dx = i.getX() - entity.getPosition().x;
+			float dy = i.getY() - entity.getPosition().y;
+			if(Math.sqrt(dx*dx + dy*dy) <= 30) {
+				i.setIsInInventory(true);
+				entity.getInventory().add(i.getId().intValue());  //TODO this is retarded, fix asap
+			}
+		}
 		return "Taken.";
 	}
 	

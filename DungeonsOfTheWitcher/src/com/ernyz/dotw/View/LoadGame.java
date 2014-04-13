@@ -91,6 +91,13 @@ public class LoadGame {
 		JsonValue json = reader.parse(scanResult);
 		player.setName(json.getString("name"));
 		player.setDungeonLevel(json.getInt("dungeonLevel"));
+		//Load inventory
+		int[] input = json.get("inventory").asIntArray();
+		Array<Integer> tmp = new Array<Integer>();
+		for(int i : input) {
+			tmp.add(i);
+		}
+		player.setInventory(tmp);
 		player.setPosition(new Vector2(json.getFloat("x"), json.getFloat("y")));
 		player.setSpeed(json.getFloat("speed"));
 		player.setRotation(json.getFloat("rotation"));

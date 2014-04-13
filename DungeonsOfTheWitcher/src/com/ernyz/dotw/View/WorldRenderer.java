@@ -94,7 +94,7 @@ public final class WorldRenderer {
 		Array<Item> items = gameWorld.getItems();
 		for(int i = 0; i < items.size; i++) {
 			if(!items.get(i).getIsInInventory()) {
-				batch.draw(items.get(i).getTexture(), items.get(i).getY(), items.get(i).getY());
+				batch.draw(items.get(i).getTexture(), items.get(i).getX(), items.get(i).getY());
 			}
 		}
 		

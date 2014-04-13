@@ -87,6 +87,11 @@ public class SaveGame {
 			jsonWriter.object()
 				.set("name", player.getName())
 				.set("dungeonLevel", player.getDungeonLevel())
+				.array("inventory");
+					for(int i = 0; i < player.getInventory().size; i++) {
+						jsonWriter.value(player.getInventory().get(i));
+					}
+				jsonWriter.pop()
 				.set("x", player.getPosition().x)
 				.set("y", player.getPosition().y)
 				.set("speed", player.getSpeed())

@@ -1,1 +1,1 @@
-{"name":"xx","dungeonLevel":0,"x":105,"y":105,"speed":100,"rotation":0,"health":100}
+{"name":"xx","dungeonLevel":0,"inventory":[2,3,13],"x":284.09705,"y":301.33145,"speed":100,"rotation":99.72757,"health":100}
