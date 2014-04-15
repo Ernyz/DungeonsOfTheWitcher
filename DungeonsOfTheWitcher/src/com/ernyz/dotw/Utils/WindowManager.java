@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.View.HeadsUpDisplay;
+import com.ernyz.dotw.Windows.CustomWindow;
 import com.ernyz.dotw.Windows.InventoryWindow;
 
 /**
@@ -52,6 +53,19 @@ public class WindowManager {
 		}
 	}
 	
+	private void addWindow(CustomWindow w) {
+		addWindowToScene2dStage((Window) w);
+		addWindowToGameWorld(w);
+	}
+	
+	private void addWindowToScene2dStage(Window w) {
+		gameWorld.getHUD().getStage().addActor(w);
+	}
+	
+	private void addWindowToGameWorld(CustomWindow w) {
+		gameWorld.getWindows().put("Inventory", w);
+	}
+	
 	/**
 	 * Creates inventory window and adds it to {@link HeadsUpDisplay} stage.
 	 */
@@ -62,19 +76,6 @@ public class WindowManager {
 		w.setHeight(stageH/100*94);  //window height is equal to 25 percent of stage height
 		
 		addWindow(w);
-	}
-	
-	private void addWindow(Window w) {
-		addWindowToScene2dStage(w);
-		addWindowToGameWorld(w);
-	}
-	
-	private void addWindowToScene2dStage(Window w) {
-		gameWorld.getHUD().getStage().addActor(w);
-	}
-	
-	private void addWindowToGameWorld(Window w) {
-		gameWorld.getWindows().put("Inventory", w);
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.ernyz.dotw.Model;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,6 +18,7 @@ import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.Utils.WindowManager;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.View.LoadGame;
+import com.ernyz.dotw.Windows.CustomWindow;
 
 /**
  * Class in which all the game objects are held.
@@ -50,7 +52,7 @@ public final class GameWorld {
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
 	public WindowManager windowManager;
-	private HashMap<String, Window> windows;
+	private HashMap<String, CustomWindow> windows;
 	
 	//Box2d variables (lighting variables are in renderer class)
 	private static World world;
@@ -81,7 +83,7 @@ public final class GameWorld {
 
 		//Initialise window related stuff
 		windowManager = new WindowManager(this);
-		windows = new HashMap<String, Window>();
+		windows = new HashMap<String, CustomWindow>();
 		
 		//Set game state to PLAYING, because the game has finished loading
 		gameState = GameStateEnum.PLAYING;
@@ -90,6 +92,7 @@ public final class GameWorld {
 	public void update() {
 		//Update everything
  		if(gameState == GameStateEnum.PLAYING) {
+ 			//Update entities
 			for(MoveableEntity entity : entities) {
 				if(entity.getIsDead()) {
 					entity.dispose();
@@ -97,6 +100,10 @@ public final class GameWorld {
 				} else {
 					entity.update();
 				}
+			}
+			//Update active windows
+			for(String windowName : windows.keySet()) {
+				windows.get(windowName).update(Gdx.graphics.getDeltaTime());
 			}
 		}
 	}
@@ -169,11 +176,11 @@ public final class GameWorld {
 		return items;
 	}
 
-	public HashMap<String, Window> getWindows() {
+	public HashMap<String, CustomWindow> getWindows() {
 		return windows;
 	}
 
-	public void setWindows(HashMap<String, Window> windows) {
+	public void setWindows(HashMap<String, CustomWindow> windows) {
 		this.windows = windows;
 	}
 
