@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.ItemManager;
+import com.ernyz.dotw.Utils.WindowManager;
 
 /**
  * Accepts input and directly modifies Model.
@@ -39,11 +40,17 @@ public class InputView implements InputProcessor {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
 		}
 		if(keycode == Keys.I) {
+			//TODO: toggleWindow is probably a bad function name.
 			gameWorld.windowManager.toggleWindow("Inventory");
 		} else if(keycode == Keys.P) {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
+		} else if(keycode == Keys.ESCAPE) {
+			//Close all windows. If all windows are closed, then show the escape menu.
+			if(!gameWorld.windowManager.hideAllActiveWindows()) {
+				//TODO: Show escape menu.
+			}
 		}
 		
 		return false;

@@ -103,7 +103,9 @@ public final class GameWorld {
 			}
 			//Update active windows
 			for(String windowName : windows.keySet()) {
-				windows.get(windowName).update(Gdx.graphics.getDeltaTime());
+				if(windows.get(windowName).isVisible()) {
+					windows.get(windowName).update(Gdx.graphics.getDeltaTime());
+				}
 			}
 		}
 	}

@@ -84,11 +84,20 @@ public class ItemManager {
 	}
 	
 	/**
-	 * TODO: add documentation.
+	 * TODO: Add documentation.
+	 * TODO: Clean all this mess.
 	 */
-	public static String dropItem() {
-		//TODO
-		return "Dropped.";
+	public static String dropItem(MoveableEntity e, Integer item) {
+		if(e.getInventory().contains(item, true)) {
+			Item i = GameWorld.items.get(item);
+			i.setX(e.getPosition().x);
+			i.setY(e.getPosition().y);
+			i.setIsInInventory(false);
+			e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
+			GameWorld.addMessage("Item dropped");
+			return "Dropped.";
+		}
+		return "Item was not dropped.";
 	}
 	
 }

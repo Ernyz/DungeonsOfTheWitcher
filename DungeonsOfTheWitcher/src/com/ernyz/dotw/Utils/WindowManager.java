@@ -53,6 +53,22 @@ public class WindowManager {
 		}
 	}
 	
+	/**
+	 * Hide all active windows. If there weren't any windows to close, returns false.
+	 * @return - true if at least one window was closed, false otherwise.
+	 */
+	public boolean hideAllActiveWindows() {
+		boolean windowsClosed = false;
+		for(String windowname : gameWorld.getWindows().keySet()) {
+			if(gameWorld.getWindows().get(windowname).isVisible()) {
+				gameWorld.getWindows().get(windowname).setVisible(false);
+				windowsClosed = true;
+			}
+		}
+		
+		return windowsClosed;
+	}
+	
 	private void addWindow(CustomWindow w) {
 		addWindowToScene2dStage((Window) w);
 		addWindowToGameWorld(w);

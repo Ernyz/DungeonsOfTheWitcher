@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Model.GameWorld;
@@ -23,7 +24,12 @@ public final class GameScreen implements Screen {
 		this.playerName = playerName;
 		gameWorld = new GameWorld(game, playerName);
 		worldRenderer = new WorldRenderer(gameWorld);
-		Gdx.input.setInputProcessor(new InputView(gameWorld, worldRenderer));
+		
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		//Stage should be added first, so it can handle input without allowing to do it for other input processors
+		multiplexer.addProcessor(gameWorld.getHUD().getStage());
+		multiplexer.addProcessor(new InputView(gameWorld, worldRenderer));
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
