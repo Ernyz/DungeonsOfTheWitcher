@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.ItemManager;
-import com.ernyz.dotw.Utils.WindowManager;
 
 /**
  * Accepts input and directly modifies Model.
@@ -15,7 +14,6 @@ import com.ernyz.dotw.Utils.WindowManager;
  * @author Ernyz
  */
 public class InputView implements InputProcessor {
-	
 	private GameWorld gameWorld;
 	private WorldRenderer worldRenderer;
 	private Vector3 touch = new Vector3();
@@ -42,6 +40,8 @@ public class InputView implements InputProcessor {
 		if(keycode == Keys.I) {
 			//TODO: toggleWindow is probably a bad function name.
 			gameWorld.windowManager.toggleWindow("Inventory");
+		} else if(keycode == Keys.E) {
+			gameWorld.windowManager.toggleWindow("EquippedItems");
 		} else if(keycode == Keys.P) {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
 		} else if(keycode == Keys.G) {

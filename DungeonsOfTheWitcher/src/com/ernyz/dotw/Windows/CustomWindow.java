@@ -15,5 +15,7 @@ public abstract class CustomWindow extends Window {
 	}
 	
 	public abstract void update(float delta);
+	
+	protected abstract void setUpTheWindow();
 
 }

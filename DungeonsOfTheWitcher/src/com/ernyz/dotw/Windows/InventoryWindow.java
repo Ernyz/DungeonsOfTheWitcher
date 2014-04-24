@@ -2,7 +2,6 @@ package com.ernyz.dotw.Windows;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -29,19 +28,21 @@ public class InventoryWindow extends CustomWindow {
 		setUpTheWindow();
 	}
 
-	private void setUpTheWindow() {
-		this.setMovable(true);
+	@Override
+	protected void setUpTheWindow() {
+		this.setMovable(false);
 		
 		//Populate window
 		Array<Integer> inventory = gameWorld.getPlayer().getInventory();
 		for(Integer item : inventory) {
 			this.row().fill();
-			//TODO: Clean/rework this.
-			Image img = new Image(new Texture("data/dagger.png"));
+			Image img = new Image(GameWorld.items.get(item).getTexture());
 			ImageButton itemActor = new ImageButton(img.getDrawable());
-			itemActor.setName(gameWorld.getItems().get(item).getId().toString());
+			itemActor.setName(GameWorld.items.get(item).getId().toString());
+			//TODO: might use this to make button hold data such as id, listener etc... because using .getName() for that sucks.
+			//itemActor.setUserObject(userObject);
 			itemActor.addListener(new InputListener() {
-			    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			        onItemIconClick(event.getListenerActor());
 			        return true;
 			    }
@@ -53,13 +54,16 @@ public class InventoryWindow extends CustomWindow {
 	private void onItemIconClick(Actor actor) {
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
 			ItemManager.dropItem(gameWorld.getPlayer(), Integer.valueOf(actor.getName()));
+		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+			ItemManager.equipItem(gameWorld.getPlayer(), Integer.valueOf(actor.getName()));
 		}
 	}
 	
 	@Override
 	public void update(float delta) {
-		//TODO: Later update this to update only objects that change. Some stuff will persist and will not be needed to update.
-		this.clear();
+		//Clear the window
+		this.clearChildren();
+		//Set it up
 		this.setUpTheWindow();
 	}
 	

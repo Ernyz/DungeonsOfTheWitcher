@@ -38,6 +38,7 @@ public class MoveableEntity extends Entity {
 	
 	/*
 	 * Holds id's of items which are equipped in these slots.
+	 * TODO: change to equipped items?
 	 */
 	private HashMap<String, Integer> equipmentSlots;
 	
