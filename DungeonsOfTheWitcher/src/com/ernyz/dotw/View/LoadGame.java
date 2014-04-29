@@ -15,6 +15,7 @@ import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.ItemManager;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
@@ -98,6 +99,12 @@ public class LoadGame {
 			tmp.add(i);
 		}
 		player.setInventory(tmp);
+		//Load equipped items
+		JsonValue equippedItems = json.get("equippedItems");
+		for(JsonValue entry = equippedItems.child; entry != null; entry = entry.next) {
+		 	ItemManager.equipItem(player, entry.asInt(), entry.name);
+		}
+		
 		player.setPosition(new Vector2(json.getFloat("x"), json.getFloat("y")));
 		player.setSpeed(json.getFloat("speed"));
 		player.setRotation(json.getFloat("rotation"));
@@ -134,6 +141,19 @@ public class LoadGame {
 			MoveableEntity e = null;
 			if(name.equals("Goblin")) {
 				e = entityFactory.createGoblin(entity.getFloat("x"), entity.getFloat("y"), gameWorld);
+				//Load inventory
+				int[] input = entity.get("inventory").asIntArray();
+				Array<Integer> tmp = new Array<Integer>();
+				for(int j : input) {
+					tmp.add(j);
+				}
+				e.setInventory(tmp);
+				//Load equipped items
+				JsonValue equippedItems = entity.get("equippedItems");
+				for(JsonValue entry = equippedItems.child; entry != null; entry = entry.next) {
+				 	ItemManager.equipItem(e, entry.asInt(), entry.name);
+				}
+				
 				e.setRotation(entity.getFloat("rotation"));
 				e.setSpeed(entity.getFloat("speed"));
 				e.setHealth(entity.getFloat("health"));
@@ -173,7 +193,7 @@ public class LoadGame {
 		
 		//Create item factory
 		JsonValue factoryId = json.get(0);
-		ItemFactory itemFactory = new ItemFactory(factoryId.getLong("itemGeneretorState"));
+		ItemFactory itemFactory = new ItemFactory(factoryId.getInt("itemGeneretorState"));
 		
 		//Convert scanned data to item array and return it
 		for(int i = 1; i < json.size; i++) {

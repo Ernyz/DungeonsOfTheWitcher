@@ -9,14 +9,14 @@ import com.ernyz.dotw.Model.Items.Item;
  */
 public class ItemFactory {
 	
-	public static long id = -1;  //When item is created, id is incremented and assigned to that item
+	public static int id = -1;  //When item is created, id is incremented and assigned to that item
 	
 	//Factories
 	private WeaponFactory weaponFactory;
 	
-	public ItemFactory(long id) {
+	public ItemFactory(int id) {
 		//TODO Because id isn't stored anywhere yet, it's initialised when game starts
-		this.id = id;
+		ItemFactory.id = id;
 		//Initialise factories
 		weaponFactory = new WeaponFactory();
 	}

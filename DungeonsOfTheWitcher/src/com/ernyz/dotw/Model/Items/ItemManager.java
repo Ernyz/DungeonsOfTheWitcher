@@ -40,6 +40,21 @@ public class ItemManager {
 		return "Equipping unsuccessful.";
 	}
 	
+	/**  TODO rethink this and equipItem() design
+	 * Equips entity with item from its' inventory.
+	 * @param e -  {@link MoveableEntity} on which we want to equip the item.
+	 * @param item -  {@link Item} id we want to equip.
+	 * @return Message whether equipping was successful or not. If not - message contains reason.
+	 */
+	public static String equipItem(MoveableEntity e, Integer item, String slotName) {
+		if(e.getInventory().contains(item, true)) {
+			Item i = GameWorld.items.get(item);
+			e.getEquipmentSlots().put(slotName, item);
+			return "Equipped.";
+		}
+		return "Equipping unsuccessful.";
+	}
+	
 	/**
 	 * Unequip item specified from the entity.
 	 * @param e -  {@link MoveableEntity} from which we want to unequip the item.
@@ -52,8 +67,11 @@ public class ItemManager {
 				for(String slotName : e.getEquipmentSlots().keySet()) {
 					if(getEquippedItem(e, slotName).equals(item)) {
 						e.getEquipmentSlots().put(slotName, -1);
+						return "Item unequipped";
 					}
 				}
+			} else {
+				return "Item is not equipped";
 			}
 		}
 		return "Unequipping unsuccessful.";
@@ -100,7 +118,6 @@ public class ItemManager {
 	 * @param e - {@link MoveableEntity} from whose inventory we want to drop the item.
 	 * @param item - id of an item we want to drop.
 	 * @return Message indicating success/failure of dropping the item.
-	 * TODO: Clean all this mess.
 	 */
 	public static String dropItem(MoveableEntity e, Integer item) {
 		if(e.getInventory().contains(item, true)) {

@@ -92,6 +92,11 @@ public class SaveGame {
 						jsonWriter.value(player.getInventory().get(i));
 					}
 				jsonWriter.pop()
+				.object("equippedItems");
+					for(String slotName : player.getEquipmentSlots().keySet()) {
+						jsonWriter.set(slotName, player.getEquipmentSlots().get(slotName));
+					}
+				jsonWriter.pop()
 				.set("x", player.getPosition().x)
 				.set("y", player.getPosition().y)
 				.set("speed", player.getSpeed())
@@ -122,6 +127,16 @@ public class SaveGame {
 				jsonWriter.object()
 					.set("name", entities.get(i).getName())
 					.set("dungeonLevel", entities.get(i).getDungeonLevel())
+					.array("inventory");
+						for(int j = 0; i < entities.get(i).getInventory().size; j++) {
+							jsonWriter.value(entities.get(i).getInventory().get(j));
+						}
+					jsonWriter.pop()
+					.object("equippedItems");
+						for(String slotName : entities.get(i).getEquipmentSlots().keySet()) {
+							jsonWriter.set(slotName, entities.get(i).getEquipmentSlots().get(slotName));
+						}
+					jsonWriter.pop()
 					.set("x", entities.get(i).getPosition().x)
 					.set("y", entities.get(i).getPosition().y)
 					.set("speed", entities.get(i).getSpeed())

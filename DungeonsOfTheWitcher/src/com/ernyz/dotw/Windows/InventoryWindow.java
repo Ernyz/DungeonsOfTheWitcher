@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Items.ItemManager;
+import com.ernyz.dotw.Windows.Scene2dUserObects.ItemUserObject;
 
 /**
  * Inventory window class.
@@ -38,9 +39,10 @@ public class InventoryWindow extends CustomWindow {
 			this.row().fill();
 			Image img = new Image(GameWorld.items.get(item).getTexture());
 			ImageButton itemActor = new ImageButton(img.getDrawable());
-			itemActor.setName(GameWorld.items.get(item).getId().toString());
-			//TODO: might use this to make button hold data such as id, listener etc... because using .getName() for that sucks.
-			//itemActor.setUserObject(userObject);
+			
+			//Set up custom userObject to hold data related for this button.
+			itemActor.setUserObject(createItemUserObject(item));
+			
 			itemActor.addListener(new InputListener() {
 				public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 			        onItemIconClick(event.getListenerActor());
@@ -52,11 +54,19 @@ public class InventoryWindow extends CustomWindow {
 	}
 	
 	private void onItemIconClick(Actor actor) {
+		ItemUserObject userObject = (ItemUserObject) actor.getUserObject();
+		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-			ItemManager.dropItem(gameWorld.getPlayer(), Integer.valueOf(actor.getName()));
+			ItemManager.dropItem(gameWorld.getPlayer(), userObject.getItemId());
 		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-			ItemManager.equipItem(gameWorld.getPlayer(), Integer.valueOf(actor.getName()));
+			ItemManager.equipItem(gameWorld.getPlayer(), userObject.getItemId());
 		}
+	}
+	
+	private ItemUserObject createItemUserObject(int id) {
+		ItemUserObject userObject = new ItemUserObject();
+		userObject.setItemId(id);
+		return userObject;
 	}
 	
 	@Override
