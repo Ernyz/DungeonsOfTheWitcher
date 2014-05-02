@@ -2,12 +2,8 @@ package com.ernyz.dotw.Model.Enemies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
-import com.ernyz.dotw.Model.MoveableEntity;
-import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
  * This class can represent any kind of goblin.
@@ -36,10 +32,7 @@ public class Goblin extends Enemy {
 				radius+radius/2, 0,
 				radius/2, 0};
 		bounds.setVertices(tmp);
-		bounds.setOrigin(19, 19);
-		
-		surroundingTiles = new Array<Tile>();
-		surroundingEntities = new Array<MoveableEntity>();
+		bounds.setOrigin(radius, radius);
 		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
@@ -57,7 +50,7 @@ public class Goblin extends Enemy {
 	}
 
 	@Override
-	public void examineSurroundings() {  //TODO I should move this into an enemy class
+	public void examineSurroundings() {
 		//Set the state of the monster
 		if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 200) {
 			state = StateEnum.ATTACK;
@@ -73,7 +66,7 @@ public class Goblin extends Enemy {
 			this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 80) {
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 80) {  //FIXME hardcoding
 				attack(0);  //Primary attack
 			}
 			else {

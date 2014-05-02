@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class Wall extends Tile {
 	
-	private transient Body box2dBody;
+	private Body box2dBody;
 
 	public Wall(Vector2 position, float rotation) {
 		super(position, rotation);

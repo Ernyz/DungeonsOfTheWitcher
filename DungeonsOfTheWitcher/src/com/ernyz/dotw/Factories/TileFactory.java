@@ -43,7 +43,7 @@ public class TileFactory {
 	}
 	
 	/**
-	 * Creates array of {@link Tile} from two dimensional array of integers generated in one of the generators.
+	 * Creates array of {@link Tile} from two dimensional array of chars generated in one of the generators.
 	 */
 	public Array<Tile> createTiles(char[][] map) {
 		Array<Tile> tiles = new Array<Tile>();

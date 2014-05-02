@@ -17,7 +17,7 @@ public class PlayerGenerator {
 	
 	//Later this method will generate player according to race, class and etc.
 	/**
-	 * TODO add documentation.
+	 * Generates player according to given parameter object (which is now only a String name).
 	 * @param name
 	 * @param tiles
 	 * @param items
@@ -31,7 +31,7 @@ public class PlayerGenerator {
 		player = new Player(new Vector2(), new Vector2(), 0, 0, null);
 		player.setName(name);
 		player.setDungeonLevel(0);
-		player.setPosition(new Vector2(105, 105));
+		player.setPosition(new Vector2(100 + (50-player.getWidth())/2, 100 + (50-player.getHeight())/2));  //TODO: Remove hard-coding!
 		player.setSpeed(100f);
 		player.setRotation(0);
 		player.setHealth(100);

@@ -34,7 +34,6 @@ public class EntityFactory {
 	public Goblin createGoblin(float x, float y, GameWorld gameWorld) {
 		Goblin goblin = new Goblin(new Vector2(x, y), new Vector2(0, 0), 0, 0, gameWorld);
 		goblin.setName("Goblin");
-		goblin.setDungeonLevel(0);  //TODO this should be received as a parameter
 		goblin.setSpeed(70f);
 		goblin.setHealth(50);
 		

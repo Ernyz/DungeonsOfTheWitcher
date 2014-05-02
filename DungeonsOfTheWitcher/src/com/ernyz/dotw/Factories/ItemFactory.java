@@ -14,55 +14,53 @@ public class ItemFactory {
 	//Factories
 	private WeaponFactory weaponFactory;
 	
+	/**
+	 * This constructor is used when loading a game and id has to be the same as it was when saving the game.
+	 * @param id
+	 */
 	public ItemFactory(int id) {
-		//TODO Because id isn't stored anywhere yet, it's initialised when game starts
 		ItemFactory.id = id;
 		//Initialise factories
-		weaponFactory = new WeaponFactory();
+		initialiseFactories();
 	}
 	
 	/**
-	 * TODO: Think over this constructor. Maybe i should send itemFactoryState everytime when constructing ItemFactory.
+	 * This constructor is used, when creating new game with new items. Then id starts at -1 - its default value.
 	 */
 	public ItemFactory() {
 		//Initialise factories
+		initialiseFactories();
+	}
+	
+	private void initialiseFactories() {
 		weaponFactory = new WeaponFactory();
 	}
 	
 	/**
 	 * Creates weapon with unique id.
-	 * TODO: Add better documentation.
 	 * @param weapon - name of the desired weapon
 	 * @return - weapon of type {@link Item}
 	 */
 	public Item createWeapon(String weapon, Float x, Float y, Boolean isInInv) {
-		
 		id++;
-		/*if(weapon.equals("Dagger")) {
-			return weaponFactory.createDagger(id, x, y, isInInv);
-		} else {
-			id--;  //If no weapon was created, id should not be incremented
-		}
-		return null;*/
 		return createWeapon(id, weapon, x, y, isInInv);
 		
 	}
 	
 	/**
 	 * Creates weapon with given id. Useful for generating loaded items from save file.
-	 * TODO: Add better documentation.
-	 * @param id
-	 * @param weapon
-	 * @param x
-	 * @param y
-	 * @param isInInv
-	 * @return
+	 * @param id - an id which will be assigned to this weapon
+	 * @param weapon - name of the weapon
+	 * @param x - x coordinates in the game world
+	 * @param y - y coordinates in the game world
+	 * @param isInInv - true if this weapon is in someone's inventory
+	 * @return created {@link Item}.
 	 */
-	public Item createWeapon(long id, String weapon, Float x, Float y, Boolean isInInv) {
+	public Item createWeapon(Integer id, String weapon, Float x, Float y, Boolean isInInv) {
 		if(weapon.equals("Dagger")) {
 			return weaponFactory.createDagger(id, x, y, isInInv);
 		}
-		//Throw exception or something if weapon wasn't created
+		//TODO Throw exception or something if weapon wasn't created
 		return null;
 	}
 	

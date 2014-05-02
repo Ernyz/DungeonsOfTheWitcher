@@ -1,1 +1,0 @@
-{"name":"Playerr","dungeonLevel":1,"x":105,"y":105,"speed":100,"rotation":0,"health":100}

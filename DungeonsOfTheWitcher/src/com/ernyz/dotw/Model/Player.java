@@ -3,9 +3,6 @@ package com.ernyz.dotw.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Model.Items.ItemManager;
-import com.ernyz.dotw.Model.Tiles.Tile;
 
 /**
  * Player class which contains player related code, which can not be moved to {@link MoveableEntity}.
@@ -27,7 +24,6 @@ public final class Player extends MoveableEntity {
 		//bounds.setVertices(new float[] {0, 0, texture.getWidth(), 0, texture.getWidth(), texture.getHeight()-5, 0, texture.getHeight()-5});//This hardcoding is temporary
 		//bounds.setOrigin(texture.getWidth()/2, texture.getHeight()/2);
 		
-		//TODO Test code for new bounds;
 		int radius = texture.getHeight()/2;
 		float[] tmp = new float[]{0, radius,
 				radius/2, 2*radius,
@@ -38,16 +34,9 @@ public final class Player extends MoveableEntity {
 		bounds.setVertices(tmp);
 		bounds.setOrigin(radius, radius);
 		
-		surroundingTiles = new Array<Tile>();  //TODO Move these into MoveableEntity
-		surroundingEntities = new Array<MoveableEntity>();
-		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
 		rightHand = new Vector2(-75, 19);  //Values are hard coded for each different entity and found by trial and error.
-		
-		//TODO Give this entity a weapon, until unarmed combat is implemented.
-		//inventory.add(0);  //TODO this is temporary.
-		//ItemManager.equipItem(this, 0);
 	}
 
 	@Override

@@ -38,7 +38,6 @@ public class InputView implements InputProcessor {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
 		}
 		if(keycode == Keys.I) {
-			//TODO: toggleWindow is probably a bad function name.
 			gameWorld.windowManager.toggleWindow("Inventory");
 		} else if(keycode == Keys.E) {
 			gameWorld.windowManager.toggleWindow("EquippedItems");
@@ -78,7 +77,6 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -112,7 +110,6 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

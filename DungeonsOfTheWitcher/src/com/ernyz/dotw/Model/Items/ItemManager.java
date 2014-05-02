@@ -40,7 +40,7 @@ public class ItemManager {
 		return "Equipping unsuccessful.";
 	}
 	
-	/**  TODO rethink this and equipItem() design
+	/**
 	 * Equips entity with item from its' inventory.
 	 * @param e -  {@link MoveableEntity} on which we want to equip the item.
 	 * @param item -  {@link Item} id we want to equip.
@@ -48,7 +48,7 @@ public class ItemManager {
 	 */
 	public static String equipItem(MoveableEntity e, Integer item, String slotName) {
 		if(e.getInventory().contains(item, true)) {
-			Item i = GameWorld.items.get(item);
+			//Item i = GameWorld.items.get(item);
 			e.getEquipmentSlots().put(slotName, item);
 			return "Equipped.";
 		}
@@ -88,25 +88,19 @@ public class ItemManager {
 	}
 	
 	/**
-	 * Get item from inventory.
-	 */
-	//TODO
-	
-	/**
 	 * Gets item from the ground
 	 * @param - Array of {@link Item}s which are in the same dungeon level as the entity.
 	 * @param - {@link MoveableEntity} which wants to take the item.
 	 * @return - Message indicating whether taking item was a success.
 	 */
-	public static String takeItem(Array<Item> items, MoveableEntity entity) {
+	public static String takeItem(Array<Item> items, MoveableEntity e) {
 		for(Item i : items) {
 			if(!i.getIsInInventory()) {
-				//TODO: This is temporary, remake this!
-				float dx = i.getX() - entity.getPosition().x;
-				float dy = i.getY() - entity.getPosition().y;
-				if(Math.sqrt(dx*dx + dy*dy) <= 30) {
+				float dx = i.getX() - e.getPosition().x;
+				float dy = i.getY() - e.getPosition().y;
+				if(Math.sqrt(dx*dx + dy*dy) <= e.getHeight()*.75) {
 					i.setIsInInventory(true);
-					entity.getInventory().add(i.getId().intValue());  //TODO this is retarded, fix asap
+					e.getInventory().add(i.getId());
 				}
 			}
 		}

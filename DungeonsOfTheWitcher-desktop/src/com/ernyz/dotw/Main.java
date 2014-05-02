@@ -13,7 +13,7 @@ public class Main {
 		cfg.vSyncEnabled = false;
 		cfg.x = -1;
 		cfg.y = -1;
-		//cfg.addIcon(path, fileType);
+		//TODO cfg.addIcon(path, fileType);
 		
 		new LwjglApplication(new DOTW(), cfg);
 	}

@@ -38,15 +38,15 @@ public class WorldGenerator {
 		this.playerName = playerName;
 		
 		generateWorld();
-		//Dump generated content to save files?
+		//Dump generated content to save files
 		saveWorld();
 	}
 	
 	/**
-	 * Generates all world of the game. Generated content is accessible by getters.
+	 * Generates all world of the game. Generated content is accessible by getters. TOOO why would i need getters/setters for them?..
 	 */
 	private void generateWorld() {
-		//Initialize values
+		//Initialise values
 		levels = new Array<Array<Tile>>();
 		items = new Array<Item>();
 		
@@ -90,12 +90,12 @@ public class WorldGenerator {
 		//Save entities
 		SaveGame.saveEntities(playerName, entities);
 		//Save items
-		SaveGame.saveItems(playerName, items);  //TODO: Implement saving.
+		SaveGame.saveItems(playerName, items);
 		//Save player
 		SaveGame.savePlayer(player);
 	}
 	
-	public Array<Array<Tile>> getLevels() {
+	/*public Array<Array<Tile>> getLevels() {
 		return this.levels;
 	}
 	
@@ -109,6 +109,6 @@ public class WorldGenerator {
 	
 	public Player getPlayer() {
 		return this.player;
-	}
+	}*/
 	
 }

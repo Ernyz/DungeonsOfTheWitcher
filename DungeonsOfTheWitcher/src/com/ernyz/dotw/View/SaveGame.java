@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ernyz.dotw.View;
 
 import java.io.BufferedWriter;
@@ -166,7 +163,6 @@ public class SaveGame {
 		try {
 			jsonWriter.array();
 			jsonWriter.object().name("itemGeneretorState").value(ItemFactory.id)
-				//.set("itemGeneretorState", ItemFactory.id)
 			.pop();
 			for(int i = 0; i < items.size; i++) {
 				jsonWriter.object()

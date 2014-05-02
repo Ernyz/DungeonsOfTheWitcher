@@ -21,7 +21,7 @@ public class Item {
 	
 	private Texture texture;
 	
-	private Long id;
+	private Integer id;
 	private String name;
 	private ItemType type;
 	private Boolean isInInventory;  //If true - this item is in someone's inventory, if false - it's laying on the ground.
@@ -60,13 +60,12 @@ public class Item {
 		return false;
 	}
 	
-	//TODO Temporarily shut down
-	/*public void set(String key, int value) {
+	public void set(String key, int value) {
 		attributes.put(key, value);
 	}
 	public int getInt(String key) {
 		return (Integer)attributes.get(key);
-	}*/
+	}
 	
 	public void set(String key, float value) {
 		attributes.put(key, value);
@@ -75,11 +74,11 @@ public class Item {
 		return (Float)attributes.get(key);
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

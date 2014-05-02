@@ -154,6 +154,7 @@ public class LoadGame {
 				 	ItemManager.equipItem(e, entry.asInt(), entry.name);
 				}
 				
+				e.setDungeonLevel(entity.getInt("dungeonLevel"));
 				e.setRotation(entity.getFloat("rotation"));
 				e.setSpeed(entity.getFloat("speed"));
 				e.setHealth(entity.getFloat("health"));
@@ -186,7 +187,7 @@ public class LoadGame {
 		JsonReader reader = new JsonReader();
 		JsonValue json = reader.parse(scanResult);
 		
-		/**
+		/*
 		 * TODO: All this ItemFactory.id value scanning should be replanned.
 		 * I should probably create separate properties file to hold this and similar data.
 		 */
@@ -199,7 +200,7 @@ public class LoadGame {
 		for(int i = 1; i < json.size; i++) {
 			JsonValue scannedItem = json.get(i);
 			
-			Item item = itemFactory.createWeapon(scannedItem.getLong("id"),
+			Item item = itemFactory.createWeapon(scannedItem.getInt("id"),
 					scannedItem.getString("name"), scannedItem.getFloat("x"), scannedItem.getFloat("y"),
 					scannedItem.getBoolean("isInInventory"));
 			items.add(item);

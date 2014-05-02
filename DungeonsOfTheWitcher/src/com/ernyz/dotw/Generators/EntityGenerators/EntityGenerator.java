@@ -25,6 +25,7 @@ public class EntityGenerator {
 			//Determine type of the tile //TODO: Add more functionality later.
 			if(tiles.get(i).getAsciiSymbol() == '.') {
 				if(Math.random() < 0.009) {
+					//FIXME: Bad starting coords.
 					Goblin g = entityFactory.createGoblin(tiles.get(i).getPosition().x, tiles.get(i).getPosition().y, null);
 					entities.add(g);
 				}

@@ -21,7 +21,7 @@ public class WeaponFactory {
 	 * 
 	 * @return {@link Item}
 	 */
-	public Item createDagger(long id, Float x, Float y, Boolean isInInv) {
+	public Item createDagger(Integer id, Float x, Float y, Boolean isInInv) {
 		Item i = new Item();
 		i.setId(id);
 		i.setName("Dagger");
