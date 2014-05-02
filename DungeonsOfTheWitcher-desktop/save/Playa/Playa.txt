@@ -1,0 +1,1 @@
+{"name":"Playa","dungeonLevel":0,"inventory":[],"equippedItems":{"RightHand":-1,"LeftHand":-1},"x":115,"y":100.5,"speed":100,"rotation":0,"health":100}

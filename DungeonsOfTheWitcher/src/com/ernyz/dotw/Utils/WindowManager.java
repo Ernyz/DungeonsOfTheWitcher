@@ -27,7 +27,7 @@ public class WindowManager {
 		stageW = Gdx.graphics.getWidth();
 		stageH = Gdx.graphics.getHeight();
 		
-		skin = new Skin(Gdx.files.internal("data/windows/basic/uiskin.json"));
+		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
 	}
 	
 	/**

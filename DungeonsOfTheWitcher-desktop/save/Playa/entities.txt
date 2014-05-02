@@ -1,0 +1,1 @@
+[{"name":"Goblin","dungeonLevel":0,"inventory":[],"equippedItems":{"RightHand":-1,"LeftHand":-1},"x":700,"y":450,"speed":70,"rotation":0,"health":50},{"name":"Goblin","dungeonLevel":0,"inventory":[],"equippedItems":{"RightHand":-1,"LeftHand":-1},"x":1000,"y":200,"speed":70,"rotation":0,"health":50}]
