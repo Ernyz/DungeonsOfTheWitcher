@@ -42,8 +42,6 @@ public final class GameWorld {
 	
 	private Player player;
 	//Item array
-	//Im not sure if making this static is a good idea, but for now it seems to be the best option.
-	//Might make other arrays like entities and tiles static too, if this proves to be ok.
 	public static Array<Item> items;  //TODO make non-static?
 	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
