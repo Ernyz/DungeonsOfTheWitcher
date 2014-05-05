@@ -7,6 +7,7 @@ import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.Windows.CustomWindow;
 import com.ernyz.dotw.Windows.EquippedItemsWindow;
+import com.ernyz.dotw.Windows.InGameOptionsWindow;
 import com.ernyz.dotw.Windows.InventoryWindow;
 
 /**
@@ -53,6 +54,8 @@ public class WindowManager {
 			createInventoryWindow();
 		} else if(windowName.equals("EquippedItems")) {
 			createEquippedItemsWindow();
+		} else if(windowName.equals("InGameOptions")) {
+			createInGameOptionsWindow();
 		}
 	}
 	
@@ -111,6 +114,18 @@ public class WindowManager {
 		w.setHeight(stageH/100*94);  //window height is equal to 94 percent of stage height
 		
 		addWindow(w, "EquippedItems");
+	}
+	
+	/**
+	 * Creates window which shows in game options, such as save game, settings and etc.
+	 */
+	private void createInGameOptionsWindow() {
+		InGameOptionsWindow w = new InGameOptionsWindow("In-game options", skin, gameWorld);
+		w.setWidth(stageW/100*30);
+		w.setHeight(stageH/100*30);
+		w.setPosition(stageW/2-w.getWidth()/2, stageH/2-w.getHeight()/2);
+		
+		addWindow(w, "InGameOptions");
 	}
 	
 }

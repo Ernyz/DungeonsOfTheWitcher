@@ -1,0 +1,1 @@
+[{"name":"Player","dungeonLevel":0,"inventory":[],"equippedItems":{"RightHand":-1,"LeftHand":-1},"x":106.83212,"y":110.701866,"speed":100,"rotation":335.0657,"health":100}]

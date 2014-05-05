@@ -37,7 +37,7 @@ public class InventoryWindow extends CustomWindow {
 		Array<Integer> inventory = gameWorld.getPlayer().getInventory();
 		for(Integer item : inventory) {
 			this.row().fill();
-			Image img = new Image(GameWorld.items.get(item).getTexture());
+			Image img = new Image(gameWorld.getItems().get(item).getTexture());
 			ImageButton itemActor = new ImageButton(img.getDrawable());
 			
 			//Set up custom userObject to hold data related for this button.
@@ -57,9 +57,9 @@ public class InventoryWindow extends CustomWindow {
 		ItemUserObject userObject = (ItemUserObject) actor.getUserObject();
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-			ItemManager.dropItem(gameWorld.getPlayer(), userObject.getItemId());
+			ItemManager.dropItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-			ItemManager.equipItem(gameWorld.getPlayer(), userObject.getItemId());
+			ItemManager.equipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		}
 	}
 	

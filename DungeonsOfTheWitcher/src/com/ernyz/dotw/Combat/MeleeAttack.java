@@ -69,7 +69,7 @@ public class MeleeAttack implements Attack {
 		/*
 		 * Attack's damage, rotation, position and other values depend on attack type and weapon
 		 */
-		if(attackType.equals("Stab")) {  //TODO: This is hardcoded to right hand. Fix it!!!
+		/*if(attackType.equals("Stab")) {  //TODO: This is hardcoded to right hand. Fix it!!!
 			if(GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getName().equals("Dagger")) {
 				//Set damage
 				damage = (-1)*(attacker.getDexterity() + GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Damage"));
@@ -81,7 +81,7 @@ public class MeleeAttack implements Attack {
 				//range = 8;
 				range = 20;
 			}
-		}
+		}*/
 		
 		//Set starting rotation
 		startRot = attacker.getRotation();
@@ -124,7 +124,7 @@ public class MeleeAttack implements Attack {
 				attacker.getPosition().y + attacker.getHeight()/2 + 
 					MathUtils.sinDeg(attacker.getRotation()+attacker.getRightHand().x)*attacker.getRightHand().y);
 		//Move the attack according to attackers rotation
-		float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Speed");
+		/*float dX = MathUtils.cosDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Speed");
 		float dY = MathUtils.sinDeg(attacker.getRotation()) * Gdx.graphics.getDeltaTime() * GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand")).getFloat("Speed");
 		distCovered += Math.sqrt(dX*dX + dY*dY);
 		bounds.setPosition(bounds.getX()+dX*distCovered, bounds.getY()+dY*distCovered);
@@ -160,7 +160,7 @@ public class MeleeAttack implements Attack {
 		//Ensure that array size does not exceed capacity
 		while(path.size > capacity) {
 			path.pop();
-		}
+		}*/
 	}
 	
 	private float hitEnemy(MoveableEntity target) {

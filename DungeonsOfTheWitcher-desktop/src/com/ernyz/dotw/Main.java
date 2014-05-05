@@ -1,5 +1,6 @@
 package com.ernyz.dotw;
 
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -13,7 +14,7 @@ public class Main {
 		cfg.vSyncEnabled = false;
 		cfg.x = -1;
 		cfg.y = -1;
-		//TODO cfg.addIcon(path, fileType);
+		cfg.addIcon("data/icon16x16.png", FileType.Internal);
 		
 		new LwjglApplication(new DOTW(), cfg);
 	}

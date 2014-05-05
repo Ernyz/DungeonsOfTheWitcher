@@ -28,10 +28,10 @@ public class ItemManager {
 	 * @param item -  {@link Item} id we want to equip.
 	 * @return Message whether equipping was successful or not. If not - message contains reason.
 	 */
-	public static String equipItem(MoveableEntity e, Integer item) {
+	public static String equipItem(MoveableEntity e, Array<Item> items, Integer item) {
 		//TODO By default, we put weapon in right hand slot. More functionality will be needed later.
 		if(e.getInventory().contains(item, true)) {
-			Item i = GameWorld.items.get(item);
+			Item i = items.get(item);
 			if(i.getType() == ItemType.WEAPON) {
 				e.getEquipmentSlots().put("RightHand", item);
 				return "Equipped.";
@@ -113,9 +113,9 @@ public class ItemManager {
 	 * @param item - id of an item we want to drop.
 	 * @return Message indicating success/failure of dropping the item.
 	 */
-	public static String dropItem(MoveableEntity e, Integer item) {
+	public static String dropItem(MoveableEntity e, Array<Item> items, Integer item) {
 		if(e.getInventory().contains(item, true)) {
-			Item i = GameWorld.items.get(item);
+			Item i = items.get(item);
 			//Unequip before dropping.
 			unequipItem(e, item);
 			i.setX(e.getPosition().x);

@@ -35,7 +35,7 @@ public class EquippedItemsWindow extends CustomWindow {
 		for(String slotName : slots.keySet()) {
 			if(slots.get(slotName) != -1) {
 				this.row().fill();
-				Image img = new Image(GameWorld.items.get(slots.get(slotName)).getTexture());
+				Image img = new Image(gameWorld.getItems().get(slots.get(slotName)).getTexture());
 				ImageButton itemActor = new ImageButton(img.getDrawable());
 				
 				//Set up custom userObject to hold data related for this button.
@@ -56,7 +56,7 @@ public class EquippedItemsWindow extends CustomWindow {
 		ItemUserObject userObject = (ItemUserObject) actor.getUserObject();
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-			ItemManager.dropItem(gameWorld.getPlayer(), userObject.getItemId());
+			ItemManager.dropItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
 			ItemManager.unequipItem(gameWorld.getPlayer(), userObject.getItemId());
 		}

@@ -48,7 +48,7 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
-				//TODO: Show escape menu.
+				gameWorld.windowManager.toggleWindow("InGameOptions");
 			}
 		}
 		

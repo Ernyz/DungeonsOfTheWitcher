@@ -111,7 +111,7 @@ public class MoveableEntity extends Entity {
 		
 		//Update weapon attack timers
 		for(int i = 0; i < inventory.size; i++) {
-			Item item = GameWorld.items.get(inventory.get(i));
+			Item item = gameWorld.getItems().get(inventory.get(i));
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
 			}
@@ -197,7 +197,7 @@ public class MoveableEntity extends Entity {
 	
 	public void attack(int button) {
 		if(button == 0) {  //LMB
-			Attack a = AttackCreator.primaryAttack(this);
+			Attack a = AttackCreator.primaryAttack(this, gameWorld.getItems());
 			if(a != null) {
 				attacks.add(a);
 			}

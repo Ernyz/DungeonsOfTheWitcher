@@ -42,7 +42,7 @@ public final class GameWorld {
 	
 	private Player player;
 	//Item array
-	public static Array<Item> items;  //TODO make non-static?
+	private Array<Item> items;  //TODO make non-static?
 	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
 	//Tiles
@@ -182,6 +182,10 @@ public final class GameWorld {
 
 	public void setWindows(HashMap<String, CustomWindow> windows) {
 		this.windows = windows;
+	}
+	
+	public DOTW getGame() {
+		return game;
 	}
 
 }

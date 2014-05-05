@@ -1,6 +1,6 @@
 package com.ernyz.dotw.Combat;
 
-import com.ernyz.dotw.Model.GameWorld;
+import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.ItemManager;
@@ -24,14 +24,15 @@ public class AttackCreator {
 	 * @param attacker - entity which calls this function.
 	 * @return {@link Attack} if attack was created, or null if attack wasn't created.
 	 */
-	public static Attack primaryAttack(MoveableEntity attacker) {
+	//TODO i dunno if getting items as param is good
+	public static Attack primaryAttack(MoveableEntity attacker, Array<Item> items) {
 		Attack a;
 		Item rightHand = null;
 		Item leftHand = null;
 		if(ItemManager.getEquippedItem(attacker, "RightHand") != -1)
-			rightHand = GameWorld.items.get(ItemManager.getEquippedItem(attacker, "RightHand"));  //Item held in right hand
+			rightHand = items.get(ItemManager.getEquippedItem(attacker, "RightHand"));  //Item held in right hand
 		if(ItemManager.getEquippedItem(attacker, "LeftHand") != -1)
-			leftHand = GameWorld.items.get(ItemManager.getEquippedItem(attacker, "LeftHand"));  //Item held in left hand
+			leftHand = items.get(ItemManager.getEquippedItem(attacker, "LeftHand"));  //Item held in left hand
 		
 		//Check if attacker has no weapon and is going to use unarmed combat
 		if(rightHand == null && leftHand == null) {
