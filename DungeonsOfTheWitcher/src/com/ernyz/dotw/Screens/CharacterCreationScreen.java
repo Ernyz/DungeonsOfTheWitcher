@@ -5,6 +5,7 @@ import java.io.File;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -25,6 +26,8 @@ public class CharacterCreationScreen implements Screen {
 	
 	private DOTW game;
 	private SpriteBatch batch;
+	
+	private Texture bgTexture;
 	
 	//Directory for player save games
 	private String dir = "save";
@@ -48,6 +51,7 @@ public class CharacterCreationScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		batch.draw(bgTexture, 0, 0);
 		batch.end();
 		
 		stage.act();
@@ -111,6 +115,8 @@ public class CharacterCreationScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		
+		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
 	}
 
 	@Override

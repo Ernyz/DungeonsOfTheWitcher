@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -36,6 +37,8 @@ public class MainMenuScreen implements Screen {
 	private Skin skin;
 	private Table table;
 	
+	private Texture bgTexture;
+	
 	private TextButton loadCharacterBtn;
 	private TextButton newCharacterBtn;
 	private TextButton exitButton;
@@ -51,6 +54,7 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		batch.draw(bgTexture, 0, 0);
 		batch.end();
 		
 		stage.act(delta);
@@ -127,6 +131,8 @@ public class MainMenuScreen implements Screen {
 		
 		batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		
+		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
 		
 		/*//Initialise box2d stuff
 		world = new World(new Vector2(0, 0), false);

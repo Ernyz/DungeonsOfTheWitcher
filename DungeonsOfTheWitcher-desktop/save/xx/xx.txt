@@ -1,1 +1,0 @@
-{"name":"xx","dungeonLevel":0,"inventory":[2,3,13],"equippedItems":{"RightHand":-1,"LeftHand":-1},"x":284.09705,"y":301.33145,"speed":100,"rotation":39.884865,"health":100}
