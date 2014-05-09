@@ -24,6 +24,7 @@ public class DrunkardWalkLevelGenerator {
 	public static Array<Tile> generateDrunkardWalkLevel(int levelNumber) {
 		
 		TileFactory tileFactory = new TileFactory();
+		Random r = new Random();
 		char[][] map = new char[50][50];  //TODO: Remove hardcoding
 		
 		//Fill map with walls
@@ -43,7 +44,6 @@ public class DrunkardWalkLevelGenerator {
 		int dir;
 		//Last direction. Used to prevent going backwards
 		int lastDir;
-		Random r = new Random();
 		
 		//Make current tile a floor tile
 		map[x][y] = '.';

@@ -41,7 +41,8 @@ public class MainMenuScreen implements Screen {
 	
 	private TextButton loadCharacterBtn;
 	private TextButton newCharacterBtn;
-	private TextButton exitButton;
+	private TextButton deleteCharacterBtn;
+	private TextButton exitBtn;
 	private Label label;
 	
 	public MainMenuScreen(DOTW game) {
@@ -111,8 +112,21 @@ public class MainMenuScreen implements Screen {
 		
 		table.row().colspan(2);
 		
-		exitButton = new TextButton("Exit", skin);
-		exitButton.addListener(new InputListener() {
+		deleteCharacterBtn = new TextButton("Delete character", skin);
+		deleteCharacterBtn.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new CharacterDeletionScreen(game));
+			}
+		});
+		table.add(deleteCharacterBtn);
+		
+		table.row().colspan(2);
+		
+		exitBtn = new TextButton("Exit", skin);
+		exitBtn.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
@@ -120,7 +134,7 @@ public class MainMenuScreen implements Screen {
 				Gdx.app.exit();
 			}
 		});
-		table.add(exitButton);
+		table.add(exitBtn);
 	}
 
 	@Override

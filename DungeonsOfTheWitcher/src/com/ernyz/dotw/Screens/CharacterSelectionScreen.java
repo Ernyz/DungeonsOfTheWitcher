@@ -102,7 +102,7 @@ public class CharacterSelectionScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 		
-		file = new File("save");
+		file = new File("save");  //TODO: Make this static constant somewhere?..
 		fileHandle = new FileHandle(file);
 		
 		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Screens.MainMenuScreen;
-import com.ernyz.dotw.Utils.WindowManager;
 import com.ernyz.dotw.View.SaveGame;
 
 public class InGameOptionsWindow extends CustomWindow {
