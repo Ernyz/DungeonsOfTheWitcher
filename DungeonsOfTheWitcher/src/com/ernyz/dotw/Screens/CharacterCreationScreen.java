@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -40,6 +41,8 @@ public class CharacterCreationScreen implements Screen {
 	//Buttons
 	private TextButton confirmButton;
 	private TextButton backButton;
+	//Labels
+	private Label screenTitle;
 	
 	public CharacterCreationScreen(DOTW game) {
 		this.game = game;
@@ -68,6 +71,10 @@ public class CharacterCreationScreen implements Screen {
 		table.setFillParent(true);
 		table.debug();
 		stage.addActor(table);
+		
+		table.row().colspan(2);
+		screenTitle = new Label("Set up your character", skin);
+		table.add(screenTitle);
 		
 		table.row();
 		

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -36,6 +37,7 @@ public class CharacterSelectionScreen implements Screen {
 	private Stage stage;
 	private Table table;
 	private Skin skin;
+	private Label screenTitle;
 	private TextButton button;
 	
 	public CharacterSelectionScreen(DOTW game) {
@@ -68,7 +70,10 @@ public class CharacterSelectionScreen implements Screen {
 		stage.addActor(table);
 		
 		table.row();
+		screenTitle = new Label("Choose a save file to load", skin);
+		table.add(screenTitle);
 		
+		table.row();
 		//Create as many buttons, as there are save games
 		for(int i = 0; i < fileHandle.list().length; i++) {
 			final String playerName = fileHandle.list()[i].name();

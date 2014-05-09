@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -33,6 +34,7 @@ public class CharacterDeletionScreen implements Screen {
 	private DeletionDialog deletionDialog;
 	private Skin skin;
 	
+	private Label screenTitle;
 	private TextButton backButton;
 	private TextButton button;
 
@@ -63,7 +65,12 @@ public class CharacterDeletionScreen implements Screen {
 		table.setFillParent(true);
 		stage.addActor(table);
 		
-		//Start of by listing all save files, adding deletion listeners to them
+		table.row();
+		screenTitle = new Label("Chose a character save file to delete", skin);
+		table.add(screenTitle);
+		
+		table.row();
+		//List all save files, adding deletion listeners to them
 		for(int i = 0; i < fileHandle.list().length; i++) {
 			String name = fileHandle.list()[i].name();
 			button = new TextButton(name, skin);
@@ -90,47 +97,6 @@ public class CharacterDeletionScreen implements Screen {
 			}
 		});
 		table.add(backButton);
-		//If user clicks save file, dialog pops up asking to type "yes" to confirm deletion
-		//If yes is typed, delete save file and close the dialog
-		//If nothing or anything else is typed, just close the dialog
-		//Crete new dialog with ok button to indicate whether deletion was successful
-	}
-	
-	//TODO move this class down a little
-	private class DeletionDialog extends Dialog {
-		
-		String saveFileName;
-		TextField tf;
-		
-		public DeletionDialog(String title, Skin skin, String saveFileName) {
-			super(title, skin);
-			this.saveFileName = saveFileName;
-			
-			getContentTable().row().colspan(2);
-			text("Really delete " + saveFileName + "?");
-			getContentTable().row().colspan(2);
-			text("(Type \"yes\" to confirm)");
-			
-			getContentTable().row().colspan(2);
-			tf = new TextField("", skin);
-			getButtonTable().add(tf);
-			button("Delete", tf.getText().toLowerCase());
-			getButtonTable().row().colspan(2);
-			button("Cancel", tf.getText().toLowerCase());
-		}
-		
-		@Override
-		protected void result(Object object) {
-			if(tf.getText().toLowerCase().equals("yes")) {
-				//Delete char
-				File f = new File("save/"+saveFileName);
-				FileHandle fh = new FileHandle(f);
-				fh.deleteDirectory();
-				//fh.delete();
-			} else {
-				
-			}
-		}
 	}
 	
 	private void showDeletionDialog(final String name) {
@@ -169,5 +135,57 @@ public class CharacterDeletionScreen implements Screen {
 	public void dispose() {
 
 	}
+	
+	private class DeletionDialog extends Dialog {
+		
+		String saveFileName;
+		TextField tf;
+		
+		public DeletionDialog(String title, Skin skin, String saveFileName) {
+			super(title, skin);
+			this.saveFileName = saveFileName;
+			
+			getContentTable().row().colspan(2);
+			text("Really delete " + saveFileName + "?");
+			getContentTable().row().colspan(2);
+			text("(Type \"yes\" to confirm)");
+			
+			getContentTable().row().colspan(2);
+			tf = new TextField("", skin);
+			getButtonTable().add(tf);
+			button("Delete", tf.getText().toLowerCase());
+			getButtonTable().row().colspan(2);
+			button("Cancel", tf.getText().toLowerCase());
+		}
+		
+		@Override
+		protected void result(Object object) {
+			if(tf.getText().toLowerCase().equals("yes")) {
+				//Delete character save file
+				File f = new File("save/"+saveFileName);
+				FileHandle fh = new FileHandle(f);
+				fh.deleteDirectory();
+				ResultDialog d = new ResultDialog("Success", skin, "Character was successfuly deleted!");
+				d.show(stage);
+			} else {
+				ResultDialog d = new ResultDialog("Warning", skin, "Character was not deleted!");
+				d.show(stage);
+			}
+		}
+	}
 
+	private class ResultDialog extends Dialog {
+		public ResultDialog(String title, Skin skin, String message) {
+			super(title, skin);
+			
+			text(message);
+			button("Ok");
+		}
+		
+		@Override
+		protected void result(Object object) {
+			game.setScreen(new CharacterDeletionScreen(game));
+		}
+	}
+	
 }
