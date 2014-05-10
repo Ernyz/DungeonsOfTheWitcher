@@ -1,5 +1,7 @@
 package com.ernyz.dotw.View;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -110,6 +112,13 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		if(Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
+			if(amount > 0) {
+				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() + 0.05f);
+			} else if(amount < 0) {
+				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() - 0.05f);
+			}
+		}
 		return false;
 	}
 

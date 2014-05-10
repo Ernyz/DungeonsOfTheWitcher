@@ -66,7 +66,7 @@ public class CharacterDeletionScreen implements Screen {
 		stage.addActor(table);
 		
 		table.row();
-		screenTitle = new Label("Chose a character save file to delete", skin);
+		screenTitle = new Label("Choose a character save file to delete", skin);
 		table.add(screenTitle);
 		
 		table.row();

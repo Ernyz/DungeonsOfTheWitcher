@@ -38,6 +38,11 @@ public final class WorldRenderer {
 	private OrthographicCamera camera;
 	private float width;
 	private float height;
+	//Stuff used for zooming in/out
+	private final Float viewportMultiplierDefaultValue = 1f;
+	private final Float viewportMultiplierMinValue = 0.1f;
+	private final Float viewportMultiplierMaxValue = 2.0f;
+	private Float viewportMultiplier;
 	
 	private Player player;
 	
@@ -51,9 +56,10 @@ public final class WorldRenderer {
 
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
+		viewportMultiplier = viewportMultiplierDefaultValue;
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, width, height);
+		camera.setToOrtho(false, width*viewportMultiplier, height*viewportMultiplier);
 		camera.update();
 		
 		batch = new SpriteBatch();
@@ -78,7 +84,8 @@ public final class WorldRenderer {
 		player = gameWorld.getPlayer();
 		
 		//Update camera
-		camera.position.set(player.getPosition().x+player.getWidth()/2 + gameWorld.getHUD().getBgTexture().getWidth()/2, player.getPosition().y+player.getHeight()/2 - gameWorld.getHUD().getOutputBGTexture().getHeight()/2, 0);
+		camera.setToOrtho(false, width*viewportMultiplier, height*viewportMultiplier);
+		camera.position.set(player.getPosition().x+player.getWidth()/2/* + gameWorld.getHUD().getBgTexture().getWidth()/2*/, player.getPosition().y+player.getHeight()/2/* - gameWorld.getHUD().getOutputBGTexture().getHeight()/2*/, 0);
 		camera.update();
 		
 		//Draw stuff that is invisible unless lit
@@ -201,6 +208,19 @@ public final class WorldRenderer {
 	
 	public OrthographicCamera getCamera() {
 		return camera;
+	}
+
+	public Float getViewportMultiplier() {
+		return viewportMultiplier;
+	}
+
+	public void setViewportMultiplier(Float viewportMultiplier) {
+		this.viewportMultiplier = viewportMultiplier;
+		if(this.viewportMultiplier < viewportMultiplierMinValue) {
+			this.viewportMultiplier = viewportMultiplierMinValue;
+		} else if(this.viewportMultiplier > viewportMultiplierMaxValue) {
+			this.viewportMultiplier = viewportMultiplierMaxValue;
+		}
 	}
 
 }
