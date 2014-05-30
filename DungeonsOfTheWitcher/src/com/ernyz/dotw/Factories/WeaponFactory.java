@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Factories;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.ernyz.dotw.Model.Resources;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.Item.ItemType;
 
@@ -26,6 +27,7 @@ public class WeaponFactory {
 		i.setId(id);
 		i.setName("Dagger");
 		i.setType(ItemType.WEAPON);
+		i.setTargetBodyPart(Resources.BODY_HANDS);  //TODO: Make this for any hand
 		i.setIsInInventory(isInInv);
 		i.setX(x);
 		i.setY(y);
@@ -39,7 +41,7 @@ public class WeaponFactory {
 		i.set("Damage", 8);
 		i.set("Range", 20);
 		
-		i.setTexture(new Texture("data/dagger.png"));
+		i.setTexture(new Texture("data/items/icons/dagger.png"));
 		
 		return i;
 	}

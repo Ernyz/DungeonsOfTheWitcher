@@ -60,7 +60,6 @@ public class ItemFactory {
 		if(weapon.equals("Dagger")) {
 			return weaponFactory.createDagger(id, x, y, isInInv);
 		}
-		//TODO Throw exception or something if weapon wasn't created
 		return null;
 	}
 	

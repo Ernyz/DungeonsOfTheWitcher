@@ -59,7 +59,7 @@ public class InventoryWindow extends CustomWindow {
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
 			ItemManager.dropItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-			ItemManager.equipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
+			ItemManager.equipOrUnequipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		}
 	}
 	

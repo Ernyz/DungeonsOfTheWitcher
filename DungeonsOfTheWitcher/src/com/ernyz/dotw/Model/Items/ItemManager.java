@@ -3,6 +3,7 @@ package com.ernyz.dotw.Model.Items;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Resources;
 import com.ernyz.dotw.Model.Items.Item.ItemType;
 
 /**
@@ -25,34 +26,48 @@ public class ItemManager {
 	/**
 	 * Equips entity with item from its' inventory.
 	 * @param e -  {@link MoveableEntity} on which we want to equip the item.
-	 * @param item -  {@link Item} id we want to equip.
+	 * @param itemId -  {@link Item} id of item we want to equip.
 	 * @return Message whether equipping was successful or not. If not - message contains reason.
 	 */
-	public static String equipItem(MoveableEntity e, Array<Item> items, Integer item) {
+	public static String equipOrUnequipItem(MoveableEntity e, Array<Item> items, Integer itemId) {
 		//TODO By default, we put weapon in right hand slot. More functionality will be needed later.
-		if(e.getInventory().contains(item, true)) {
-			Item i = items.get(item);
-			if(i.getType() == ItemType.WEAPON) {
-				e.getEquipmentSlots().put("RightHand", item);
-				return "Equipped.";
+		//Check if item is equipped, if yes - unequip it, otherwise equip it
+		if(e.getEquipmentSlots().containsValue(itemId)) {
+			return unequipItem(e, itemId);
+		} else {
+			if(e.getInventory().contains(itemId, true)) {
+				Item i = items.get(itemId);
+				if(i.getType() == ItemType.WEAPON) {
+					return equipItem(e, itemId, Resources.BODY_RIGHT_HAND);
+				}
 			}
 		}
 		return "Equipping unsuccessful.";
 	}
 	
 	/**
-	 * Equips entity with item from its' inventory.
+	 * Equips entity with item from its' inventory to the specified slot.
 	 * @param e -  {@link MoveableEntity} on which we want to equip the item.
 	 * @param item -  {@link Item} id we want to equip.
 	 * @return Message whether equipping was successful or not. If not - message contains reason.
 	 */
-	public static String equipItem(MoveableEntity e, Integer item, String slotName) {
-		if(e.getInventory().contains(item, true)) {
-			//Item i = GameWorld.items.get(item);
-			e.getEquipmentSlots().put(slotName, item);
-			return "Equipped.";
+	public static String equipItem(MoveableEntity e, Integer item, String slotName) {  //TODO: Make private?
+		if(e.getEquipmentSlots().containsValue(item)) {
+			String key = "";
+			for(String str : e.getEquipmentSlots().keySet()) {
+				if(e.getEquipmentSlots().get(str) == item) {
+					key = str;
+					break;
+				}
+			}
+			e.getEquipmentSlots().put(key, -1);
 		}
-		return "Equipping unsuccessful.";
+		e.getEquipmentSlots().put(slotName, item);
+		if(e.getInventory().contains(item, true)) {
+			e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
+		}
+		GameWorld.addMessage("Item equipped");
+		return "Equipping successful.";
 	}
 	
 	/**
@@ -61,19 +76,21 @@ public class ItemManager {
 	 * @param item -  {@link Item} id we want to unequip.
 	 * @return Message whether unequipping was successful or not. If not - message contains reason.
 	 */
-	public static String unequipItem(MoveableEntity e, Integer item) {
-		if(e.getInventory().contains(item, true)) {
-			if(e.getEquipmentSlots().containsValue(item)) {
-				for(String slotName : e.getEquipmentSlots().keySet()) {
-					if(getEquippedItem(e, slotName).equals(item)) {
-						e.getEquipmentSlots().put(slotName, -1);
-						return "Item unequipped";
-					}
+	private static String unequipItem(MoveableEntity e, Integer item) {
+		//if(e.getInventory().contains(item, true)) {
+		if(e.getEquipmentSlots().containsValue(item)) {
+			for(String slotName : e.getEquipmentSlots().keySet()) {
+				if(getEquippedItem(e, slotName).equals(item)) {
+					e.getEquipmentSlots().put(slotName, -1);
+					e.getInventory().add(item);
+					GameWorld.addMessage("Item unequipped");
+					return "Item unequipped";
 				}
-			} else {
-				return "Item is not equipped";
 			}
+		} else {
+			return "Item is not equipped";
 		}
+		//}
 		return "Unequipping unsuccessful.";
 	}
 	
@@ -114,7 +131,7 @@ public class ItemManager {
 	 * @return Message indicating success/failure of dropping the item.
 	 */
 	public static String dropItem(MoveableEntity e, Array<Item> items, Integer item) {
-		if(e.getInventory().contains(item, true)) {
+		//if(e.getInventory().contains(item, true)) {
 			Item i = items.get(item);
 			//Unequip before dropping.
 			unequipItem(e, item);
@@ -124,8 +141,8 @@ public class ItemManager {
 			e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
 			GameWorld.addMessage("Item dropped");
 			return "Dropped.";
-		}
-		return "Item was not dropped.";
+		//}
+		//return "Item was not dropped.";
 	}
 	
 }

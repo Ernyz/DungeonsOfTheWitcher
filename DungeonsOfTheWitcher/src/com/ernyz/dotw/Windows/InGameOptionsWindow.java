@@ -28,15 +28,39 @@ public class InGameOptionsWindow extends CustomWindow {
 
 	@Override
 	public void update(float delta) {
-		
+		setUpTheWindow();
 	}
 	
 	@Override
 	protected void setUpTheWindow() {
-		this.setMovable(false);
+		setMovable(false);
+		clearChildren();
 		
-		table = new Table(skin);
-		this.add(table);
+		resumeButton = new TextButton("Resume game", skin);
+		resumeButton.addListener(new InputListener() {
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				 gameWorld.windowManager.toggleWindow("InGameOptions");
+		        return true;
+		    }
+		});
+		add(resumeButton);
+		
+		row();
+		
+		saveAndQuitButton = new TextButton("Save and quit to main menu", skin);
+		saveAndQuitButton.addListener(new InputListener() {
+			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+				SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
+				gameWorld.getGame().setScreen(new MainMenuScreen(gameWorld.getGame()));
+		        return true;
+		    }
+		});
+		add(saveAndQuitButton);
+		
+		pack();
+		
+		/*table = new Table(skin);
+		add(table);
 		
 		table.row();
 		
@@ -60,5 +84,6 @@ public class InGameOptionsWindow extends CustomWindow {
 		    }
 		});
 		table.add(saveAndQuitButton);
+		*/
 	}
 }

@@ -19,6 +19,8 @@ public class Item {
 		CONSUMABLE
 	}
 	
+	private String targetBodyPart;
+	
 	private Texture texture;
 	
 	private Integer id;
@@ -28,8 +30,8 @@ public class Item {
 	private Float x, y;  //Only used, if isInInventory == false
 	private Boolean isCursed;
 	private Boolean isStackable;
-	private Boolean isContainer;
-	private Array<Integer> itemsContained;
+	//private Boolean isContainer;
+	//private Array<Integer> itemsContained;
 	private Float weight;
 	/*
 	 * Attributes (non-general ones) of an item will be here, for example:
@@ -128,6 +130,14 @@ public class Item {
 
 	public void setTexture(Texture texture) {
 		this.texture = texture;
+	}
+
+	public String getTargetBodyPart() {
+		return targetBodyPart;
+	}
+
+	public void setTargetBodyPart(String targetBodyPart) {
+		this.targetBodyPart = targetBodyPart;
 	}
 	
 }

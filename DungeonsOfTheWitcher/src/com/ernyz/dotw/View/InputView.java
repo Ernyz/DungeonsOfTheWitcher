@@ -1,7 +1,6 @@
 package com.ernyz.dotw.View;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -40,9 +39,13 @@ public class InputView implements InputProcessor {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
 		}
 		if(keycode == Keys.I) {
-			gameWorld.windowManager.toggleWindow("Inventory");
+			//gameWorld.windowManager.toggleWindow("Inventory");
+			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
 		} else if(keycode == Keys.E) {
-			gameWorld.windowManager.toggleWindow("EquippedItems");
+			//gameWorld.windowManager.toggleWindow("EquippedItems");
+			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
+		} else if(keycode == Keys.X) {
+			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
 		} else if(keycode == Keys.P) {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
 		} else if(keycode == Keys.G) {
@@ -84,7 +87,7 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		player.attack(button);
+		//player.attack(button);
 		GameWorld.addMessage("attack");
 		return false;
 	}
@@ -112,11 +115,12 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		float scrollAmount = 0.05f;
 		if(Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
 			if(amount > 0) {
-				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() + 0.05f);
+				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() + scrollAmount);
 			} else if(amount < 0) {
-				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() - 0.05f);
+				worldRenderer.setViewportMultiplier(worldRenderer.getViewportMultiplier() - scrollAmount);
 			}
 		}
 		return false;

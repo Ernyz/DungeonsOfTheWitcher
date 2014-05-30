@@ -110,7 +110,7 @@ public class CharacterSelectionScreen implements Screen {
 		file = new File("save");  //TODO: Make this static constant somewhere?..
 		fileHandle = new FileHandle(file);
 		
-		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 		
 		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
 	}

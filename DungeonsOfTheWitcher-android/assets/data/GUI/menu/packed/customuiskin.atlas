@@ -1,0 +1,68 @@
+
+customuiskin.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button
+  rotate: false
+  xy: 260, 84
+  size: 49, 49
+  split: 10, 11, 10, 11
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
+button1
+  rotate: false
+  xy: 359, 87
+  size: 46, 46
+  split: 11, 11, 11, 11
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+button2
+  rotate: false
+  xy: 308, 36
+  size: 46, 46
+  split: 11, 10, 11, 11
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+courier
+  rotate: false
+  xy: 2, 5
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 260, 16
+  size: 7, 17
+  split: 0, 0, 0, 0
+  orig: 7, 17
+  offset: 0, 0
+  index: -1
+selection
+  rotate: false
+  xy: 2, 2
+  size: 1, 1
+  split: 0, 0, 0, 0
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+textfield
+  rotate: false
+  xy: 260, 35
+  size: 46, 47
+  split: 15, 15, 19, 11
+  orig: 46, 47
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 311, 86
+  size: 46, 47
+  split: 14, 14, 20, 5
+  orig: 46, 47
+  offset: 0, 0
+  index: -1

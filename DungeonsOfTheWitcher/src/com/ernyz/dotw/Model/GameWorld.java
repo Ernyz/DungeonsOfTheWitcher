@@ -42,7 +42,7 @@ public final class GameWorld {
 	
 	private Player player;
 	//Item array
-	private Array<Item> items;  //TODO make non-static?
+	private Array<Item> items;
 	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
 	//Tiles
@@ -133,6 +133,17 @@ public final class GameWorld {
 		wallBody.createFixture(wallFixture);
 		
 		return wallBody;
+	}
+	
+	public Item getItemById(int itemId) {  //TODO: Move to ItemManager?..
+		Item item = null;
+		for(Item i : items) {
+			if(i.getId() == itemId) {
+				item = i;
+				break;
+			}
+		}
+		return item;
 	}
 	
 	public static void addMessage(String msg) {

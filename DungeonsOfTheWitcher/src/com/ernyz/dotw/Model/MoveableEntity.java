@@ -39,7 +39,7 @@ public class MoveableEntity extends Entity {
 	/*
 	 * Holds id's of items which are equipped in these slots.
 	 */
-	private HashMap<String, Integer> equipmentSlots;
+	protected HashMap<String, Integer> equipmentSlots;
 	
 	/*
 	 * Item slot locations with respect to entity's centre.
@@ -80,11 +80,6 @@ public class MoveableEntity extends Entity {
 		
 		//Initialise inventory
 		inventory = new Array<Integer>();
-		
-		//Create equipment slots
-		equipmentSlots = new HashMap<String, Integer>();
-		equipmentSlots.put("LeftHand", -1);
-		equipmentSlots.put("RightHand", -1);
 		
 		attacks = new Array<Attack>();
 		

@@ -8,6 +8,7 @@ import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.Windows.CustomWindow;
 import com.ernyz.dotw.Windows.EquippedItemsWindow;
 import com.ernyz.dotw.Windows.InGameOptionsWindow;
+import com.ernyz.dotw.Windows.InventoryAndEquipmentWindow;
 import com.ernyz.dotw.Windows.InventoryWindow;
 
 /**
@@ -28,7 +29,7 @@ public class WindowManager {
 		stageW = Gdx.graphics.getWidth();
 		stageH = Gdx.graphics.getHeight();
 		
-		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 	}
 	
 	/**
@@ -54,6 +55,8 @@ public class WindowManager {
 			createInventoryWindow();
 		} else if(windowName.equals("EquippedItems")) {
 			createEquippedItemsWindow();
+		} else if(windowName.equals("InventoryAndEquipment")) {
+			createInventoryAndEquipmentWindow();
 		} else if(windowName.equals("InGameOptions")) {
 			createInGameOptionsWindow();
 		}
@@ -90,6 +93,18 @@ public class WindowManager {
 	
 	private void addWindowToGameWorld(CustomWindow w, String windowName) {
 		gameWorld.getWindows().put(windowName, w);
+	}
+	
+	/**
+	 * 
+	 */
+	private void createInventoryAndEquipmentWindow() {
+		InventoryAndEquipmentWindow w = new InventoryAndEquipmentWindow("Inventory and equipped items", skin, gameWorld);
+		w.setPosition(stageH/100*20f, stageH/100*20f);
+		//w.setWidth(stageW/100*65);  //Window width is equal to 30 percent of stage width
+		//w.setHeight(stageH/100*44);  //Window height is equal to 94 percent of stage height
+		
+		addWindow(w, "InventoryAndEquipment");
 	}
 	
 	/**

@@ -144,7 +144,8 @@ public class MainMenuScreen implements Screen {
 		camera.update();
 		
 		batch = new SpriteBatch();
-		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		//skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 		
 		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
 		

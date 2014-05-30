@@ -58,7 +58,7 @@ public class EquippedItemsWindow extends CustomWindow {
 		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
 			ItemManager.dropItem(gameWorld.getPlayer(), gameWorld.getItems(), userObject.getItemId());
 		} else if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-			ItemManager.unequipItem(gameWorld.getPlayer(), userObject.getItemId());
+			//ItemManager.unequipItem(gameWorld.getPlayer(), userObject.getItemId());
 		}
 	}
 	
