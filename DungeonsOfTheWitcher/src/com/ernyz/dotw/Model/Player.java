@@ -26,13 +26,26 @@ public final class Player extends MoveableEntity {
 		//bounds.setVertices(new float[] {0, 0, texture.getWidth(), 0, texture.getWidth(), texture.getHeight()-5, 0, texture.getHeight()-5});//This hardcoding is temporary
 		//bounds.setOrigin(texture.getWidth()/2, texture.getHeight()/2);
 		
+		//Create octagonal bounds
 		int radius = texture.getHeight()/2;
-		float[] tmp = new float[]{0, radius,
+		int a = texture.getWidth();
+		float[] tmp = new float[]{
+				radius-a/2, 0,
+				radius+a/2, 0,
+				2*radius, radius-a/2,
+				2*radius, radius+a/2,
+				radius+a/2, 2*radius,
+				radius-a/2, 2*radius,
+				0, radius+a/2,
+				0, radius-a/2
+		};
+		/* hexagon
+		 float[] tmp = new float[]{0, radius,
 				radius/2, 2*radius,
 				radius+radius/2, 2*radius,
 				2*radius, radius,
 				radius+radius/2, 0,
-				radius/2, 0};
+				radius/2, 0};*/
 		bounds.setVertices(tmp);
 		bounds.setOrigin(radius, radius);
 		

@@ -143,6 +143,25 @@ public class MoveableEntity extends Entity {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
 				bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
+				/*System.out.println(position.y + texture.getHeight() > surroundingTiles.get(i).position.y &&
+						position.y+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y);
+				System.out.println(position.x < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
+						position.x+texture.getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth());
+				System.out.println();*/
+				
+				if(position.y + texture.getHeight() > surroundingTiles.get(i).position.y &&
+						position.y+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
+					if(position.x < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
+							position.x+texture.getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
+						position.y -= 1.5;  //TODO
+						System.out.println("true");
+					} else if(false) {  //Top right corner
+						
+					}
+				} else if(position.y < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
+						position.y+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y) {
+					//position.y += 1.5;  //TODO
+				}
 				break;
 			}
 		}
@@ -154,11 +173,6 @@ public class MoveableEntity extends Entity {
 					position.x = lastPos.x;
 					bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
 					break;
-					//Move player in other axis, so it wont get stuck when in contact with entity
-					/*if(this.position.y <= surroundingEntities.get(i).getPosition().y)
-						this.position.y -= 1.5f;
-					else
-						this.position.y += 1.5f;*/
 				}
 			}
 		}
@@ -180,11 +194,6 @@ public class MoveableEntity extends Entity {
 					position.y = lastPos.y;
 					bounds.setPosition(bounds.getX(), lastPos.y);
 					break;
-					//Move player in other axis, so it wont get stuck when in contact with entity
-					/*if(this.position.x <= surroundingEntities.get(i).getPosition().x)
-						this.position.x -= 1.5f;
-					else
-						this.position.x += 1.5f;*/
 				}
 			}
 		}

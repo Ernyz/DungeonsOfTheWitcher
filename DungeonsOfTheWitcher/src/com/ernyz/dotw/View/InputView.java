@@ -39,10 +39,8 @@ public class InputView implements InputProcessor {
 			player.setVelocity(new Vector2(1, player.getVelocity().y));
 		}
 		if(keycode == Keys.I) {
-			//gameWorld.windowManager.toggleWindow("Inventory");
 			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
 		} else if(keycode == Keys.E) {
-			//gameWorld.windowManager.toggleWindow("EquippedItems");
 			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
 		} else if(keycode == Keys.X) {
 			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
@@ -50,6 +48,10 @@ public class InputView implements InputProcessor {
 			SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
+		} else if(keycode == Keys.SPACE) {
+			player.setHealth(player.getHealth()-5);
+			player.setMana(player.getMana()-2);
+			player.setStamina(player.getStamina()-2);
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
