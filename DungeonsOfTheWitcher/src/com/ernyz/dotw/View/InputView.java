@@ -49,9 +49,9 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
 		} else if(keycode == Keys.SPACE) {
-			player.setHealth(player.getHealth()-5);
-			player.setMana(player.getMana()-2);
-			player.setStamina(player.getStamina()-2);
+			player.setHealth(player.getHealth()-1);
+			player.setMana(player.getMana()-1);
+			player.setStamina(player.getStamina()-1);
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {

@@ -19,25 +19,25 @@ courier
   index: -1
 healthBar
   rotate: false
-  xy: 260, 73
-  size: 25, 25
+  xy: 260, 72
+  size: 45, 26
   split: 0, 0, 0, 0
-  orig: 25, 25
+  orig: 45, 26
   offset: 0, 0
   index: -1
 manaBar
   rotate: false
-  xy: 260, 55
-  size: 16, 16
+  xy: 307, 81
+  size: 40, 17
   split: 0, 0, 0, 0
-  orig: 16, 16
+  orig: 40, 17
   offset: 0, 0
   index: -1
 staminaBar
   rotate: false
-  xy: 287, 82
-  size: 16, 16
+  xy: 260, 53
+  size: 45, 17
   split: 0, 0, 0, 0
-  orig: 16, 16
+  orig: 45, 17
   offset: 0, 0
   index: -1

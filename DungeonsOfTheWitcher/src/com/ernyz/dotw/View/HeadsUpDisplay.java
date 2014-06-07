@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.ernyz.dotw.Model.GameWorld;
 
 /**
@@ -18,9 +19,9 @@ public class HeadsUpDisplay {
 	private GameWorld gameWorld;
 	private int width;
 	private int height;
-	private final int hpBarMaxHeight = 27;  //Denotes maximum bar height
-	private final int manaBarMaxHeight = 18;  //Denotes maximum bar height
-	private final int staminaBarMaxHeight = 18;  //Denotes maximum bar height
+	private final int hpBarMaxHeight = 26;  //Denotes maximum bar height
+	private final int manaBarMaxHeight = 17;  //Denotes maximum bar height
+	private final int staminaBarMaxHeight = 17;  //Denotes maximum bar height
 	
 	private int messagesShown;  //How many messages are shown in message window at a time
 	
@@ -28,6 +29,7 @@ public class HeadsUpDisplay {
 	private Stage stage;
 	private Skin skin;
 	private Label outputLabel;
+	//private Table table;
 	
 	private Image bars;  //FIXME: What a misleading name...come up with a better one.
 	private Image healthBar, manaBar, staminaBar;
@@ -45,13 +47,29 @@ public class HeadsUpDisplay {
 		skin = new Skin(Gdx.files.internal("data/HUD/PackOutput/hud.json"));
 		
 		bars = new Image(skin.getDrawable("bars"));
-		bars.setPosition(width-bars.getWidth(), 0);
 		healthBar = new Image(skin.getDrawable("healthBar"));
-		healthBar.setPosition(width-73, 2);
 		manaBar = new Image(skin.getDrawable("manaBar"));
-		manaBar.setPosition(width-109, 2);
 		staminaBar = new Image(skin.getDrawable("staminaBar"));
-		staminaBar.setPosition(width-30, 2);
+		
+		bars.setPosition(width/2-bars.getWidth()/2, height-bars.getHeight());
+		staminaBar.setPosition(bars.getX(), bars.getY()+3);
+		healthBar.setPosition(staminaBar.getX()+staminaBar.getWidth(), bars.getY()+2);
+		manaBar.setPosition(healthBar.getX()+healthBar.getWidth(), bars.getY()+3);
+		
+		System.out.println(bars.getHeight());
+		System.out.println(healthBar.getHeight());
+		
+		/*table = new Table(skin);
+		stage.addActor(table);
+		table.setFillParent(true);
+		table.add(staminaBar);
+		table.add(healthBar);
+		table.add(manaBar);
+		bars.setPosition(table.getX(), table.getY());
+		stage.addActor(bars);
+		//table.add(healthBar);
+		//table.add(bars);
+		table.debugTable();*/
 		
 		outputLabel = new Label("", skin);  //Create output label
 		outputLabel.setWidth(width);
@@ -61,7 +79,6 @@ public class HeadsUpDisplay {
 		
 		stage.addActor(outputLabel);
 
-		//stage.addActor(bars);
 		stage.addActor(healthBar);
 		stage.addActor(manaBar);
 		stage.addActor(staminaBar);
@@ -74,7 +91,6 @@ public class HeadsUpDisplay {
 		manaBar.setHeight(manaBarMaxHeight * gameWorld.getPlayer().getMana() / gameWorld.getPlayer().getMaxMana());
 		staminaBar.setHeight(staminaBarMaxHeight * gameWorld.getPlayer().getStamina() / gameWorld.getPlayer().getMaxStamina());
 		//Update output text
-		//Set its text
 		outputLabel.setText("");
 		 if(gameWorld.getMessageHistory().size >= messagesShown) {
 			 for(int i = gameWorld.getMessageHistory().size-messagesShown; i < gameWorld.getMessageHistory().size; i++) {
@@ -91,6 +107,9 @@ public class HeadsUpDisplay {
 		stage.act();
 		batch.begin();
 		stage.draw();
+		
+		//Table.drawDebug(stage);
+		
 		batch.end();
 	}
 	

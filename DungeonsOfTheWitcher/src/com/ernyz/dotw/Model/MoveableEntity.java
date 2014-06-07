@@ -143,30 +143,24 @@ public class MoveableEntity extends Entity {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
 				bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
-				/*System.out.println(position.y + texture.getHeight() > surroundingTiles.get(i).position.y &&
-						position.y+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y);
-				System.out.println(position.x < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
-						position.x+texture.getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth());
-				System.out.println();*/
 				
-				if(position.y + texture.getHeight() > surroundingTiles.get(i).position.y &&
-						position.y+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
-					if(position.x < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
-							position.x+texture.getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
+				/*if(bounds.getY() + texture.getHeight() > surroundingTiles.get(i).position.y &&
+						bounds.getY()+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
+					//if(bounds.getX() <= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
+					//		bounds.getX()+texture.getWidth()/2 >= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
 						position.y -= 1.5;  //TODO
-						System.out.println("true");
-					} else if(false) {  //Top right corner
+					//}
+					//else if(false) {  //Top right corner
 						
-					}
-				} else if(position.y < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
-						position.y+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y) {
-					//position.y += 1.5;  //TODO
-				}
+					//}
+				} else if(bounds.getY() < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
+						bounds.getY()+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y+surroundingTiles.get(i).getHeight()) {
+					position.y += 1.5;  //TODO
+				}*/
 				break;
 			}
 		}
 		for(int i = 0; i < surroundingEntities.size; i++) {
-			//Entity shouldn't check collisions with itself
 			if(!this.equals(surroundingEntities.get(i))) {
 				//Entity vs. other entities
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
@@ -185,6 +179,14 @@ public class MoveableEntity extends Entity {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.y = lastPos.y;
 				bounds.setPosition(bounds.getX(), lastPos.y);
+				
+				/*if(bounds.getX() < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth() &&
+						bounds.getX()+texture.getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {
+					position.x += 1.5;
+				} else if(bounds.getX()+texture.getHeight()-getWidth()/2 < surroundingTiles.get(i).getPosition().x &&
+						bounds.getX()+texture.getHeight() > surroundingTiles.get(i).getPosition().x) {
+					position.x -= 1.5;
+				}*/
 				break;
 			}
 		}

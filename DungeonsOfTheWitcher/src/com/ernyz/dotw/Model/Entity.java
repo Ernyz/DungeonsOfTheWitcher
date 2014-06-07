@@ -12,7 +12,7 @@ public abstract class Entity {
 	
 	protected Vector2 position;
 	protected float rotation;
-	protected float width, height;
+	protected float width, height;  //FIXME: Remove this.
 	protected Texture texture;
 	
 	protected String name;
