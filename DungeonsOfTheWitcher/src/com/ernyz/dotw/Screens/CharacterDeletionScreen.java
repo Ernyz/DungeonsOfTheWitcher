@@ -113,7 +113,6 @@ public class CharacterDeletionScreen implements Screen {
 		
 		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
 		
-		//skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
 		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 	}
 

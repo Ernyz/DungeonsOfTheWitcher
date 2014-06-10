@@ -222,7 +222,39 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		equippedItemsTable = new Table(inventorySkin);
 		Actor a;
 		
-		Set<String> equipment = gameWorld.getPlayer().getEquipmentSlots().keySet();
+		a = shoulderSlotImage;
+		equippedItemSlots.put(Resources.BODY_SHOULDERS, a);
+		equippedItemsTable.add(a);
+		a = headSlotImage;
+		equippedItemSlots.put(Resources.BODY_HEAD, a);
+		equippedItemsTable.add(a);
+		a = neckSlotImage;
+		equippedItemSlots.put(Resources.BODY_NECK, a);
+		equippedItemsTable.add(a);
+		equippedItemsTable.row();
+		
+		a = rightHandSlotImage;
+		equippedItemSlots.put(Resources.BODY_RIGHT_HAND, a);
+		equippedItemsTable.add(a);
+		a = chestSlotImage;
+		equippedItemSlots.put(Resources.BODY_CHEST, a);
+		equippedItemsTable.add(a);
+		a = leftHandSlotImage;
+		equippedItemSlots.put(Resources.BODY_LEFT_HAND, a);
+		equippedItemsTable.add(a);
+		equippedItemsTable.row();
+		
+		a = glovesSlotImage;
+		equippedItemSlots.put(Resources.BODY_PALMS, a);
+		equippedItemsTable.add(a);
+		a = legsSlotImage;
+		equippedItemSlots.put(Resources.BODY_LEGS, a);
+		equippedItemsTable.add(a);
+		a = feetSlotImage;
+		equippedItemSlots.put(Resources.BODY_FEET, a);
+		equippedItemsTable.add(a);
+		
+		/*Set<String> equipment = gameWorld.getPlayer().getEquipmentSlots().keySet();
 		for(String equipmentSlot : equipment) {
 			if(equipmentSlot.equals(Resources.BODY_HEAD)) {
 				a = headSlotImage;
@@ -265,8 +297,9 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 				equippedItemSlots.put(Resources.BODY_FEET, a);
 				equippedItemsTable.add(a);
 			}
-		}
+		}*/
 		
+		equippedItemsTable.setPosition(40, equippedItemsTable.getY());
 		add(equippedItemsTable);
 	}
 	

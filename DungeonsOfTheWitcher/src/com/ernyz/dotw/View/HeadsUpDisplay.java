@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.ernyz.dotw.Model.GameWorld;
 
 /**
@@ -19,13 +18,13 @@ public class HeadsUpDisplay {
 	private GameWorld gameWorld;
 	private int width;
 	private int height;
-	private final int hpBarMaxHeight = 26;  //Denotes maximum bar height
-	private final int manaBarMaxHeight = 17;  //Denotes maximum bar height
-	private final int staminaBarMaxHeight = 17;  //Denotes maximum bar height
+	private final float hpBarMaxHeight;
+	private final float manaBarMaxHeight;
+	private final float staminaBarMaxHeight;
 	
 	private int messagesShown;  //How many messages are shown in message window at a time
 	
-	//scene2d variables
+	//Scene2d variables
 	private Stage stage;
 	private Skin skin;
 	private Label outputLabel;
@@ -56,8 +55,9 @@ public class HeadsUpDisplay {
 		healthBar.setPosition(staminaBar.getX()+staminaBar.getWidth(), bars.getY()+2);
 		manaBar.setPosition(healthBar.getX()+healthBar.getWidth(), bars.getY()+3);
 		
-		System.out.println(bars.getHeight());
-		System.out.println(healthBar.getHeight());
+		hpBarMaxHeight = healthBar.getHeight();
+		manaBarMaxHeight = manaBar.getHeight();
+		staminaBarMaxHeight = staminaBar.getHeight();
 		
 		/*table = new Table(skin);
 		stage.addActor(table);

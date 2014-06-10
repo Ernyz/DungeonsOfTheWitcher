@@ -23,9 +23,6 @@ public final class Player extends MoveableEntity {
 		this.setWidth(texture.getWidth());
 		this.setHeight(texture.getHeight());
 		
-		//bounds.setVertices(new float[] {0, 0, texture.getWidth(), 0, texture.getWidth(), texture.getHeight()-5, 0, texture.getHeight()-5});//This hardcoding is temporary
-		//bounds.setOrigin(texture.getWidth()/2, texture.getHeight()/2);
-		
 		//Create octagonal bounds
 		int radius = texture.getHeight()/2;
 		int a = texture.getWidth();
@@ -39,13 +36,6 @@ public final class Player extends MoveableEntity {
 				0, radius+a/2,
 				0, radius-a/2
 		};
-		/* hexagon
-		 float[] tmp = new float[]{0, radius,
-				radius/2, 2*radius,
-				radius+radius/2, 2*radius,
-				2*radius, radius,
-				radius+radius/2, 0,
-				radius/2, 0};*/
 		bounds.setVertices(tmp);
 		bounds.setOrigin(radius, radius);
 		
