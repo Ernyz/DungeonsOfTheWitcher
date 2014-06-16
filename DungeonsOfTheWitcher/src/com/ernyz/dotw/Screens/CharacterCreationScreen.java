@@ -4,12 +4,14 @@ import java.io.File;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -89,17 +91,14 @@ public class CharacterCreationScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				//Create player folder and data
-				dir = dir + "/" + nameTextField.getText() + "/";
-				boolean success = (new File(dir)).mkdirs();
-				if(success) {
-					//All data in the text fields should be put into some object here, and only then sent to the generator.
-					@SuppressWarnings("unused")
-					WorldGenerator wg = new WorldGenerator(nameTextField.getText());
-					
+				
+				if(saveFileExistsWithName(nameTextField.getText())) {
+					//Create dialog which asks whether to overwrite or to enter new name
+					CharacterOverwritingDialog d = new CharacterOverwritingDialog("Overwrite save file?");
+					d.show(stage);
+				} else {
+					createPlayerSaveFile();
 				}
-				//Change screen to character selection screen
-				game.setScreen(new CharacterSelectionScreen(game));
 			}
 		});
 		table.add(confirmButton);
@@ -116,6 +115,20 @@ public class CharacterCreationScreen implements Screen {
 			}
 		});
 		table.add(backButton);
+	}
+	
+	private void createPlayerSaveFile() {
+		//Create player folder and data
+		dir = dir + "/" + nameTextField.getText() + "/";
+		boolean success = (new File(dir)).mkdirs();
+		if(success) {
+			//All data in the text fields should be put into some object here, and only then sent to the generator.
+			@SuppressWarnings("unused")
+			WorldGenerator wg = new WorldGenerator(nameTextField.getText());
+			
+		}
+		//Change screen to character selection screen
+		game.setScreen(new CharacterSelectionScreen(game));
 	}
 
 	@Override
@@ -146,6 +159,43 @@ public class CharacterCreationScreen implements Screen {
 		batch.dispose();
 		stage.dispose();
 		skin.dispose();
+	}
+	
+	private boolean saveFileExistsWithName(String name) {
+		File file = new File("save");
+		FileHandle fileHandle = new FileHandle(file);
+		
+		for(int i = 0; i < fileHandle.list().length; i++) {
+			if(name.equals(fileHandle.list()[i].name())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private class CharacterOverwritingDialog extends Dialog {
+		
+		public CharacterOverwritingDialog(String title) {
+			super(title, skin);
+			
+			text("Character with the name entered already exists.\nOverwrite the existing save file or modify the name entered?");
+			button("Overwrite", "overwrite");
+			button("Modify name", "modify");
+		}
+		
+		@Override
+		protected void result(Object object) {
+			if(object.toString().equals("overwrite")) {
+				File f = new File("save/"+nameTextField.getText());
+				FileHandle fh = new FileHandle(f);
+				fh.deleteDirectory();
+				createPlayerSaveFile();
+			} else if(object.toString().equals("modify")) {
+				nameTextField.selectAll();
+			}
+		}
+		
 	}
 
 }

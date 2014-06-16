@@ -116,8 +116,10 @@ public class ItemManager {
 				float dx = i.getX() - e.getPosition().x;
 				float dy = i.getY() - e.getPosition().y;
 				if(Math.sqrt(dx*dx + dy*dy) <= e.getHeight()*.75) {
-					i.setIsInInventory(true);
-					e.getInventory().add(i.getId());
+					if(e.canTakeItem(i)) {
+						i.setIsInInventory(true);
+						e.getInventory().add(i.getId());
+					}
 				}
 			}
 		}

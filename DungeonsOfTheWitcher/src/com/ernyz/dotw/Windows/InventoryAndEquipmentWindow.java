@@ -222,6 +222,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		equippedItemsTable = new Table(inventorySkin);
 		Actor a;
 		
+		equippedItemsTable.row().colspan(3);
 		a = shoulderSlotImage;
 		equippedItemSlots.put(Resources.BODY_SHOULDERS, a);
 		equippedItemsTable.add(a);
@@ -231,7 +232,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		a = neckSlotImage;
 		equippedItemSlots.put(Resources.BODY_NECK, a);
 		equippedItemsTable.add(a);
-		equippedItemsTable.row();
+		equippedItemsTable.row().colspan(3);
 		
 		a = rightHandSlotImage;
 		equippedItemSlots.put(Resources.BODY_RIGHT_HAND, a);
@@ -242,14 +243,21 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		a = leftHandSlotImage;
 		equippedItemSlots.put(Resources.BODY_LEFT_HAND, a);
 		equippedItemsTable.add(a);
-		equippedItemsTable.row();
+		equippedItemsTable.row().colspan(3);
 		
 		a = glovesSlotImage;
 		equippedItemSlots.put(Resources.BODY_PALMS, a);
 		equippedItemsTable.add(a);
+		a = beltSlotImage;
+		equippedItemSlots.put(Resources.BODY_WAIST, a);
+		equippedItemsTable.add(a);
+		equippedItemsTable.row().colspan(1);
+		
 		a = legsSlotImage;
 		equippedItemSlots.put(Resources.BODY_LEGS, a);
 		equippedItemsTable.add(a);
+		equippedItemsTable.row().colspan(1);
+		
 		a = feetSlotImage;
 		equippedItemSlots.put(Resources.BODY_FEET, a);
 		equippedItemsTable.add(a);
@@ -299,7 +307,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			}
 		}*/
 		
-		equippedItemsTable.setPosition(40, equippedItemsTable.getY());
+		equippedItemsTable.debug();
 		add(equippedItemsTable);
 	}
 	

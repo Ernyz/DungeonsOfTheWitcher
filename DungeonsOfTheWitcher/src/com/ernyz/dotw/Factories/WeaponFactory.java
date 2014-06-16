@@ -31,6 +31,7 @@ public class WeaponFactory {
 		i.setIsInInventory(isInInv);
 		i.setX(x);
 		i.setY(y);
+		i.setWeight(0.5f);
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
 		i.set("Speed", 170);

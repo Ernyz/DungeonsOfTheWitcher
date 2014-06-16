@@ -3,7 +3,6 @@ package com.ernyz.dotw.Model.Items;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Base class for all items, like weapons, scrolls, potions and etc.
@@ -28,11 +27,11 @@ public class Item {
 	private ItemType type;
 	private Boolean isInInventory;  //If true - this item is in someone's inventory, if false - it's laying on the ground.
 	private Float x, y;  //Only used, if isInInventory == false
-	private Boolean isCursed;
-	private Boolean isStackable;
+	//private Boolean isCursed;
+	//private Boolean isStackable;
 	//private Boolean isContainer;
 	//private Array<Integer> itemsContained;
-	private Float weight;
+	private Float weight;  //Weight in kilograms
 	/*
 	 * Attributes (non-general ones) of an item will be here, for example:
 	 * various booleans, damage, effect upon consumption and so on...
@@ -138,6 +137,14 @@ public class Item {
 
 	public void setTargetBodyPart(String targetBodyPart) {
 		this.targetBodyPart = targetBodyPart;
+	}
+
+	public Float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Float weight) {
+		this.weight = weight;
 	}
 	
 }

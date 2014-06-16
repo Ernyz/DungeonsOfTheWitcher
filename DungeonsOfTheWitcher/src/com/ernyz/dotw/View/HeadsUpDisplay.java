@@ -2,11 +2,17 @@ package com.ernyz.dotw.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.ernyz.dotw.Model.GameWorld;
+import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Player;
 
 /**
  * Holds all the resources/logic/etc. needed for HUD.
@@ -108,7 +114,7 @@ public class HeadsUpDisplay {
 		batch.begin();
 		stage.draw();
 		
-		//Table.drawDebug(stage);
+		Table.drawDebug(stage);
 		
 		batch.end();
 	}
@@ -120,6 +126,20 @@ public class HeadsUpDisplay {
 
 	public Stage getStage() {
 		return stage;
+	}
+	
+	private class StatTable extends Table {
+		
+		public StatTable(Skin skin, MoveableEntity e) {
+			this.setSkin(skin);
+			row();
+			add("Health: ");
+			row();
+			add("Stamina: ");
+			row();
+			add("Mana: ");
+		}
+		
 	}
 	
 }

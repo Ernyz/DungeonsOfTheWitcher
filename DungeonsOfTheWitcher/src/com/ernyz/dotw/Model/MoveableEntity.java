@@ -54,11 +54,13 @@ public class MoveableEntity extends Entity {
 	protected int dungeonLevel;
 	protected int experienceLevel;
 	
-	protected int strength;
-	protected int dexterity;
-	protected int constitution;
-	protected int intelligence;
-	protected int spirit;
+	protected int backpackCapacity = 40;  //TODO remove hardcoding
+	
+	protected int strength = 1;
+	protected int dexterity = 1;
+	protected int constitution = 1;
+	protected int intelligence = 1;
+	protected int spirit = 1;
 	
 	protected float health;
 	protected float maxHealth = 100;  //TODO Values in this line and below should be set during generation/load process.
@@ -67,7 +69,7 @@ public class MoveableEntity extends Entity {
 	protected float stamina = 50;
 	protected float maxStamina = 50;
 	protected float speed;
-	protected float damage;
+	//protected float damage;
 
 	public MoveableEntity(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, rotation);
@@ -208,6 +210,40 @@ public class MoveableEntity extends Entity {
 				attacks.add(a);
 			}
 		}
+	}
+	
+	public boolean canTakeItem(Item item) {
+		if(inventory.size+1 > backpackCapacity) {
+			GameWorld.addMessage("Your backpack is full!");
+			return false;
+		}
+		
+		float maxWeight = strength*3;
+		float weightCarried = calculateWeightCarried();
+		
+		if(maxWeight-weightCarried >= item.getWeight()) {
+			return true;
+		} else {
+			GameWorld.addMessage("You can not carry that much weight!");
+			return false;
+		}
+		
+	}
+	
+	private float calculateWeightCarried() {
+		float result = 0;
+		
+		for(int i = 0; i < inventory.size; i++) {
+			result += gameWorld.getItems().get(inventory.get(i)).getWeight();
+		}
+		HashMap<String, Integer> equipment = gameWorld.getPlayer().getEquipmentSlots();
+		for(String equipmentSlot : equipment.keySet()) {
+			if(!equipment.get(equipmentSlot).equals(-1)) {
+				result += gameWorld.getItems().get(equipment.get(equipmentSlot)).getWeight();
+			}
+		}
+		
+		return result;
 	}
 	
 	public Array<Integer> getInventory() {
@@ -386,4 +422,7 @@ public class MoveableEntity extends Entity {
 		this.maxStamina = maxStamina;
 	}
 	
+	public Integer getBackpackCapacity() {
+		return backpackCapacity;
+	}
 }
