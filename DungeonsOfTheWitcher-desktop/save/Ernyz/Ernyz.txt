@@ -1,1 +1,1 @@
-{"name":"Ernyz","dungeonLevel":0,"inventory":[],"equippedItems":{"Feet":-1,"Waist":-1,"Head":-1,"RightHand":-1,"LeftHand":-1,"Legs":-1,"Palms":-1,"Shoulders":-1,"Chest":-1,"Neck":-1},"x":100,"y":100.0,"speed":70,"rotation":325.7843,"health":100}
+{"name":"Ernyz","dungeonLevel":0,"inventory":[1],"equippedItems":{"Feet":-1,"Waist":-1,"Head":-1,"RightHand":0,"LeftHand":-1,"Legs":-1,"Palms":-1,"Shoulders":-1,"Chest":-1,"Neck":-1},"x":181.70682,"y":203.87181,"speed":70,"rotation":31.680513,"health":100}

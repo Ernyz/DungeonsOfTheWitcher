@@ -80,7 +80,6 @@ public class MoveableEntity extends Entity {
 		bounds = new Polygon();
 		isDead = false;
 		
-		//Initialise inventory
 		inventory = new Array<Integer>();
 		
 		attacks = new Array<Attack>();
@@ -109,7 +108,7 @@ public class MoveableEntity extends Entity {
 		//Update weapon attack timers
 		for(int i = 0; i < inventory.size; i++) {
 			Item item = gameWorld.getItems().get(inventory.get(i));
-			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {
+			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
 			}
 			//System.out.println(item.getFloat("TimeUntilAttack"));

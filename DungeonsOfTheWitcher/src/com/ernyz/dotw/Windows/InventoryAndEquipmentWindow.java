@@ -26,8 +26,8 @@ import com.ernyz.dotw.Windows.Scene2dUserObects.ItemUserObject;
 public class InventoryAndEquipmentWindow extends CustomWindow {
 
 	private GameWorld gameWorld;
-	private int gridWidth = 8;  //TODO: Make these constants, because these denote max number of items in player inv
-	private int gridHeight = 5;  //TODO: Make these constants, because these denote max number of items in player inv
+	private int gridWidth = 8;
+	private int gridHeight = 5;
 	private Skin skin;
 	private Skin inventorySkin;
 	private TextureAtlas atlas;
@@ -57,6 +57,9 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		super(title, skin);
 		this.skin = skin;
 		this.gameWorld = gameWorld;
+		
+		gridWidth = 8;
+		gridHeight = (int) Math.floor(gameWorld.getPlayer().getBackpackCapacity()/8);
 		
 		atlas = new TextureAtlas("data/GUI/invIcons/invIconsPacked/invIcons.atlas");
 		inventorySkin = new Skin(atlas);
@@ -146,7 +149,6 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			Integer itemId = gameWorld.getPlayer().getEquipmentSlots().get(equipmentSlot);
 			//If there's something in the equipment slot, render it
 			if(itemId != -1) {
-				//Texture t = gameWorld.getItems().get(itemId).getTexture();  //FIXME: this is a bug, get shouldnt be used
 				Texture t = gameWorld.getItemById(itemId).getTexture();
 				final Image img = new Image(t);
 				//Set up custom userObject to hold data related for this actor
@@ -214,6 +216,12 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 				inventorySlots.add(a);
 				inventoryTable.add(a);
 			}
+		}
+		inventoryTable.row().colspan(gridWidth);
+		for(int x = 0; x < gameWorld.getPlayer().getBackpackCapacity()-gridWidth*gridHeight; x++) {
+			a = new Image(inventorySkin.getDrawable("inventorySlot"));
+			inventorySlots.add(a);
+			inventoryTable.add(a);
 		}
 		add(inventoryTable);
 	}

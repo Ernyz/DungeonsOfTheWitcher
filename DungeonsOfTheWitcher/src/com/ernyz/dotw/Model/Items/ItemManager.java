@@ -77,20 +77,19 @@ public class ItemManager {
 	 * @return Message whether unequipping was successful or not. If not - message contains reason.
 	 */
 	private static String unequipItem(MoveableEntity e, Integer item) {
-		//if(e.getInventory().contains(item, true)) {
-		if(e.getEquipmentSlots().containsValue(item)) {
-			for(String slotName : e.getEquipmentSlots().keySet()) {
-				if(getEquippedItem(e, slotName).equals(item)) {
-					e.getEquipmentSlots().put(slotName, -1);
-					e.getInventory().add(item);
-					GameWorld.addMessage("Item unequipped");
-					return "Item unequipped";
+		if(e.getInventory().size+1 <= e.getBackpackCapacity()) {
+			if(e.getEquipmentSlots().containsValue(item)) {
+				for(String slotName : e.getEquipmentSlots().keySet()) {
+					if(getEquippedItem(e, slotName).equals(item)) {
+						e.getEquipmentSlots().put(slotName, -1);
+						e.getInventory().add(item);
+						GameWorld.addMessage("Item unequipped");
+						return "Item unequipped";
+					}
 				}
 			}
-		} else {
-			return "Item is not equipped";
 		}
-		//}
+		GameWorld.addMessage("Unequipping unsuccessful.");
 		return "Unequipping unsuccessful.";
 	}
 	
@@ -136,7 +135,14 @@ public class ItemManager {
 		//if(e.getInventory().contains(item, true)) {
 			Item i = items.get(item);
 			//Unequip before dropping.
-			unequipItem(e, item);
+			if(e.getEquipmentSlots().containsValue(item)) {
+				if(e.getInventory().size < e.getBackpackCapacity()) {
+					unequipItem(e, item);
+				} else {
+					GameWorld.addMessage("Cannot unequip the item!");
+					return "Item was not dropped.";
+				}
+			}
 			i.setX(e.getPosition().x);
 			i.setY(e.getPosition().y);
 			i.setIsInInventory(false);
