@@ -153,8 +153,10 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 				final Image img = new Image(t);
 				//Set up custom userObject to hold data related for this actor
 				img.setUserObject(new ItemUserObject(itemId));
-				img.setX(equippedItemSlots.get(equipmentSlot).getX());
-				img.setY(equippedItemSlots.get(equipmentSlot).getY());
+				//img.setX(equippedItemSlots.get(equipmentSlot).getX());
+				//img.setY(equippedItemSlots.get(equipmentSlot).getY());
+				img.setX(equippedItemSlots.get(equipmentSlot).getParent().getX());
+				img.setY(equippedItemSlots.get(equipmentSlot).getParent().getY());
 				equippedItemsTable.addActor(img);
 				img.addListener(new InputListener() {
 					public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -230,92 +232,77 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		equippedItemsTable = new Table(inventorySkin);
 		Actor a;
 		
-		equippedItemsTable.row().colspan(3);
+		/*
+		 * make Table of Tables
+		 */
+		Table tmp;
+		
+		equippedItemsTable.row();
+		tmp = new Table();
+		
 		a = shoulderSlotImage;
 		equippedItemSlots.put(Resources.BODY_SHOULDERS, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
 		a = headSlotImage;
 		equippedItemSlots.put(Resources.BODY_HEAD, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
 		a = neckSlotImage;
 		equippedItemSlots.put(Resources.BODY_NECK, a);
-		equippedItemsTable.add(a);
-		equippedItemsTable.row().colspan(3);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
+		equippedItemsTable.add(tmp);
+		
+		equippedItemsTable.row();
+		tmp = new Table();
 		
 		a = rightHandSlotImage;
 		equippedItemSlots.put(Resources.BODY_RIGHT_HAND, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
 		a = chestSlotImage;
 		equippedItemSlots.put(Resources.BODY_CHEST, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
 		a = leftHandSlotImage;
 		equippedItemSlots.put(Resources.BODY_LEFT_HAND, a);
-		equippedItemsTable.add(a);
-		equippedItemsTable.row().colspan(3);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
+		equippedItemsTable.add(tmp);
+		
+		equippedItemsTable.row();
+		tmp = new Table();
 		
 		a = glovesSlotImage;
 		equippedItemSlots.put(Resources.BODY_PALMS, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
 		a = beltSlotImage;
 		equippedItemSlots.put(Resources.BODY_WAIST, a);
-		equippedItemsTable.add(a);
-		equippedItemsTable.row().colspan(1);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
+		equippedItemsTable.add(tmp);
+		
+		equippedItemsTable.row();
+		tmp = new Table();
 		
 		a = legsSlotImage;
 		equippedItemSlots.put(Resources.BODY_LEGS, a);
-		equippedItemsTable.add(a);
-		equippedItemsTable.row().colspan(1);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
+		equippedItemsTable.add(tmp);
+		
+		equippedItemsTable.row();
+		tmp = new Table();
 		
 		a = feetSlotImage;
 		equippedItemSlots.put(Resources.BODY_FEET, a);
-		equippedItemsTable.add(a);
+		//equippedItemsTable.add(a);
+		tmp.add(a);
+		equippedItemsTable.add(tmp);
 		
-		/*Set<String> equipment = gameWorld.getPlayer().getEquipmentSlots().keySet();
-		for(String equipmentSlot : equipment) {
-			if(equipmentSlot.equals(Resources.BODY_HEAD)) {
-				a = headSlotImage;
-				equippedItemSlots.put(Resources.BODY_HEAD, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_NECK)) {
-				a = neckSlotImage;
-				equippedItemSlots.put(Resources.BODY_NECK, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_SHOULDERS)) {
-				a = shoulderSlotImage;
-				equippedItemSlots.put(Resources.BODY_SHOULDERS, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_CHEST)) {
-				a = chestSlotImage;
-				equippedItemSlots.put(Resources.BODY_CHEST, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_LEFT_HAND)) {
-				a = leftHandSlotImage;
-				equippedItemSlots.put(Resources.BODY_LEFT_HAND, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_RIGHT_HAND)) {
-				a = rightHandSlotImage;
-				equippedItemSlots.put(Resources.BODY_RIGHT_HAND, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_PALMS)) {
-				a = glovesSlotImage;
-				equippedItemSlots.put(Resources.BODY_PALMS, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_WAIST)) {
-				a = beltSlotImage;
-				equippedItemSlots.put(Resources.BODY_WAIST, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_LEGS)) {
-				a = legsSlotImage;
-				equippedItemSlots.put(Resources.BODY_LEGS, a);
-				equippedItemsTable.add(a);
-			} else if(equipmentSlot.equals(Resources.BODY_FEET)) {
-				a = feetSlotImage;
-				equippedItemSlots.put(Resources.BODY_FEET, a);
-				equippedItemsTable.add(a);
-			}
-		}*/
-		
-		equippedItemsTable.debug();
+		//equippedItemsTable.debug();
 		add(equippedItemsTable);
 	}
 	

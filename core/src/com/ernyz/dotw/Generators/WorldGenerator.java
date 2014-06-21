@@ -37,13 +37,19 @@ public class WorldGenerator {
 	public WorldGenerator(String playerName) {
 		this.playerName = playerName;
 		
+		long timer = System.currentTimeMillis();
 		generateWorld();
+		timer = System.currentTimeMillis()-timer;
+		System.out.println("World generated in: " + timer);
 		//Dump generated content to save files
+		timer = System.currentTimeMillis();
 		saveWorld();
+		timer = System.currentTimeMillis()-timer;
+		System.out.println("World saved in: " + timer);
 	}
 	
 	/**
-	 * Generates all world of the game. Generated content is accessible by getters. TOOO why would i need getters/setters for them?..
+	 * Generates all world of the game. Generated content is accessible by getters. TODO why would i need getters/setters for them?..
 	 */
 	private void generateWorld() {
 		//Initialise values

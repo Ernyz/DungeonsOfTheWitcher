@@ -27,8 +27,7 @@ public class InGameOptionsWindow extends CustomWindow {
 		this.setMovable(false);
 		
 		//Populate window
-		skin.getFont("default-font").setUseIntegerPositions(true);
-		TextButton resumeButton = new TextButton("Resume gameeeeeeeeee", skin);
+		TextButton resumeButton = new TextButton("Resume game", skin);
 		resumeButton.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				 gameWorld.windowManager.toggleWindow("InGameOptions");
@@ -37,10 +36,10 @@ public class InGameOptionsWindow extends CustomWindow {
 		});
 		add(resumeButton);
 
-		/*row();
+		row();
 		
-		//TextButton saveAndQuitButton = new TextButton("Save and quit to main menu", skin);
-		TextButton saveAndQuitButton = new TextButton("aaaaaa aaaaa", skin);
+		TextButton saveAndQuitButton = new TextButton("Save and quit to main menu", skin);
+		//TextButton saveAndQuitButton = new TextButton("aaaaaa aaaaa", skin);
 		saveAndQuitButton.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
@@ -48,7 +47,7 @@ public class InGameOptionsWindow extends CustomWindow {
 		        return true;
 		    }
 		});
-		add(saveAndQuitButton);*/
+		add(saveAndQuitButton);
 		
 		debug();
 		

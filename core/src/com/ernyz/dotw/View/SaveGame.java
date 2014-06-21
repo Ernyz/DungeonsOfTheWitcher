@@ -38,10 +38,15 @@ public class SaveGame {
 	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
 		GameWorld.addMessage("Saving game...");
 		
+		long timer = System.currentTimeMillis();
+		
 		saveMap(player.getName(), tiles, String.valueOf(player.getDungeonLevel()));
 		savePlayer(player);
 		saveEntities(player.getName(), entities);
 		saveItems(player.getName(), items);
+		
+		timer = System.currentTimeMillis() - timer;
+		System.out.println("Game saved in: "+timer);
 		
 		GameWorld.addMessage("Game saved!");
 	}
