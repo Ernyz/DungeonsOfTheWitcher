@@ -35,6 +35,26 @@ public class SaveGame {
 	/**
 	 * Saves all the current game data (Map, player, enemies, items).
 	 */
+	//public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
+	public static void save(char[][] tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
+		GameWorld.addMessage("Saving game...");
+		
+		long timer = System.currentTimeMillis();
+		
+		saveMap(player.getName(), tiles, String.valueOf(player.getDungeonLevel()));
+		savePlayer(player);
+		saveEntities(player.getName(), entities);
+		saveItems(player.getName(), items);
+		
+		timer = System.currentTimeMillis() - timer;
+		System.out.println("Game saved in: "+timer);
+		
+		GameWorld.addMessage("Game saved!");
+	}
+	
+	/**
+	 * Saves all the current game data (Map, player, enemies, items).
+	 */
 	public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
 		GameWorld.addMessage("Saving game...");
 		
@@ -51,6 +71,32 @@ public class SaveGame {
 		GameWorld.addMessage("Game saved!");
 	}
 	
+	public static void saveMap(String playerName, char[][] tiles, String level) {
+		//Create new save dir, if for some reason there is none
+		String saveDir = dir + playerName + "/";
+		(new File(dir)).mkdirs();
+		
+		//Save map in compact format
+		String res = "";
+		for(int y = 0; y < tiles[0].length; y++) {
+			for(int x = 0; x < tiles.length; x++) {
+				res += String.valueOf(tiles[x][y]);
+				//System.out.print(tmp[x][y]);
+			}
+			res += "\n";
+			//System.out.println();
+		}
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveDir + "level" + level + ".txt"), "utf-8"));
+			writer.write(res);
+		}
+		catch(IOException e) {e.printStackTrace();}
+		finally {
+			try {writer.close();} catch(IOException e) {e.printStackTrace();}
+		}
+	}
+	
+	//TODO delete this old method
 	public static void saveMap(String playerName, Array<Tile> tiles, String level) {
 		//Create new save dir, if for some reason there is none
 		String saveDir = dir + playerName + "/";

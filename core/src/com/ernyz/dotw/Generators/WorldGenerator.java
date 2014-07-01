@@ -28,7 +28,8 @@ public class WorldGenerator {
 	private String playerName;
 	private Player player;
 	
-	private Array<Array<Tile>> levels;
+	//private Array<Array<Tile>> levels;
+	private Array<char[][]> levels;
 	private Array<MoveableEntity> entities;
 	private Array<Item> items;
 	
@@ -53,7 +54,8 @@ public class WorldGenerator {
 	 */
 	private void generateWorld() {
 		//Initialise values
-		levels = new Array<Array<Tile>>();
+		//levels = new Array<Array<Tile>>();
+		levels = new Array<char[][]>();
 		items = new Array<Item>();
 		
 		/*
@@ -69,6 +71,7 @@ public class WorldGenerator {
 		
 		//Generate world
 		for(int i = 0; i < NUMBER_OF_LEVELS; i++) {
+			//levels.add(LevelGenerator.generateLevel(i));
 			levels.add(LevelGenerator.generateLevel(i));
 		}
 		
@@ -89,8 +92,11 @@ public class WorldGenerator {
 	}
 	
 	private void saveWorld() {
+		String tmp;
 		//Save levels
 		for(int i = 0; i < levels.size; i++) {
+			//SaveGame.saveMap(playerName, levels.get(i), String.valueOf(i));
+			//tmp = convertMapToString(levels.get(i));
 			SaveGame.saveMap(playerName, levels.get(i), String.valueOf(i));
 		}
 		//Save entities
@@ -101,20 +107,19 @@ public class WorldGenerator {
 		SaveGame.savePlayer(player);
 	}
 	
-	/*public Array<Array<Tile>> getLevels() {
-		return this.levels;
+	private String convertMapToString(char[][] map) {
+		String result = "";
+		
+		for(int x = 0; x < map.length; x++) {
+			for(int y = 0; y < map[x].length; y++) {
+				//result = result.concat(String.valueOf(map[x][y]));
+				result += String.valueOf(map[x][y]);
+			}
+			//result.concat(String.valueOf("\n"));
+			result += "\n";
+		}
+		
+		return result;
 	}
-	
-	public Array<MoveableEntity> getEntities() {
-		return this.entities;
-	}
-	
-	public Array<Item> getItems() {
-		return this.items;
-	}
-	
-	public Player getPlayer() {
-		return this.player;
-	}*/
 	
 }

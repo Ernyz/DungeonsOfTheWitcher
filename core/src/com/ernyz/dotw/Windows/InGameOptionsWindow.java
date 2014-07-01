@@ -49,9 +49,11 @@ public class InGameOptionsWindow extends CustomWindow {
 		});
 		add(saveAndQuitButton);
 		
-		debug();
+		//debug();
 		
-		pack();
+		setWidth(280);
+		
+		//pack();
 	}
 	
 	@Override

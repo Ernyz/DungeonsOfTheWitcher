@@ -1,11 +1,12 @@
 
 customuiskin.png
+size: 318,263
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 260, 81
+  xy: 260, 214
   size: 49, 49
   split: 10, 11, 10, 11
   orig: 49, 49
@@ -13,7 +14,7 @@ button
   index: -1
 button1
   rotate: false
-  xy: 369, 84
+  xy: 260, 166
   size: 46, 46
   split: 11, 11, 11, 11
   orig: 46, 46
@@ -21,7 +22,7 @@ button1
   index: -1
 button2
   rotate: false
-  xy: 311, 40
+  xy: 260, 118
   size: 46, 46
   split: 11, 10, 11, 11
   orig: 46, 46
@@ -29,22 +30,29 @@ button2
   index: -1
 courier
   rotate: false
-  xy: 2, 2
+  xy: 2, 135
   size: 256, 128
   orig: 256, 128
   offset: 0, 0
-  index: -1
+  index: 0
 cursor
   rotate: false
-  xy: 260, 13
+  xy: 311, 246
   size: 7, 17
   split: 0, 0, 0, 0
   orig: 7, 17
   offset: 0, 0
   index: -1
+freemono
+  rotate: false
+  xy: 2, 5
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: 0
 selection
   rotate: false
-  xy: 308, 78
+  xy: 2, 2
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -52,33 +60,17 @@ selection
   index: -1
 textfield
   rotate: false
-  xy: 359, 36
+  xy: 260, 70
   size: 46, 46
   split: 15, 15, 15, 15
   orig: 46, 46
   offset: 0, 0
   index: -1
-textfieldOld
-  rotate: false
-  xy: 260, 32
-  size: 46, 47
-  split: 15, 15, 19, 11
-  orig: 46, 47
-  offset: 0, 0
-  index: -1
 window
   rotate: false
-  xy: 311, 88
+  xy: 260, 26
   size: 56, 42
   split: 27, 27, 29, 11
   orig: 56, 42
-  offset: 0, 0
-  index: -1
-windowOld
-  rotate: false
-  xy: 407, 35
-  size: 46, 47
-  split: 14, 14, 20, 5
-  orig: 46, 47
   offset: 0, 0
   index: -1

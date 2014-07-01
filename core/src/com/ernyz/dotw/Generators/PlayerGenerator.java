@@ -23,7 +23,8 @@ public class PlayerGenerator {
 	 * @param items
 	 * @return
 	 */
-	public static Player generatePlayer(String name, Array<Tile> tiles, Array<Item> items) {
+	//public static Player generatePlayer(String name, Array<Tile> tiles, Array<Item> items) {
+	public static Player generatePlayer(String name, char[][] tiles, Array<Item> items) {
 		Player player;
 		ItemFactory itemFactory;
 		

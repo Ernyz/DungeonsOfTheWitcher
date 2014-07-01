@@ -19,15 +19,18 @@ public class ItemGenerator {
 	 * @param tiles -  map in which to generate items.
 	 * @return An array of {@link Item}.
 	 */
-	public static Array<Item> generateItemsInLevel(int dungeonLevel, Array<Tile> tiles) {
+	//public static Array<Item> generateItemsInLevel(int dungeonLevel, Array<Tile> tiles) {
+	public static Array<Item> generateItemsInLevel(int dungeonLevel, char[][] tiles) {
 		Array<Item> items = new Array<Item>();
 		ItemFactory itemFactory = new ItemFactory();
 		
-		for(int i = 0; i < tiles.size; i++) {
-			if(tiles.get(i).getAsciiSymbol() == '.') {
-				if(Math.random() < 0.079) {
-					Item item = itemFactory.createWeapon("Dagger", tiles.get(i).getPosition().x, tiles.get(i).getPosition().y, false);
-					items.add(item);
+		for(int x = 0; x < tiles.length; x++) {
+			for(int y = 0; y < tiles[0].length; y++) {
+				if(tiles[x][y] == '.') {
+					if(Math.random() < 0.079) {
+						Item item = itemFactory.createWeapon("Dagger", x*50f, y*50f, false);  //TODO remove hardcoding
+						items.add(item);
+					}
 				}
 			}
 		}

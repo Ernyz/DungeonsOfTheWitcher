@@ -14,12 +14,23 @@ public class LevelGenerator {
 	
 	//private static DrunkardWalkLevelGenerator drunkardWalkGenerator;
 
-	public static Array<Tile> generateLevel(int levelNumber) {
+	/*public static Array<Tile> generateLevel(int levelNumber) {
 		
 		//Decide what type of level to generate and which algorithm to use
 		//Also, decide if this level will have any branches
 		//For now, just create DrunkardWalk level with no branches or any other special features.
 		Array<Tile> result = DrunkardWalkLevelGenerator.generateDrunkardWalkLevel(levelNumber);
+		
+		return result;
+	}*/
+	
+	
+	public static char[][] generateLevel(int levelNumber) {
+		
+		//Decide what type of level to generate and which algorithm to use
+		//Also, decide if this level will have any branches
+		//For now, just create DrunkardWalk level with no branches or any other special features.
+		char[][] result = DrunkardWalkLevelGenerator.generateDrunkardWalkLevel(levelNumber);
 		
 		return result;
 	}
