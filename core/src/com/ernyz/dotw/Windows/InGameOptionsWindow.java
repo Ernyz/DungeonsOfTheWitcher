@@ -51,9 +51,9 @@ public class InGameOptionsWindow extends CustomWindow {
 		
 		//debug();
 		
-		setWidth(280);
+		//setWidth(280);
 		
-		//pack();
+		pack();
 	}
 	
 	@Override

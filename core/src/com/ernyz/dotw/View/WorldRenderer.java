@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.GameWorld;
@@ -18,6 +17,8 @@ import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.esotericsoftware.spine.SkeletonRenderer;
+import com.esotericsoftware.spine.SkeletonRendererDebug;
 
 /**
  * Renders whole game world and HUD.
@@ -26,8 +27,11 @@ import com.ernyz.dotw.Model.Tiles.Tile;
  */
 public final class WorldRenderer {
 	
-	private boolean debug = false;  //If true, shape renderer will draw bounding boxes of various things.
+	private boolean debug = true;  //If true, shape renderer will draw bounding boxes of various things.
 	private ShapeRenderer sr = new ShapeRenderer();  //Useful for debugging.
+	
+	SkeletonRenderer skeletonRenderer;
+	SkeletonRendererDebug skeletonRendererDebug;
 	
 	private GameWorld gameWorld;
 	private SpriteBatch batch;
@@ -61,6 +65,10 @@ public final class WorldRenderer {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 		
+		skeletonRenderer = new SkeletonRenderer();
+		skeletonRenderer.setPremultipliedAlpha(false);
+		skeletonRendererDebug = new SkeletonRendererDebug();
+		
 		/*Box2d stuff for lights*/
 		//Create renderer and light
 		debugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
@@ -81,7 +89,7 @@ public final class WorldRenderer {
 		
 		//Update camera
 		camera.setToOrtho(false, width*viewportMultiplier, height*viewportMultiplier);
-		camera.position.set(player.getPosition().x+player.getWidth()/2/* + gameWorld.getHUD().getBgTexture().getWidth()/2*/, player.getPosition().y+player.getHeight()/2/* - gameWorld.getHUD().getOutputBGTexture().getHeight()/2*/, 0);
+		camera.position.set(player.getPosition().x/* + gameWorld.getHUD().getBgTexture().getWidth()/2*/, player.getPosition().y/* - gameWorld.getHUD().getOutputBGTexture().getHeight()/2*/, 0);
 		camera.update();
 		
 		//Draw stuff that is invisible unless lit
@@ -104,7 +112,11 @@ public final class WorldRenderer {
 		//Then entities
 		Array<MoveableEntity> entities = player.getSurroundingEntities();
 		for(int i = 0; i < entities.size; i++) {
-			batch.draw(entities.get(i).getTexture(), entities.get(i).getPosition().x, entities.get(i).getPosition().y, entities.get(i).getWidth()/2, entities.get(i).getHeight()/2, entities.get(i).getWidth(), entities.get(i).getHeight(), 1, 1, entities.get(i).getRotation(), 0, 0, entities.get(i).getTexture().getWidth(), entities.get(i).getTexture().getHeight(), false, false);
+			entities.get(i).getSkeleton().updateWorldTransform();
+			entities.get(i).getSkeleton().setPosition(entities.get(i).getPosition().x, entities.get(i).getPosition().y);  //FIXME: I dont like this being here.
+			entities.get(i).getSkeleton().getRootBone().setRotation(entities.get(i).getRotation());
+			entities.get(i).getSkeleton().update(Gdx.graphics.getDeltaTime());
+			skeletonRenderer.draw(batch, entities.get(i).getSkeleton());
 		}
 		batch.end();
 		
@@ -118,7 +130,15 @@ public final class WorldRenderer {
 		//Draw stuff that is always visible
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
+		//batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
+		//######################
+		player.getSkeleton().updateWorldTransform();
+		player.getSkeleton().setPosition(player.getPosition().x, player.getPosition().y);  //FIXME: I dont like this being here.
+		player.getSkeleton().getRootBone().setRotation(player.getRotation());
+		player.getSkeleton().update(Gdx.graphics.getDeltaTime());
+		skeletonRenderer.draw(batch, player.getSkeleton());
+		//skeletonRendererDebug.draw(player.getSkeleton());
+		//######################
 		batch.end();
 		
 		//Draw HUD
@@ -144,7 +164,7 @@ public final class WorldRenderer {
 					sr.polygon(tiles.get(i).getBounds().getTransformedVertices());
 			}
 			//Attacks
-			for(int i = 0; i < entities.size; i++) {
+			/*for(int i = 0; i < entities.size; i++) {
 				sr.setColor(Color.RED);
 				//AttackBounds
 				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
@@ -161,7 +181,7 @@ public final class WorldRenderer {
 						}
 					}
 				}
-			}
+			}*/
 			
 			sr.end();
 		}

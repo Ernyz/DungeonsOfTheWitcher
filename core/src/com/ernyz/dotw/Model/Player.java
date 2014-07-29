@@ -3,8 +3,11 @@ package com.ernyz.dotw.Model;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.esotericsoftware.spine.Skeleton;
+import com.esotericsoftware.spine.SkeletonJson;
 
 /**
  * Player class which contains player related code, which can not be moved to {@link MoveableEntity}.
@@ -15,17 +18,19 @@ public final class Player extends MoveableEntity {
 	
 	public Player(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
-		//texture = new Texture(Gdx.files.internal("data/player/player.png"));
-		texture = new Texture(Gdx.files.internal("data/player/PlayerLarge.png"));
-		//texture = new Texture(Gdx.files.internal("data/player/PlayerMedium.png"));
-		//texture = new Texture(Gdx.files.internal("data/player/PlayerSmall.png"));
 		
-		this.setWidth(texture.getWidth());
-		this.setHeight(texture.getHeight());
+		atlas = new TextureAtlas(Gdx.files.internal("data/entities/human/skeleton.atlas"));
+		skeletonJson = new SkeletonJson(atlas);
+		skeletonData = skeletonJson.readSkeletonData(Gdx.files.internal("data/entities/human/skeleton.json"));
+		skeleton = new Skeleton(skeletonData);
+		
+		Sprite sprite = atlas.createSprite("body");
+		width = sprite.getWidth();
+		height = sprite.getHeight();
 		
 		//Create octagonal bounds
-		int radius = texture.getHeight()/2;
-		int a = texture.getWidth();
+		int radius = (int) height/2;
+		int a = (int) width;
 		float[] tmp = new float[]{
 				radius-a/2, 0,
 				radius+a/2, 0,
@@ -65,4 +70,5 @@ public final class Player extends MoveableEntity {
 		
 		checkCollisions();
 	}
+
 }

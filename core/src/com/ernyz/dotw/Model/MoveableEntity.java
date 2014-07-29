@@ -3,14 +3,16 @@ package com.ernyz.dotw.Model;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
-import com.ernyz.dotw.Combat.AttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.esotericsoftware.spine.Skeleton;
+import com.esotericsoftware.spine.SkeletonData;
+import com.esotericsoftware.spine.SkeletonJson;
 
 /**
  * All entities which can move in anyway are subclassed from this class. This class subclasses {@link Entity}.
@@ -28,12 +30,17 @@ public class MoveableEntity extends Entity {
 	protected Array<Tile> surroundingTiles;  //Used for collisions and other logic
 	protected Array<MoveableEntity> surroundingEntities;  //Used for collisions and other logic
 	
+	protected Skeleton skeleton;
+	protected SkeletonData skeletonData;
+	protected TextureAtlas atlas;
+	protected SkeletonJson skeletonJson;
+	
 	protected Polygon bounds;
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
-	private Array<Attack> attacks;  //All attacks in progress are held in here
+	//private Array<Attack> attacks;  //All attacks in progress are held in here
 	protected Array<Integer> inventory;  //Holds id's of items player possesses
 	
 	/*
@@ -46,6 +53,7 @@ public class MoveableEntity extends Entity {
 	 * The first digit of the vector is the rotation offset from entity's rotation to the slot;
 	 * The second is the distance from centre of entity to the slot.
 	 */
+	//TODO: Ill probably remove this
 	protected Vector2 rightHand;
 	
 	/*
@@ -69,7 +77,6 @@ public class MoveableEntity extends Entity {
 	protected float stamina = 50;
 	protected float maxStamina = 50;
 	protected float speed;
-	//protected float damage;
 
 	public MoveableEntity(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, rotation);
@@ -82,7 +89,7 @@ public class MoveableEntity extends Entity {
 		
 		inventory = new Array<Integer>();
 		
-		attacks = new Array<Attack>();
+		//attacks = new Array<Attack>();
 		
 		surroundingTiles = new Array<Tile>();
 		surroundingEntities = new Array<MoveableEntity>();
@@ -96,18 +103,19 @@ public class MoveableEntity extends Entity {
 		}
 		
 		//Dispose of finished attacks
-		for(int i = 0; i < attacks.size; i++) {
+		/*for(int i = 0; i < attacks.size; i++) {
 			if(attacks.get(i).getIsFinished())
 				attacks.removeIndex(i);
 		}
 		//Update unfinished ones
 		for(int i = 0; i < attacks.size; i++) {
 			attacks.get(i).update();
-		}
+		}*/
 		
 		//Update weapon attack timers
 		for(int i = 0; i < inventory.size; i++) {
-			Item item = gameWorld.getItems().get(inventory.get(i));
+			//Item item = gameWorld.getItems().get(inventory.get(i));
+			Item item = gameWorld.getItemById(inventory.get(i));
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
 			}
@@ -138,26 +146,12 @@ public class MoveableEntity extends Entity {
 		
 		//Move this entity in x axis
 		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(position.x-texture.getWidth()/2, bounds.getY());
+		bounds.setPosition(position.x-height/2, bounds.getY());
 		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
-				bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
-				
-				/*if(bounds.getY() + texture.getHeight() > surroundingTiles.get(i).position.y &&
-						bounds.getY()+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
-					//if(bounds.getX() <= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
-					//		bounds.getX()+texture.getWidth()/2 >= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
-						position.y -= 1.5;  //TODO
-					//}
-					//else if(false) {  //Top right corner
-						
-					//}
-				} else if(bounds.getY() < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
-						bounds.getY()+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y+surroundingTiles.get(i).getHeight()) {
-					position.y += 1.5;  //TODO
-				}*/
+				bounds.setPosition(lastPos.x-height/2, bounds.getY());
 				break;
 			}
 		}
@@ -166,7 +160,7 @@ public class MoveableEntity extends Entity {
 				//Entity vs. other entities
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
 					position.x = lastPos.x;
-					bounds.setPosition(lastPos.x-texture.getWidth()/2, bounds.getY());
+					bounds.setPosition(lastPos.x-height/2, bounds.getY());
 					break;
 				}
 			}
@@ -174,20 +168,12 @@ public class MoveableEntity extends Entity {
 				
 		//Move this entity in y axis
 		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(bounds.getX(), position.y);
+		bounds.setPosition(bounds.getX(), position.y-height/2);
 		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.y = lastPos.y;
-				bounds.setPosition(bounds.getX(), lastPos.y);
-				
-				/*if(bounds.getX() < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth() &&
-						bounds.getX()+texture.getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {
-					position.x += 1.5;
-				} else if(bounds.getX()+texture.getHeight()-getWidth()/2 < surroundingTiles.get(i).getPosition().x &&
-						bounds.getX()+texture.getHeight() > surroundingTiles.get(i).getPosition().x) {
-					position.x -= 1.5;
-				}*/
+				bounds.setPosition(bounds.getX(), lastPos.y-height/2);
 				break;
 			}
 		}
@@ -195,21 +181,41 @@ public class MoveableEntity extends Entity {
 			if(!this.equals(surroundingEntities.get(i))) { 
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
 					position.y = lastPos.y;
-					bounds.setPosition(bounds.getX(), lastPos.y);
+					bounds.setPosition(bounds.getX(), lastPos.y-height/2);
 					break;
 				}
 			}
 		}
 	}
+	/*if(bounds.getY() + texture.getHeight() > surroundingTiles.get(i).position.y &&
+		bounds.getY()+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
+	//if(bounds.getX() <= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
+	//		bounds.getX()+texture.getWidth()/2 >= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
+		position.y -= 1.5;  //TODO
+	//}
+	//else if(false) {  //Top right corner
+		
+	//}
+	} else if(bounds.getY() < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
+		bounds.getY()+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y+surroundingTiles.get(i).getHeight()) {
+	position.y += 1.5;  //TODO
+	}*/
+	/*if(bounds.getX() < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth() &&
+		bounds.getX()+texture.getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {
+	position.x += 1.5;
+	} else if(bounds.getX()+texture.getHeight()-getWidth()/2 < surroundingTiles.get(i).getPosition().x &&
+		bounds.getX()+texture.getHeight() > surroundingTiles.get(i).getPosition().x) {
+	position.x -= 1.5;
+	}*/	
 	
-	public void attack(int button) {
+	/*public void attack(int button) {
 		if(button == 0) {  //LMB
 			Attack a = AttackCreator.primaryAttack(this, gameWorld.getItems());
 			if(a != null) {
 				attacks.add(a);
 			}
 		}
-	}
+	}*/
 	
 	public boolean canTakeItem(Item item) {
 		if(inventory.size+1 > backpackCapacity) {
@@ -233,7 +239,7 @@ public class MoveableEntity extends Entity {
 		float result = 0;
 		
 		for(int i = 0; i < inventory.size; i++) {
-			result += gameWorld.getItems().get(inventory.get(i)).getWeight();
+			result += gameWorld.getItemById(inventory.get(i)).getWeight();
 		}
 		HashMap<String, Integer> equipment = gameWorld.getPlayer().getEquipmentSlots();
 		for(String equipmentSlot : equipment.keySet()) {
@@ -259,9 +265,9 @@ public class MoveableEntity extends Entity {
 	}
 	
 	//Attacks are needed for renderer
-	public Array<Attack> getAttacks() {
+	/*public Array<Attack> getAttacks() {
 		return attacks;
-	}
+	}*/
 	
 	public Vector2 getRightHand() {
 		return rightHand;
@@ -271,9 +277,9 @@ public class MoveableEntity extends Entity {
 		return bounds;
 	}
 
-	public void setBounds(Polygon bounds) {
+	/*public void setBounds(Polygon bounds) {
 		this.bounds = bounds;
-	}
+	}*/
 
 	public Vector2 getVelocity() {
 		return velocity;
@@ -423,5 +429,9 @@ public class MoveableEntity extends Entity {
 	
 	public Integer getBackpackCapacity() {
 		return backpackCapacity;
+	}
+	
+	public Skeleton getSkeleton() {
+		return skeleton;
 	}
 }

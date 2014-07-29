@@ -3,10 +3,13 @@ package com.ernyz.dotw.Model.Enemies;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Resources;
+import com.esotericsoftware.spine.Skeleton;
+import com.esotericsoftware.spine.SkeletonJson;
 
 /**
  * This class can represent any kind of goblin.
@@ -19,16 +22,18 @@ public class Goblin extends Enemy {
 	
 	public Goblin(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
 		super(position, velocity, rotation, speed, gameWorld);
-		texture = new Texture(Gdx.files.internal("data/enemies/Goblin.png"));
-		//texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+		atlas = new TextureAtlas(Gdx.files.internal("data/entities/goblin/skeleton.atlas"));
+		skeletonJson = new SkeletonJson(atlas);
+		skeletonData = skeletonJson.readSkeletonData(Gdx.files.internal("data/entities/goblin/skeleton.json"));
+		skeleton = new Skeleton(skeletonData);
 		
-		this.setWidth(texture.getWidth());
-		this.setHeight(texture.getHeight());
-		//bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
-		//bounds.setOrigin(getWidth()/2, getHeight()/2);
+		Sprite sprite = atlas.createSprite("body");
+		width = sprite.getWidth();
+		height = sprite.getHeight();
 		
-		int radius = texture.getHeight()/2;
-		int a = texture.getWidth();
+		int radius = (int) height/2;
+		int a = (int) width;
 		float[] tmp = new float[]{
 				radius-a/2, 0,
 				radius+a/2, 0,
@@ -90,7 +95,7 @@ public class Goblin extends Enemy {
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
 			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 80) {  //FIXME hardcoding
-				attack(0);  //Primary attack
+				//attack(0);  //Primary attack
 			}
 			else {
 				//Attack or move closer if needed

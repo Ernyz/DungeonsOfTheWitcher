@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Model.Items.Item;
@@ -33,6 +32,7 @@ public final class GameWorld {
 	private GameStateEnum gameState;
 	
 	private DOTW game;
+	@SuppressWarnings("unused")
 	private String playerName;
 	private HeadsUpDisplay headsUpDisplay;
 	
@@ -41,12 +41,9 @@ public final class GameWorld {
 	private static int maxMessagesSaved;  //Will denote number of maximum number of messages saved
 	
 	private Player player;
-	//Item array
 	private Array<Item> items;
-	//Enemy array and enemies
 	private Array<MoveableEntity> entities;
-	//Tiles
-	private Array<Tile> tiles;  //Holds all tiles
+	private Array<Tile> tiles;
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
 	public WindowManager windowManager;

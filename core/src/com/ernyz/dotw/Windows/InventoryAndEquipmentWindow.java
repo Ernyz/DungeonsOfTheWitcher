@@ -108,7 +108,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		//Loop through player inventory and put those items
 		Array<Integer> inventory = gameWorld.getPlayer().getInventory();
 		for(int i = 0; i < inventory.size; i++) {
-			Texture t = gameWorld.getItems().get(inventory.get(i)).getTexture();
+			Texture t = gameWorld.getItemById(inventory.get(i)).getTexture();
 			final Image img = new Image(t);
 			//Set up custom userObject to hold data related for this actor
 			img.setUserObject(new ItemUserObject(inventory.get(i)));
@@ -132,7 +132,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 					return payload;
 				}
 			});
-			if(gameWorld.getItems().get(inventory.get(i)).getTargetBodyPart().equals(Resources.BODY_HANDS)) {
+			if(gameWorld.getItemById(inventory.get(i)).getTargetBodyPart().equals(Resources.BODY_HANDS)) {
 				dragAndDrop.addTarget(createTarget(Resources.BODY_LEFT_HAND));
 				dragAndDrop.addTarget(createTarget(Resources.BODY_RIGHT_HAND));
 			} else {

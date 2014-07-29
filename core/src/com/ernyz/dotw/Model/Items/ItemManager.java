@@ -36,7 +36,8 @@ public class ItemManager {
 			return unequipItem(e, itemId);
 		} else {
 			if(e.getInventory().contains(itemId, true)) {
-				Item i = items.get(itemId);
+				//Item i = items.get(itemId);
+				Item i = getItemById(itemId, items);
 				if(i.getType() == ItemType.WEAPON) {
 					return equipItem(e, itemId, Resources.BODY_RIGHT_HAND);
 				}
@@ -103,17 +104,31 @@ public class ItemManager {
 		return e.getEquipmentSlots().get(slotName).intValue();
 	}
 	
+	private static Item getItemById(int itemId, Array<Item> items) {
+		Item item = null;
+		for(Item i : items) {
+			if(i.getId() == itemId) {
+				item = i;
+				break;
+			}
+		}
+		return item;
+	}
+	
 	/**
 	 * Gets item from the ground
-	 * @param - Array of {@link Item}s which are in the same dungeon level as the entity.
-	 * @param - {@link MoveableEntity} which wants to take the item.
+	 * @param items - Array of {@link Item}s which are in the same dungeon level as the entity.
+	 * @param e - {@link MoveableEntity} which wants to take the item.
 	 * @return - Message indicating whether taking item was a success.
 	 */
 	public static String takeItem(Array<Item> items, MoveableEntity e) {
-		for(Item i : items) {
+		//for(Item i : items) {
+		Item i = null;
+		for(int j = 0; j < items.size; j++) {
+			i = items.get(j);
 			if(!i.getIsInInventory()) {
-				float dx = i.getX() - e.getPosition().x;
-				float dy = i.getY() - e.getPosition().y;
+				float dx = i.getX()+i.getTexture().getWidth()/2 - e.getPosition().x;
+				float dy = i.getY()+i.getTexture().getHeight()/2 - e.getPosition().y;
 				if(Math.sqrt(dx*dx + dy*dy) <= e.getHeight()*.75) {
 					if(e.canTakeItem(i)) {
 						i.setIsInInventory(true);
@@ -133,22 +148,23 @@ public class ItemManager {
 	 */
 	public static String dropItem(MoveableEntity e, Array<Item> items, Integer item) {
 		//if(e.getInventory().contains(item, true)) {
-			Item i = items.get(item);
-			//Unequip before dropping.
-			if(e.getEquipmentSlots().containsValue(item)) {
-				if(e.getInventory().size < e.getBackpackCapacity()) {
-					unequipItem(e, item);
-				} else {
-					GameWorld.addMessage("Cannot unequip the item!");
-					return "Item was not dropped.";
-				}
+		//Item i = items.get(item);
+		Item i = getItemById(item, items);
+		//Unequip before dropping.
+		if(e.getEquipmentSlots().containsValue(item)) {
+			if(e.getInventory().size < e.getBackpackCapacity()) {
+				unequipItem(e, item);
+			} else {
+				GameWorld.addMessage("Cannot unequip the item!");
+				return "Item was not dropped.";
 			}
-			i.setX(e.getPosition().x);
-			i.setY(e.getPosition().y);
-			i.setIsInInventory(false);
-			e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
-			GameWorld.addMessage("Item dropped");
-			return "Dropped.";
+		}
+		i.setX(e.getPosition().x);
+		i.setY(e.getPosition().y);
+		i.setIsInInventory(false);
+		e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
+		GameWorld.addMessage("Item dropped");
+		return "Dropped.";
 		//}
 		//return "Item was not dropped.";
 	}

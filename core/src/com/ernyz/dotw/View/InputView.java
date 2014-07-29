@@ -110,7 +110,7 @@ public class InputView implements InputProcessor {
 		player = gameWorld.getPlayer();
 		touch.set(screenX, screenY, 0);
 		worldRenderer.getCamera().unproject(touch);
-		vec2Touch.set(touch.x-player.getWidth()/2, touch.y-player.getHeight()/2);		
+		vec2Touch.set(touch.x, touch.y);
 		player.setRotation(new Vector2(vec2Touch.sub(player.getPosition()).nor()).angle());
 		return false;
 	}
