@@ -123,7 +123,7 @@ public final class WorldRenderer {
 		//Deal with light(FOV) stuff
 		debugRenderer.render(gameWorld.getWorld(), camera.combined);
 		playerLight.setDirection(player.getRotation());
-		playerLight.setPosition(player.getPosition().x + player.getWidth()/2, player.getPosition().y + player.getHeight()/2);
+		playerLight.setPosition(player.getPosition().x, player.getPosition().y);
 		rayHandler.setCombinedMatrix(camera.combined);
 		rayHandler.updateAndRender();
 		

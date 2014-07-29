@@ -127,7 +127,6 @@ public class CharacterCreationScreen implements Screen {
 			//All data in the text fields should be put into some object here, and only then sent to the generator.
 			@SuppressWarnings("unused")
 			WorldGenerator wg = new WorldGenerator(nameTextField.getText());
-			
 		}
 		//Change screen to character selection screen
 		game.setScreen(new CharacterSelectionScreen(game));

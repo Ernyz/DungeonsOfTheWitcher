@@ -28,7 +28,7 @@ public class ItemGenerator {
 			for(int y = 0; y < tiles[0].length; y++) {
 				if(tiles[x][y] == '.') {
 					if(Math.random() < 0.079) {
-						Item item = itemFactory.createWeapon("Dagger", x*50f, y*50f, false);  //TODO remove hardcoding
+						Item item = itemFactory.createWeapon("Dagger", x*50f+5, y*50f+5, false);  //TODO remove hardcoding
 						items.add(item);
 					}
 				}

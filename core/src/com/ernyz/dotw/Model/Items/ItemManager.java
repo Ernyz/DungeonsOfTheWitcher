@@ -129,7 +129,7 @@ public class ItemManager {
 			if(!i.getIsInInventory()) {
 				float dx = i.getX()+i.getTexture().getWidth()/2 - e.getPosition().x;
 				float dy = i.getY()+i.getTexture().getHeight()/2 - e.getPosition().y;
-				if(Math.sqrt(dx*dx + dy*dy) <= e.getHeight()*.75) {
+				if(Math.sqrt(dx*dx + dy*dy) <= e.getRadius()*.75) {
 					if(e.canTakeItem(i)) {
 						i.setIsInInventory(true);
 						e.getInventory().add(i.getId());
@@ -159,7 +159,7 @@ public class ItemManager {
 				return "Item was not dropped.";
 			}
 		}
-		i.setX(e.getPosition().x);
+		i.setX(e.getPosition().x);  //FIXME: Wrong drop coordinates.
 		i.setY(e.getPosition().y);
 		i.setIsInInventory(false);
 		e.getInventory().removeIndex(e.getInventory().indexOf(item, true));

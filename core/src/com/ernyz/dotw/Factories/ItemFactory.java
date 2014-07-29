@@ -28,7 +28,6 @@ public class ItemFactory {
 	 * This constructor is used, when creating new game with new items. Then id starts at -1 - its default value.
 	 */
 	public ItemFactory() {
-		//Initialise factories
 		initialiseFactories();
 	}
 	

@@ -32,7 +32,7 @@ public class Goblin extends Enemy {
 		width = sprite.getWidth();
 		height = sprite.getHeight();
 		
-		int radius = (int) height/2;
+		radius = (int) height/2;
 		int a = (int) width;
 		float[] tmp = new float[]{
 				radius-a/2, 0,

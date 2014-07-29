@@ -29,7 +29,7 @@ public class EntityGenerator {
 				if(tiles[x][y] == '.') {
 					if(Math.random() < 0.009) {
 						//FIXME: Bad starting coords.
-						Goblin g = entityFactory.createGoblin(x*50, y*50, null);  //TODO remove hardcoding
+						Goblin g = entityFactory.createGoblin(x*50+25, y*50+25, null);  //TODO remove hardcoding
 						//Format json and return it to world generator? just for it to save the array of enemies
 						entities.add(g);
 					}

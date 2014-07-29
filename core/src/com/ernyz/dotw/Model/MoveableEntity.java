@@ -36,6 +36,7 @@ public class MoveableEntity extends Entity {
 	protected SkeletonJson skeletonJson;
 	
 	protected Polygon bounds;
+	protected int radius;
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
@@ -146,12 +147,12 @@ public class MoveableEntity extends Entity {
 		
 		//Move this entity in x axis
 		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(position.x-height/2, bounds.getY());
+		bounds.setPosition(position.x-radius, bounds.getY());
 		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.x = lastPos.x;
-				bounds.setPosition(lastPos.x-height/2, bounds.getY());
+				bounds.setPosition(lastPos.x-radius, bounds.getY());
 				break;
 			}
 		}
@@ -160,7 +161,7 @@ public class MoveableEntity extends Entity {
 				//Entity vs. other entities
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
 					position.x = lastPos.x;
-					bounds.setPosition(lastPos.x-height/2, bounds.getY());
+					bounds.setPosition(lastPos.x-radius, bounds.getY());
 					break;
 				}
 			}
@@ -168,12 +169,12 @@ public class MoveableEntity extends Entity {
 				
 		//Move this entity in y axis
 		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(bounds.getX(), position.y-height/2);
+		bounds.setPosition(bounds.getX(), position.y-radius);
 		//Check collisions with tiles and then with other entities
 		for(int i = 0; i < surroundingTiles.size; i++) {
 			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
 				position.y = lastPos.y;
-				bounds.setPosition(bounds.getX(), lastPos.y-height/2);
+				bounds.setPosition(bounds.getX(), lastPos.y-radius);
 				break;
 			}
 		}
@@ -181,7 +182,7 @@ public class MoveableEntity extends Entity {
 			if(!this.equals(surroundingEntities.get(i))) { 
 				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
 					position.y = lastPos.y;
-					bounds.setPosition(bounds.getX(), lastPos.y-height/2);
+					bounds.setPosition(bounds.getX(), lastPos.y-radius);
 					break;
 				}
 			}
@@ -425,6 +426,10 @@ public class MoveableEntity extends Entity {
 
 	public void setMaxStamina(float maxStamina) {
 		this.maxStamina = maxStamina;
+	}
+	
+	public int getRadius() {
+		return radius;
 	}
 	
 	public Integer getBackpackCapacity() {

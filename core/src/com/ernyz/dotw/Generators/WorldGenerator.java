@@ -7,7 +7,6 @@ import com.ernyz.dotw.Generators.LevelGenerators.LevelGenerator;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.Item;
-import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.View.SaveGame;
 
 /**
@@ -50,11 +49,10 @@ public class WorldGenerator {
 	}
 	
 	/**
-	 * Generates all world of the game. Generated content is accessible by getters. TODO why would i need getters/setters for them?..
+	 * Generates all world of the game.
 	 */
 	private void generateWorld() {
 		//Initialise values
-		//levels = new Array<Array<Tile>>();
 		levels = new Array<char[][]>();
 		items = new Array<Item>();
 		
@@ -71,7 +69,6 @@ public class WorldGenerator {
 		
 		//Generate world
 		for(int i = 0; i < NUMBER_OF_LEVELS; i++) {
-			//levels.add(LevelGenerator.generateLevel(i));
 			levels.add(LevelGenerator.generateLevel(i));
 		}
 		
@@ -92,11 +89,9 @@ public class WorldGenerator {
 	}
 	
 	private void saveWorld() {
-		String tmp;
+		//String tmp;
 		//Save levels
 		for(int i = 0; i < levels.size; i++) {
-			//SaveGame.saveMap(playerName, levels.get(i), String.valueOf(i));
-			//tmp = convertMapToString(levels.get(i));
 			SaveGame.saveMap(playerName, levels.get(i), String.valueOf(i));
 		}
 		//Save entities
@@ -107,7 +102,7 @@ public class WorldGenerator {
 		SaveGame.savePlayer(player);
 	}
 	
-	private String convertMapToString(char[][] map) {
+	/*private String convertMapToString(char[][] map) {
 		String result = "";
 		
 		for(int x = 0; x < map.length; x++) {
@@ -120,6 +115,6 @@ public class WorldGenerator {
 		}
 		
 		return result;
-	}
+	}*/
 	
 }

@@ -29,7 +29,7 @@ public final class Player extends MoveableEntity {
 		height = sprite.getHeight();
 		
 		//Create octagonal bounds
-		int radius = (int) height/2;
+		radius = (int) height/2;
 		int a = (int) width;
 		float[] tmp = new float[]{
 				radius-a/2, 0,

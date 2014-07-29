@@ -135,7 +135,7 @@ public final class GameWorld {
 		return wallBody;
 	}
 	
-	public Item getItemById(int itemId) {  //TODO: Move to ItemManager?..
+	public Item getItemById(int itemId) {  //XXX: Same method is in ItemManager...
 		Item item = null;
 		for(Item i : items) {
 			if(i.getId() == itemId) {
