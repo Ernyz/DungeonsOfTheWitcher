@@ -77,7 +77,7 @@ public final class GameWorld {
 			entities = l.loadEntities();
 			entities.add(player);  //Player is an entity too, so add it
 		timer = System.currentTimeMillis()-timer;
-		System.out.println("World loaded in: " + timer);
+		//System.out.println("World loaded in: " + timer);
 
 		//Initialise window related stuff
 		windowManager = new WindowManager(this);

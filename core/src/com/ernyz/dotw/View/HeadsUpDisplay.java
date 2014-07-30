@@ -110,11 +110,10 @@ public class HeadsUpDisplay {
 		 
 		//Draw HUD
 		stage.act();
+		
 		batch.begin();
 		stage.draw();
-		
-		Table.drawDebug(stage);
-		
+		//Table.drawDebug(stage);  //FIXME: MEMORY LEAK IS HERE
 		batch.end();
 	}
 	

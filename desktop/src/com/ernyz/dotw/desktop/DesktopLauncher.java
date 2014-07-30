@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.height = 650;
 		config.resizable = false;
 		config.vSyncEnabled = false;
+		//config.useGL30 = true;
 		config.x = -1;
 		config.y = -1;
 		config.addIcon("data/icon16x16.png", FileType.Internal);

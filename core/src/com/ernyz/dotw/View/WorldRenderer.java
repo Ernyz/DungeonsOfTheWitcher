@@ -89,7 +89,7 @@ public final class WorldRenderer {
 		
 		//Update camera
 		camera.setToOrtho(false, width*viewportMultiplier, height*viewportMultiplier);
-		camera.position.set(player.getPosition().x/* + gameWorld.getHUD().getBgTexture().getWidth()/2*/, player.getPosition().y/* - gameWorld.getHUD().getOutputBGTexture().getHeight()/2*/, 0);
+		camera.position.set(player.getPosition().x, player.getPosition().y, 0);
 		camera.update();
 		
 		//Draw stuff that is invisible unless lit
@@ -130,15 +130,12 @@ public final class WorldRenderer {
 		//Draw stuff that is always visible
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		//batch.draw(player.getTexture(), player.getPosition().x, player.getPosition().y, player.getWidth()/2, player.getHeight()/2, player.getWidth(), player.getHeight(), 1, 1, player.getRotation(), 0, 0, player.getTexture().getWidth(), player.getTexture().getHeight(), false, false);
-		//######################
-		player.getSkeleton().updateWorldTransform();
-		player.getSkeleton().setPosition(player.getPosition().x, player.getPosition().y);  //FIXME: I dont like this being here.
-		player.getSkeleton().getRootBone().setRotation(player.getRotation());
-		player.getSkeleton().update(Gdx.graphics.getDeltaTime());
-		skeletonRenderer.draw(batch, player.getSkeleton());
-		//skeletonRendererDebug.draw(player.getSkeleton());
-		//######################
+			player.getSkeleton().updateWorldTransform();
+			player.getSkeleton().setPosition(player.getPosition().x, player.getPosition().y);  //FIXME: I dont like this being here.
+			player.getSkeleton().getRootBone().setRotation(player.getRotation());
+			player.getSkeleton().update(Gdx.graphics.getDeltaTime());
+			skeletonRenderer.draw(batch, player.getSkeleton());
+			//skeletonRendererDebug.draw(player.getSkeleton());
 		batch.end();
 		
 		//Draw HUD
@@ -164,24 +161,24 @@ public final class WorldRenderer {
 					sr.polygon(tiles.get(i).getBounds().getTransformedVertices());
 			}
 			//Attacks
-			/*for(int i = 0; i < entities.size; i++) {
-				sr.setColor(Color.RED);
-				//AttackBounds
-				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
-					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
-				}
-				//Attack lines
-				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
-					if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
-						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().size-1; k++) {
-							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath().get(k);
-							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath().get(k+1);
-							if(v0 != null && v1 != null)
-								sr.line(v0, v1);
-						}
-					}
-				}
-			}*/
+//			for(int i = 0; i < entities.size; i++) {
+//				sr.setColor(Color.RED);
+//				//AttackBounds
+//				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+//					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
+//				}
+//				//Attack lines
+//				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
+//					if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
+//						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().size-1; k++) {
+//							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath().get(k);
+//							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath().get(k+1);
+//							if(v0 != null && v1 != null)
+//								sr.line(v0, v1);
+//						}
+//					}
+//				}
+//			}
 			
 			sr.end();
 		}
