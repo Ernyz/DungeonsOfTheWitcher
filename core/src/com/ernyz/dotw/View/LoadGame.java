@@ -102,7 +102,7 @@ public class LoadGame {
 		//Load equipped items
 		JsonValue equippedItems = json.get("equippedItems");
 		for(JsonValue entry = equippedItems.child; entry != null; entry = entry.next) {
-		 	ItemManager.equipItem(player, entry.asInt(), entry.name);
+		 	ItemManager.equipItem(player, entry.asInt(), gameWorld.getItems(), entry.name);
 		}
 		
 		player.setPosition(new Vector2(json.getFloat("x"), json.getFloat("y")));
@@ -151,7 +151,7 @@ public class LoadGame {
 				//Load equipped items
 				JsonValue equippedItems = entity.get("equippedItems");
 				for(JsonValue entry = equippedItems.child; entry != null; entry = entry.next) {
-				 	ItemManager.equipItem(e, entry.asInt(), entry.name);
+				 	ItemManager.equipItem(e, entry.asInt(), gameWorld.getItems(), entry.name);
 				}
 				
 				e.setDungeonLevel(entity.getInt("dungeonLevel"));

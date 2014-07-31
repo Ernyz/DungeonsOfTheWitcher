@@ -52,6 +52,8 @@ public class InputView implements InputProcessor {
 			player.setHealth(player.getHealth()-1);
 			player.setMana(player.getMana()-1);
 			player.setStamina(player.getStamina()-1);
+			//Dump message history
+			System.out.println(gameWorld.getMessageHistory());
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {

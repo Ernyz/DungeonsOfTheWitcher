@@ -1,9 +1,16 @@
 
 skeleton.png
-size: 28,34
+size: 30,34
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+Dagger
+  rotate: false
+  xy: 12, 4
+  size: 16, 6
+  orig: 16, 6
+  offset: 0, 0
+  index: -1
 body
   rotate: false
   xy: 0, 0
@@ -13,8 +20,15 @@ body
   index: -1
 head
   rotate: false
-  xy: 12, 18
+  xy: 12, 10
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+unarmed
+  rotate: false
+  xy: 12, 26
+  size: 18, 8
+  orig: 18, 8
   offset: 0, 0
   index: -1

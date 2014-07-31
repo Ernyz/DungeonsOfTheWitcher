@@ -90,7 +90,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 
 	@Override
 	protected void setUpTheWindow() {
-		setMovable(false);
+		setMovable(true);
 		clearChildren();
 		inventorySlots.clear();
 		equippedItemSlots.clear();
@@ -316,7 +316,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			public void drop(Source source, Payload payload, float x, float y, int pointer) {
 				ItemUserObject userObj = (ItemUserObject) payload.getDragActor().getUserObject();
 				//ItemManager.equipOrUnequipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObj.getItemId());
-				ItemManager.equipItem(gameWorld.getPlayer(), userObj.getItemId(), targetSlot);
+				ItemManager.equipItem(gameWorld.getPlayer(), userObj.getItemId(), gameWorld.getItems(), targetSlot);
 			}
 		};
 	}

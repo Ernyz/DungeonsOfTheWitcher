@@ -101,9 +101,7 @@ public class WindowManager {
 	 */
 	private void createInventoryAndEquipmentWindow() {
 		InventoryAndEquipmentWindow w = new InventoryAndEquipmentWindow("Inventory and equipped items", skin, gameWorld);
-		w.setPosition(stageH/100*20f, stageH/100*20f);
-		//w.setWidth(stageW/100*40);  //Window width is equal to 30 percent of stage width
-		//w.setHeight(stageH/100*28);  //Window height is equal to 94 percent of stage height
+		w.setPosition(stageW/2-w.getWidth()/2, 0);
 		
 		addWindow(w, "InventoryAndEquipment");
 	}

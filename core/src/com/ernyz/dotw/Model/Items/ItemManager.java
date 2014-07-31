@@ -32,14 +32,19 @@ public class ItemManager {
 	public static String equipOrUnequipItem(MoveableEntity e, Array<Item> items, Integer itemId) {
 		//TODO By default, we put weapon in right hand slot. More functionality will be needed later.
 		//Check if item is equipped, if yes - unequip it, otherwise equip it
+		//TODO: calculate destination slot, in order to know where item will be placed
 		if(e.getEquipmentSlots().containsValue(itemId)) {
 			return unequipItem(e, itemId);
+		} else if(e.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND) != -1) {
+			//Unequip current item and equip new one
+			unequipItem(e, e.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND));
+			equipItem(e, itemId, items, Resources.BODY_RIGHT_HAND);
 		} else {
 			if(e.getInventory().contains(itemId, true)) {
 				//Item i = items.get(itemId);
 				Item i = getItemById(itemId, items);
 				if(i.getType() == ItemType.WEAPON) {
-					return equipItem(e, itemId, Resources.BODY_RIGHT_HAND);
+					return equipItem(e, itemId, items, Resources.BODY_RIGHT_HAND);
 				}
 			}
 		}
@@ -52,7 +57,8 @@ public class ItemManager {
 	 * @param item -  {@link Item} id we want to equip.
 	 * @return Message whether equipping was successful or not. If not - message contains reason.
 	 */
-	public static String equipItem(MoveableEntity e, Integer item, String slotName) {  //TODO: Make private?
+	public static String equipItem(MoveableEntity e, Integer item, Array<Item> items, String slotName) {  //TODO: Make private?
+		if(item == -1) return null;
 		if(e.getEquipmentSlots().containsValue(item)) {
 			String key = "";
 			for(String str : e.getEquipmentSlots().keySet()) {
@@ -64,6 +70,10 @@ public class ItemManager {
 			e.getEquipmentSlots().put(key, -1);
 		}
 		e.getEquipmentSlots().put(slotName, item);
+		
+		String itemName = getItemById(item, items).getName();
+		e.getSkeleton().setAttachment(slotName, itemName);
+		
 		if(e.getInventory().contains(item, true)) {
 			e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
 		}
@@ -84,6 +94,10 @@ public class ItemManager {
 					if(getEquippedItem(e, slotName).equals(item)) {
 						e.getEquipmentSlots().put(slotName, -1);
 						e.getInventory().add(item);
+						
+						//TODO: Testing
+						e.getSkeleton().setAttachment(slotName, "unarmed");
+						
 						GameWorld.addMessage("Item unequipped");
 						return "Item unequipped";
 					}
@@ -159,8 +173,8 @@ public class ItemManager {
 				return "Item was not dropped.";
 			}
 		}
-		i.setX(e.getPosition().x);  //FIXME: Wrong drop coordinates.
-		i.setY(e.getPosition().y);
+		i.setX(e.getPosition().x-i.getTexture().getWidth()/2);  //FIXME: Wrong drop coordinates.
+		i.setY(e.getPosition().y-i.getTexture().getHeight()/2);
 		i.setIsInInventory(false);
 		e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
 		GameWorld.addMessage("Item dropped");

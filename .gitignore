@@ -62,5 +62,5 @@ build/
 ## OS Specific
 .DS_Store
 
-## Custom
-core/assets/data/SpineTest
+## Spine projects and its assets
+core/assets/data/SpineProjects

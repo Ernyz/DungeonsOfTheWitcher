@@ -245,7 +245,7 @@ public class MoveableEntity extends Entity {
 		HashMap<String, Integer> equipment = gameWorld.getPlayer().getEquipmentSlots();
 		for(String equipmentSlot : equipment.keySet()) {
 			if(!equipment.get(equipmentSlot).equals(-1)) {
-				result += gameWorld.getItems().get(equipment.get(equipmentSlot)).getWeight();
+				result += gameWorld.getItemById(equipment.get(equipmentSlot)).getWeight();
 			}
 		}
 		
