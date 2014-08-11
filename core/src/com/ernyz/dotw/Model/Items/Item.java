@@ -20,6 +20,7 @@ public class Item {
 	
 	private String targetBodyPart;
 	
+	private Texture iconTexture;
 	private Texture texture;
 	
 	private Integer id;
@@ -123,6 +124,14 @@ public class Item {
 		this.y = y;
 	}
 
+	public Texture getIconTexture() {
+		return iconTexture;
+	}
+
+	public void setIconTexture(Texture texture) {
+		this.iconTexture = texture;
+	}
+	
 	public Texture getTexture() {
 		return texture;
 	}

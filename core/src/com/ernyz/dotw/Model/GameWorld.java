@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.DOTW;
+import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.Utils.WindowManager;
@@ -44,6 +46,9 @@ public final class GameWorld {
 	private Array<Item> items;
 	private Array<MoveableEntity> entities;
 	private Array<Tile> tiles;
+	
+	//FIXME: temporarily public
+	public Array<Attack> basicAttacks = new Array<Attack>();
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
 	public WindowManager windowManager;
@@ -97,6 +102,15 @@ public final class GameWorld {
 					entities.removeValue(entity, false);
 				} else {
 					entity.update();
+				}
+			}
+			//Update basic attacks, dispose of finished ones
+			//TODO: Don't know if this will work right
+			for(Attack ba : basicAttacks) {
+				if(!ba.getIsFinished()) {
+					ba.update(Gdx.graphics.getDeltaTime());
+				} else {
+					basicAttacks.removeValue(ba, false);
 				}
 			}
 			//Update active windows

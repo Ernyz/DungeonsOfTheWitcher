@@ -1,44 +1,48 @@
 package com.ernyz.dotw.Combat;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Items.Item;
 
-/**
- * Every melee/ranged attack, every spell or anything that damages anything in any way
- * is based on this interface.
- * 
- * @author Ernyz
- */
-public interface Attack {
+public abstract class Attack {
 	
-	/**
-	 * Updates an attack, changes its state if necessary.
-	 */
-	public void update();
+	protected MoveableEntity attacker;
+	protected Item weapon;
+	protected Texture texture;
+	protected Polygon bounds;
 	
-	/**
-	 * Only for debug purposes - shape renderer in WorldRenderer class needs these bounds.
-	 */
-	public Polygon getBounds();
+	protected float distanceTraveled = 0;
+	protected boolean isFinished = false;
 	
-	/**
-	 * Returns true if this attack is finished.
-	 */
-	public boolean getIsFinished();
+	public abstract void update(float delta);
+	
+	protected abstract void destroy();
+	
+	public void onCollision(MoveableEntity e) {
+		e.setHealth(e.getHealth()-weapon.getFloat("Damage"));
+		isFinished = true;
+		destroy();
+	}
+	
+	public boolean getIsFinished() {
+		return isFinished;
+	}
+	
+	public Polygon getBounds() {
+		return bounds;
+	}
+	
+	public Texture getTexture() {
+		return texture;
+	}
+	
+	public float getTextureWidth() {
+		return texture.getWidth();
+	}
+	
+	public float getTextureHeight() {
+		return texture.getHeight();
+	}
 
-	/**
-	 * Returns path of the attack, so it can be rendered.
-	 */
-	Array<Vector2> getPath();
-	
-	/**
-	 * Returns alpha of the attack 'swipe'.
-	 */
-	public float getAlpha();
-	
-	/**
-	 * Returns the thickness of the attack 'swipe'.
-	 */
-	public float getThickness();
 }

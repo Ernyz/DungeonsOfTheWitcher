@@ -108,7 +108,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 		//Loop through player inventory and put those items
 		Array<Integer> inventory = gameWorld.getPlayer().getInventory();
 		for(int i = 0; i < inventory.size; i++) {
-			Texture t = gameWorld.getItemById(inventory.get(i)).getTexture();
+			Texture t = gameWorld.getItemById(inventory.get(i)).getIconTexture();
 			final Image img = new Image(t);
 			//Set up custom userObject to hold data related for this actor
 			img.setUserObject(new ItemUserObject(inventory.get(i)));
@@ -149,7 +149,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			Integer itemId = gameWorld.getPlayer().getEquipmentSlots().get(equipmentSlot);
 			//If there's something in the equipment slot, render it
 			if(itemId != -1) {
-				Texture t = gameWorld.getItemById(itemId).getTexture();
+				Texture t = gameWorld.getItemById(itemId).getIconTexture();
 				final Image img = new Image(t);
 				//Set up custom userObject to hold data related for this actor
 				img.setUserObject(new ItemUserObject(itemId));

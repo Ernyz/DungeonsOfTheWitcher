@@ -27,22 +27,23 @@ public class WeaponFactory {
 		i.setId(id);
 		i.setName("Dagger");
 		i.setType(ItemType.WEAPON);
-		i.setTargetBodyPart(Resources.BODY_HANDS);  //TODO: Make this for any hand
+		i.setTargetBodyPart(Resources.BODY_HANDS);
 		i.setIsInInventory(isInInv);
 		i.setX(x);
 		i.setY(y);
 		i.setWeight(0.5f);
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
-		i.set("Speed", 170);
+		i.set("Speed", 170f);  //170
 		i.set("AttackInterval", .8f);  //Interval between attacks
 		i.set("TimeUntilAttack", 0f);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);
-		i.set("Damage", 8);
-		i.set("Range", 20);
+		i.set("Damage", 8f);
+		i.set("Range", 20f);
 		
-		i.setTexture(new Texture("data/items/icons/dagger.png"));
+		i.setIconTexture(new Texture("data/items/icons/dagger.png"));
+		i.setTexture(new Texture("data/items/Dagger.png"));
 		
 		return i;
 	}

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -105,7 +106,7 @@ public final class WorldRenderer {
 		Array<Item> items = gameWorld.getItems();
 		for(int i = 0; i < items.size; i++) {
 			if(!items.get(i).getIsInInventory()) {
-				batch.draw(items.get(i).getTexture(), items.get(i).getX(), items.get(i).getY());
+				batch.draw(items.get(i).getIconTexture(), items.get(i).getX(), items.get(i).getY());
 			}
 		}
 		
@@ -117,6 +118,13 @@ public final class WorldRenderer {
 			entities.get(i).getSkeleton().getRootBone().setRotation(entities.get(i).getRotation());
 			entities.get(i).getSkeleton().update(Gdx.graphics.getDeltaTime());
 			skeletonRenderer.draw(batch, entities.get(i).getSkeleton());
+		}
+		
+		//Then attacks
+		Attack ba;  //FIXME: Improve.s
+		for(int i = 0; i < gameWorld.basicAttacks.size; i++) {
+			ba = gameWorld.basicAttacks.get(i);
+			batch.draw(ba.getTexture(), ba.getBounds().getX(), ba.getBounds().getY(), 0, 0, ba.getTextureWidth(), ba.getTextureHeight(), 1, 1, ba.getBounds().getRotation(), 0, 0, (int) ba.getTextureWidth(), (int) ba.getTextureHeight(), false, false);
 		}
 		batch.end();
 		
@@ -161,24 +169,11 @@ public final class WorldRenderer {
 					sr.polygon(tiles.get(i).getBounds().getTransformedVertices());
 			}
 			//Attacks
-//			for(int i = 0; i < entities.size; i++) {
-//				sr.setColor(Color.RED);
-//				//AttackBounds
-//				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
-//					sr.polygon(entities.get(i).getAttacks().get(j).getBounds().getTransformedVertices());
-//				}
-//				//Attack lines
-//				for(int j = 0; j < entities.get(i).getAttacks().size; j++) {
-//					if(entities.get(i).getAttacks().get(j).getPath().size >= 2) {
-//						for(int k = 0; k < entities.get(i).getAttacks().get(j).getPath().size-1; k++) {
-//							Vector2 v0 = entities.get(i).getAttacks().get(j).getPath().get(k);
-//							Vector2 v1 = entities.get(i).getAttacks().get(j).getPath().get(k+1);
-//							if(v0 != null && v1 != null)
-//								sr.line(v0, v1);
-//						}
-//					}
-//				}
-//			}
+			for(int i = 0; i < gameWorld.basicAttacks.size; i++) {
+				sr.setColor(Color.RED);
+				//AttackBounds
+				sr.polygon(gameWorld.basicAttacks.get(i).getBounds().getTransformedVertices());
+			}
 			
 			sr.end();
 		}

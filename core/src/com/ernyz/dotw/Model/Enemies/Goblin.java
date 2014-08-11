@@ -64,7 +64,6 @@ public class Goblin extends Enemy {
 		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
-		rightHand = new Vector2(-75, 19);  //Values are hard coded and found by trial and error.
 		
 		state = StateEnum.WANDER;
 	}

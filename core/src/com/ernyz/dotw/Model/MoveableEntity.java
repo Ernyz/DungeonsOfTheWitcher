@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.BasicAttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 import com.esotericsoftware.spine.Skeleton;
@@ -41,21 +43,11 @@ public class MoveableEntity extends Entity {
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
-	//private Array<Attack> attacks;  //All attacks in progress are held in here
 	protected Array<Integer> inventory;  //Holds id's of items player possesses
-	
 	/*
 	 * Holds id's of items which are equipped in these slots.
 	 */
 	protected HashMap<String, Integer> equipmentSlots;
-	
-	/*
-	 * Item slot locations with respect to entity's centre.
-	 * The first digit of the vector is the rotation offset from entity's rotation to the slot;
-	 * The second is the distance from centre of entity to the slot.
-	 */
-	//TODO: Ill probably remove this
-	protected Vector2 rightHand;
 	
 	/*
 	 * Stats
@@ -90,8 +82,6 @@ public class MoveableEntity extends Entity {
 		
 		inventory = new Array<Integer>();
 		
-		//attacks = new Array<Attack>();
-		
 		surroundingTiles = new Array<Tile>();
 		surroundingEntities = new Array<MoveableEntity>();
 	}
@@ -103,19 +93,8 @@ public class MoveableEntity extends Entity {
 			return;
 		}
 		
-		//Dispose of finished attacks
-		/*for(int i = 0; i < attacks.size; i++) {
-			if(attacks.get(i).getIsFinished())
-				attacks.removeIndex(i);
-		}
-		//Update unfinished ones
-		for(int i = 0; i < attacks.size; i++) {
-			attacks.get(i).update();
-		}*/
-		
 		//Update weapon attack timers
 		for(int i = 0; i < inventory.size; i++) {
-			//Item item = gameWorld.getItems().get(inventory.get(i));
 			Item item = gameWorld.getItemById(inventory.get(i));
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
@@ -187,27 +166,14 @@ public class MoveableEntity extends Entity {
 				}
 			}
 		}
-	}
-	/*if(bounds.getY() + texture.getHeight() > surroundingTiles.get(i).position.y &&
-		bounds.getY()+texture.getHeight()-texture.getWidth()/2 < surroundingTiles.get(i).position.y) {
-	//if(bounds.getX() <= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()  &&
-	//		bounds.getX()+texture.getWidth()/2 >= surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {  //Top left corner
-		position.y -= 1.5;  //TODO
-	//}
-	//else if(false) {  //Top right corner
+		/*//Check collisions with projectiles
+		for(Attack a : gameWorld.basicAttacks) {
+			if(Intersector.overlapConvexPolygons(bounds, a.getBounds())) {
+				a.onCollision(this);
+			}
+		}*/
 		
-	//}
-	} else if(bounds.getY() < surroundingTiles.get(i).position.y+surroundingTiles.get(i).getTexture().getHeight() &&
-		bounds.getY()+getTexture().getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().y+surroundingTiles.get(i).getHeight()) {
-	position.y += 1.5;  //TODO
-	}*/
-	/*if(bounds.getX() < surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth() &&
-		bounds.getX()+texture.getHeight()/2-getWidth()/2 > surroundingTiles.get(i).getPosition().x+surroundingTiles.get(i).getTexture().getWidth()) {
-	position.x += 1.5;
-	} else if(bounds.getX()+texture.getHeight()-getWidth()/2 < surroundingTiles.get(i).getPosition().x &&
-		bounds.getX()+texture.getHeight() > surroundingTiles.get(i).getPosition().x) {
-	position.x -= 1.5;
-	}*/	
+	}
 	
 	/*public void attack(int button) {
 		if(button == 0) {  //LMB
@@ -217,6 +183,22 @@ public class MoveableEntity extends Entity {
 			}
 		}
 	}*/
+	public void handleMouseClick(int button) {
+		/* 0-LMB; 1-RMB; 2-ScrollButton */
+		/*
+		 * *Check to see whether held weapon or spell slot is active; TODO
+		 * *Check if selected action is possible (not on cd. and etc.);
+		 * *Perform that action.
+		 */
+		if(button == 0) {  //Primary action
+			//gameWorld.basicAttacks.add(new BasicAttack(this, true, gameWorld));
+			gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
+			System.out.println(gameWorld.basicAttacks.size);
+		}
+		else if(button == 1) {  //Secondary action
+			
+		}
+	}
 	
 	public boolean canTakeItem(Item item) {
 		if(inventory.size+1 > backpackCapacity) {
@@ -263,15 +245,6 @@ public class MoveableEntity extends Entity {
 	}
 	public void setEquipmentSlots(HashMap<String, Integer> equipmentSlots) {
 		this.equipmentSlots = equipmentSlots;
-	}
-	
-	//Attacks are needed for renderer
-	/*public Array<Attack> getAttacks() {
-		return attacks;
-	}*/
-	
-	public Vector2 getRightHand() {
-		return rightHand;
 	}
 	
 	public Polygon getBounds() {
@@ -438,5 +411,10 @@ public class MoveableEntity extends Entity {
 	
 	public Skeleton getSkeleton() {
 		return skeleton;
+	}
+	
+	//TODO: should probably remove this atlas
+	public TextureAtlas getAtlas() {
+		return atlas;
 	}
 }

@@ -6,10 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.Windows.CustomWindow;
-import com.ernyz.dotw.Windows.EquippedItemsWindow;
 import com.ernyz.dotw.Windows.InGameOptionsWindow;
 import com.ernyz.dotw.Windows.InventoryAndEquipmentWindow;
-import com.ernyz.dotw.Windows.InventoryWindow;
 
 /**
  * Class dedicated to managing scene2d windows, for example, creating them, destroying and so on.
@@ -52,11 +50,7 @@ public class WindowManager {
 	}
 	
 	private void createWindow(String windowName) {
-		if(windowName.equals("Inventory")) {
-			createInventoryWindow();
-		} else if(windowName.equals("EquippedItems")) {
-			createEquippedItemsWindow();
-		} else if(windowName.equals("InventoryAndEquipment")) {
+		if(windowName.equals("InventoryAndEquipment")) {
 			createInventoryAndEquipmentWindow();
 		} else if(windowName.equals("InGameOptions")) {
 			createInGameOptionsWindow();
@@ -104,30 +98,6 @@ public class WindowManager {
 		w.setPosition(stageW/2-w.getWidth()/2, 0);
 		
 		addWindow(w, "InventoryAndEquipment");
-	}
-	
-	/**
-	 * Creates inventory window and adds it to {@link HeadsUpDisplay} stage.
-	 */
-	private void createInventoryWindow() {
-		InventoryWindow w = new InventoryWindow("Your inventory", skin, gameWorld);
-		w.setPosition(stageH/100*3f, stageH/100*3f);
-		w.setWidth(stageW/100*30);  //window width is equal to 30 percent of stage width
-		w.setHeight(stageH/100*94);  //window height is equal to 94 percent of stage height
-		
-		addWindow(w, "Inventory");
-	}
-	
-	/**
-	 * Creates window which shows items player has equipped and adds it to {@link HeadsUpDisplay} stage.
-	 */
-	private void createEquippedItemsWindow() {
-		EquippedItemsWindow w = new EquippedItemsWindow("Equipped items", skin, gameWorld);
-		w.setPosition(stageH/100*3f +400, stageH/100*3f);
-		w.setWidth(stageW/100*30);  //window width is equal to 30 percent of stage width
-		w.setHeight(stageH/100*94);  //window height is equal to 94 percent of stage height
-		
-		addWindow(w, "EquippedItems");
 	}
 	
 	/**

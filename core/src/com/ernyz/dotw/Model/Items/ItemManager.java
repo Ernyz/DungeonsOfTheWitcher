@@ -110,7 +110,7 @@ public class ItemManager {
 	
 	/**
 	 * Gets equipped item in specified equipment slot.
-	 * @param e -  {@link MoveableEntity} from which we want to unequip the item.
+	 * @param e -  {@link MoveableEntity} from which we want to get the item.
 	 * @param slotName - name of the slot in which the item that we want to get is.
 	 * @return -1 if slot is empty or item id if slot has item.
 	 */
@@ -141,8 +141,8 @@ public class ItemManager {
 		for(int j = 0; j < items.size; j++) {
 			i = items.get(j);
 			if(!i.getIsInInventory()) {
-				float dx = i.getX()+i.getTexture().getWidth()/2 - e.getPosition().x;
-				float dy = i.getY()+i.getTexture().getHeight()/2 - e.getPosition().y;
+				float dx = i.getX()+i.getIconTexture().getWidth()/2 - e.getPosition().x;  //XXX: icon texture used
+				float dy = i.getY()+i.getIconTexture().getHeight()/2 - e.getPosition().y;
 				if(Math.sqrt(dx*dx + dy*dy) <= e.getRadius()*.75) {
 					if(e.canTakeItem(i)) {
 						i.setIsInInventory(true);
@@ -173,8 +173,8 @@ public class ItemManager {
 				return "Item was not dropped.";
 			}
 		}
-		i.setX(e.getPosition().x-i.getTexture().getWidth()/2);  //FIXME: Wrong drop coordinates.
-		i.setY(e.getPosition().y-i.getTexture().getHeight()/2);
+		i.setX(e.getPosition().x-i.getIconTexture().getWidth()/2);  //FIXME: Wrong drop coordinates.
+		i.setY(e.getPosition().y-i.getIconTexture().getHeight()/2);  //XXX: Icon texture is used
 		i.setIsInInventory(false);
 		e.getInventory().removeIndex(e.getInventory().indexOf(item, true));
 		GameWorld.addMessage("Item dropped");

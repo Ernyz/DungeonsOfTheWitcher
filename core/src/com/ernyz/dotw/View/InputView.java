@@ -92,7 +92,7 @@ public class InputView implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		//player.attack(button);
-		GameWorld.addMessage("attack");
+		player.handleMouseClick(button);
 		return false;
 	}
 
