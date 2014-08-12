@@ -41,6 +41,8 @@ public class MoveableEntity extends Entity {
 	protected int radius;
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
+	private float lastPosX;
+	private float lastPosY;
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
 	protected Array<Integer> inventory;  //Holds id's of items player possesses
@@ -120,6 +122,19 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
+	public void moveX() {
+		lastPosX = position.x;
+		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+		bounds.setPosition(position.x-radius, bounds.getY());
+	}
+	
+	public void moveY() {
+		lastPosY = position.y;
+		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+		bounds.setPosition(bounds.getX(), position.y-radius);
+	}
+	
+	@Deprecated
 	public void checkCollisions() {
 		//Update last position
 		lastPos.set(position);
@@ -175,14 +190,6 @@ public class MoveableEntity extends Entity {
 		
 	}
 	
-	/*public void attack(int button) {
-		if(button == 0) {  //LMB
-			Attack a = AttackCreator.primaryAttack(this, gameWorld.getItems());
-			if(a != null) {
-				attacks.add(a);
-			}
-		}
-	}*/
 	public void handleMouseClick(int button) {
 		/* 0-LMB; 1-RMB; 2-ScrollButton */
 		/*
@@ -413,8 +420,12 @@ public class MoveableEntity extends Entity {
 		return skeleton;
 	}
 	
-	//TODO: should probably remove this atlas
-	public TextureAtlas getAtlas() {
-		return atlas;
+	public float getLastPosX() {
+		return lastPosX;
 	}
+	
+	public float getLastPosY() {
+		return lastPosY;
+	}
+	
 }

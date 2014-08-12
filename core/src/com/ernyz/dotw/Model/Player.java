@@ -66,8 +66,6 @@ public final class Player extends MoveableEntity {
 	@Override
 	public void update() {
 		super.update();
-		
-		checkCollisions();
 	}
 
 }

@@ -28,6 +28,11 @@ public class BasicAttackCreator {
 			//create 'fist' item
 		}
 		
+		//TODO: Temporary, until unarmed combat is implemented
+		if(rightHandItem == null) {
+			return null;
+		}
+		
 		//TODO: Determine which weapon will be used to attack (left or right hand weapon) (depends on primary==true/false)
 		//Default is right hand. More functionality will be added later.
 		

@@ -73,7 +73,6 @@ public class Goblin extends Enemy {
 		super.update();
 		
 		examineSurroundings();
-		checkCollisions();
 	}
 
 	@Override

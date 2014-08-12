@@ -44,5 +44,9 @@ public abstract class Attack {
 	public float getTextureHeight() {
 		return texture.getHeight();
 	}
+	
+	public MoveableEntity getAttacker() {
+		return attacker;
+	}
 
 }

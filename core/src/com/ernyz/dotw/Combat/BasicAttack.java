@@ -51,7 +51,8 @@ public class BasicAttack {
 		startX = attacker.getSkeleton().findBone(Resources.BODY_RIGHT_HAND).getX();
 		startY = attacker.getSkeleton().findBone(Resources.BODY_RIGHT_HAND).getY();
 		//set up bounds
-		Sprite tmp = new Sprite(attacker.getAtlas().findRegion("Dagger"));
+		//Sprite tmp = new Sprite(attacker.getAtlas().findRegion("Dagger"));
+		Sprite tmp = new Sprite();
 		rightHandBounds = new Polygon();
 		rightHandBounds.setVertices(new float[] {
 				0, 0, 

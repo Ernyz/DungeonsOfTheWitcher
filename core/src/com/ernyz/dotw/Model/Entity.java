@@ -24,10 +24,10 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Properly disposes entities resources.
+	 * Properly disposes entities resources. TODO: rethink if this method is needed
 	 */
 	public void dispose() {
-		texture.dispose();
+		//texture.dispose();
 	}
 
 	public Vector2 getPosition() {

@@ -47,6 +47,8 @@ public final class GameWorld {
 	private Array<MoveableEntity> entities;
 	private Array<Tile> tiles;
 	
+	private CollisionContext collisionContext;
+	
 	//FIXME: temporarily public
 	public Array<Attack> basicAttacks = new Array<Attack>();
 	
@@ -83,6 +85,8 @@ public final class GameWorld {
 			entities.add(player);  //Player is an entity too, so add it
 		timer = System.currentTimeMillis()-timer;
 		//System.out.println("World loaded in: " + timer);
+		
+		collisionContext = new CollisionContext(entities, tiles, basicAttacks);
 
 		//Initialise window related stuff
 		windowManager = new WindowManager(this);
@@ -105,14 +109,19 @@ public final class GameWorld {
 				}
 			}
 			//Update basic attacks, dispose of finished ones
-			//TODO: Don't know if this will work right
 			for(Attack ba : basicAttacks) {
+				//TODO:temp
+				if(ba == null) {
+					basicAttacks.removeValue(ba, false);
+					continue;
+				}
 				if(!ba.getIsFinished()) {
 					ba.update(Gdx.graphics.getDeltaTime());
 				} else {
 					basicAttacks.removeValue(ba, false);
 				}
 			}
+			collisionContext.checkCollisions();
 			//Update active windows
 			for(String windowName : windows.keySet()) {
 				if(windows.get(windowName).isVisible()) {
