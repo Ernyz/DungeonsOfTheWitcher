@@ -153,9 +153,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 				final Image img = new Image(t);
 				//Set up custom userObject to hold data related for this actor
 				img.setUserObject(new ItemUserObject(itemId));
-				//img.setX(equippedItemSlots.get(equipmentSlot).getX());
-				//img.setY(equippedItemSlots.get(equipmentSlot).getY());
-				img.setX(equippedItemSlots.get(equipmentSlot).getParent().getX());
+				img.setX(equippedItemSlots.get(equipmentSlot).getX());
 				img.setY(equippedItemSlots.get(equipmentSlot).getParent().getY());
 				equippedItemsTable.addActor(img);
 				img.addListener(new InputListener() {
@@ -315,6 +313,7 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			@Override
 			public void drop(Source source, Payload payload, float x, float y, int pointer) {
 				ItemUserObject userObj = (ItemUserObject) payload.getDragActor().getUserObject();
+				System.out.println(targetSlot);
 				//ItemManager.equipOrUnequipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObj.getItemId());
 				ItemManager.equipItem(gameWorld.getPlayer(), userObj.getItemId(), gameWorld.getItems(), targetSlot);
 			}

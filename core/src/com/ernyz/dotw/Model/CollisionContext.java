@@ -37,7 +37,7 @@ public class CollisionContext {
 			}*/
 			
 			e.moveX();
-			for(int j = 0; j < entities.size; j++) {
+			for(int j = 0; j < surroundingEntities.size; j++) {
 				if(!e.equals(surroundingEntities.get(j))) {
 					//Entity vs. other entities
 					if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
@@ -54,7 +54,7 @@ public class CollisionContext {
 				}
 			}
 			e.moveY();
-			for(int j = 0; j < entities.size; j++) {
+			for(int j = 0; j < surroundingEntities.size; j++) {
 				if(!e.equals(surroundingEntities.get(j))) { 
 					if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
 						e.getPosition().y = e.getLastPosY();
