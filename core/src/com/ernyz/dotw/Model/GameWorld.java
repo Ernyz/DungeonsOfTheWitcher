@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.DOTW;
-import com.ernyz.dotw.Combat.Attack;
 import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -50,7 +49,7 @@ public final class GameWorld {
 	private CollisionContext collisionContext;
 	
 	//FIXME: temporarily public
-	public Array<Attack> basicAttacks = new Array<Attack>();
+	public Array<BasicAttack> basicAttacks = new Array<BasicAttack>();
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
 	public WindowManager windowManager;
@@ -109,7 +108,7 @@ public final class GameWorld {
 				}
 			}
 			//Update basic attacks, dispose of finished ones
-			for(Attack ba : basicAttacks) {
+			for(BasicAttack ba : basicAttacks) {
 				//TODO:temp
 				if(ba == null) {
 					basicAttacks.removeValue(ba, false);

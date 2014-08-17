@@ -5,12 +5,15 @@ import com.badlogic.gdx.math.Polygon;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Items.Item;
 
-public class MeleeBasicAttack extends Attack {
+public class MeleeBasicAttack extends BasicAttack {
 	
-	public MeleeBasicAttack(MoveableEntity attacker, Item weapon) {
+	private String hand;
+	
+	public MeleeBasicAttack(MoveableEntity attacker, Item weapon, String hand) {
 		this.attacker = attacker;
 		this.texture = weapon.getTexture();
 		this.weapon = weapon;
+		this.hand = hand;
 		
 		bounds = new Polygon();
 		bounds.setVertices(new float[] {
@@ -21,15 +24,15 @@ public class MeleeBasicAttack extends Attack {
 		});
 		bounds.setOrigin(0, 0);
 		
-		attacker.getSkeleton().findSlot("RightHand").getColor().a = 0;
+		attacker.getSkeleton().findSlot(hand).getColor().a = 0;
 	}
 
 	@Override
 	public void update(float delta) {
 		distanceTraveled += delta * weapon.getFloat("Speed");
 		
-		bounds.setPosition(attacker.getSkeleton().findBone("RightHand").getWorldX()+attacker.getPosition().x + distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
-				attacker.getSkeleton().findBone("RightHand").getWorldY()+attacker.getPosition().y+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
+		bounds.setPosition(attacker.getSkeleton().findBone(hand).getWorldX()+attacker.getPosition().x + distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
+				attacker.getSkeleton().findBone(hand).getWorldY()+attacker.getPosition().y+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
 		bounds.setRotation(attacker.getRotation());
 		
 		if(distanceTraveled >= weapon.getFloat("Range")) {
@@ -40,7 +43,7 @@ public class MeleeBasicAttack extends Attack {
 	
 	@Override
 	protected void destroy() {
-		attacker.getSkeleton().findSlot("RightHand").getColor().a = 1;
+		attacker.getSkeleton().findSlot(hand).getColor().a = 1;
 	}
 
 }

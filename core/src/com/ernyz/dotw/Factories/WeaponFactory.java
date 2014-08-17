@@ -35,7 +35,7 @@ public class WeaponFactory {
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
 		i.set("Speed", 170f);  //170
-		i.set("AttackInterval", .8f);  //Interval between attacks
+		i.set("AttackInterval", .5f);  //Interval between attacks
 		i.set("TimeUntilAttack", 0f);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);

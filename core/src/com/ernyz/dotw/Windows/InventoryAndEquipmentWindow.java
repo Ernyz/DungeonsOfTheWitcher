@@ -313,7 +313,6 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 			@Override
 			public void drop(Source source, Payload payload, float x, float y, int pointer) {
 				ItemUserObject userObj = (ItemUserObject) payload.getDragActor().getUserObject();
-				System.out.println(targetSlot);
 				//ItemManager.equipOrUnequipItem(gameWorld.getPlayer(), gameWorld.getItems(), userObj.getItemId());
 				ItemManager.equipItem(gameWorld.getPlayer(), userObj.getItemId(), gameWorld.getItems(), targetSlot);
 			}

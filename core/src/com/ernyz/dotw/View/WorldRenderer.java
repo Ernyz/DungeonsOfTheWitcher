@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
@@ -121,7 +121,7 @@ public final class WorldRenderer {
 		}
 		
 		//Then attacks
-		Attack ba;  //FIXME: Improve.s
+		BasicAttack ba;  //FIXME: Improve.s
 		for(int i = 0; i < gameWorld.basicAttacks.size; i++) {
 			ba = gameWorld.basicAttacks.get(i);
 			batch.draw(ba.getTexture(), ba.getBounds().getX(), ba.getBounds().getY(), 0, 0, ba.getTextureWidth(), ba.getTextureHeight(), 1, 1, ba.getBounds().getRotation(), 0, 0, (int) ba.getTextureWidth(), (int) ba.getTextureHeight(), false, false);

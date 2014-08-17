@@ -61,6 +61,13 @@ public class InputView implements InputProcessor {
 			}
 		}
 		
+		//TODO:temp
+		if(keycode == Keys.LEFT) {
+			player.setRotation(player.getRotation()+5);
+		} else if(keycode == Keys.RIGHT) {
+			player.setRotation(player.getRotation()-5);
+		}
+		
 		return false;
 	}
 
@@ -91,7 +98,6 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		//player.attack(button);
 		player.handleMouseClick(button);
 		return false;
 	}
@@ -113,7 +119,7 @@ public class InputView implements InputProcessor {
 		touch.set(screenX, screenY, 0);
 		worldRenderer.getCamera().unproject(touch);
 		vec2Touch.set(touch.x, touch.y);
-		player.setRotation(new Vector2(vec2Touch.sub(player.getPosition()).nor()).angle());
+		player.setTargetRotation(new Vector2(vec2Touch.sub(player.getPosition()).nor()).angle());
 		return false;
 	}
 

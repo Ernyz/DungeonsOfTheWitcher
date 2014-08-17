@@ -2,16 +2,16 @@ package com.ernyz.dotw.Model;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 public class CollisionContext {
 	
 	private Array<MoveableEntity> entities;
 	private Array<Tile> tiles;
-	private Array<Attack> attacks;
+	private Array<BasicAttack> attacks;
 
-	public CollisionContext(Array<MoveableEntity> entities, Array<Tile> tiles, Array<Attack> attacks) {
+	public CollisionContext(Array<MoveableEntity> entities, Array<Tile> tiles, Array<BasicAttack> attacks) {
 		this.entities = entities;
 		this.tiles = tiles;
 		this.attacks = attacks;

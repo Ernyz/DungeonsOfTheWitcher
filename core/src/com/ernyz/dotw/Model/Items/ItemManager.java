@@ -59,6 +59,7 @@ public class ItemManager {
 	 */
 	public static String equipItem(MoveableEntity e, Integer item, Array<Item> items, String slotName) {  //TODO: Make private?
 		if(item == -1) return null;
+		
 		if(e.getEquipmentSlots().containsValue(item)) {
 			String key = "";
 			for(String str : e.getEquipmentSlots().keySet()) {
@@ -67,7 +68,7 @@ public class ItemManager {
 					break;
 				}
 			}
-			e.getEquipmentSlots().put(key, -1);
+			unequipItem(e, item);
 		}
 		e.getEquipmentSlots().put(slotName, item);
 		

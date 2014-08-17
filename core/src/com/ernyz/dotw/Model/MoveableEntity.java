@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.ernyz.dotw.Combat.Attack;
+import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Combat.BasicAttackCreator;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -39,6 +39,9 @@ public class MoveableEntity extends Entity {
 	
 	protected Polygon bounds;
 	protected int radius;
+	private float targetRotation;
+	private float rotationalVelocity = 340;  //FIXME: init not here
+
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	private float lastPosX;
@@ -95,10 +98,46 @@ public class MoveableEntity extends Entity {
 			return;
 		}
 		
+		//Turn player towards target rotation
+		//System.out.println("tarRot: "+ targetRotation + "; rot: " + rotation);
+		float cwAngle = 0;
+		if(rotation > targetRotation)
+			cwAngle = rotation-targetRotation;
+		else
+			cwAngle = 360-targetRotation+rotation;
+		//System.out.println(cwAngle);
+		if(cwAngle <= 360 - cwAngle) {  //CW
+			if(cwAngle < Gdx.graphics.getDeltaTime() * rotationalVelocity) {
+				rotation = targetRotation;
+			} else {
+				rotation += Gdx.graphics.getDeltaTime() * rotationalVelocity*(-1);
+			}
+		} else {  //CCW
+			if(360-cwAngle < Gdx.graphics.getDeltaTime() * rotationalVelocity) {
+				rotation = targetRotation;
+			} else {
+				rotation += Gdx.graphics.getDeltaTime() * rotationalVelocity;
+			}
+		}
+		if(rotation < 0)
+			rotation += 360;
+		else if(rotation > 360)
+			rotation -= 360;
+		
+		
 		//Update weapon attack timers
+		for(String slot : equipmentSlots.keySet()) {
+			//equipmentSlots.get(slot)
+			if(equipmentSlots.get(slot) != -1) {
+				Item item = gameWorld.getItemById(equipmentSlots.get(slot));
+				if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
+					item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+				}
+			}
+		}
 		for(int i = 0; i < inventory.size; i++) {
 			Item item = gameWorld.getItemById(inventory.get(i));
-			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //Check Type.WEAPON instead of "IsWeapon"
+			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
 			}
 			//System.out.println(item.getFloat("TimeUntilAttack"));
@@ -134,62 +173,6 @@ public class MoveableEntity extends Entity {
 		bounds.setPosition(bounds.getX(), position.y-radius);
 	}
 	
-	@Deprecated
-	public void checkCollisions() {
-		//Update last position
-		lastPos.set(position);
-		
-		//Move this entity in x axis
-		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(position.x-radius, bounds.getY());
-		//Check collisions with tiles and then with other entities
-		for(int i = 0; i < surroundingTiles.size; i++) {
-			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
-				position.x = lastPos.x;
-				bounds.setPosition(lastPos.x-radius, bounds.getY());
-				break;
-			}
-		}
-		for(int i = 0; i < surroundingEntities.size; i++) {
-			if(!this.equals(surroundingEntities.get(i))) {
-				//Entity vs. other entities
-				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
-					position.x = lastPos.x;
-					bounds.setPosition(lastPos.x-radius, bounds.getY());
-					break;
-				}
-			}
-		}
-				
-		//Move this entity in y axis
-		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
-		bounds.setPosition(bounds.getX(), position.y-radius);
-		//Check collisions with tiles and then with other entities
-		for(int i = 0; i < surroundingTiles.size; i++) {
-			if(!surroundingTiles.get(i).getWalkable() && Intersector.overlapConvexPolygons(bounds, surroundingTiles.get(i).getBounds())) {
-				position.y = lastPos.y;
-				bounds.setPosition(bounds.getX(), lastPos.y-radius);
-				break;
-			}
-		}
-		for(int i = 0; i < surroundingEntities.size; i++) {
-			if(!this.equals(surroundingEntities.get(i))) { 
-				if(Intersector.overlapConvexPolygons(bounds, surroundingEntities.get(i).getBounds())) {
-					position.y = lastPos.y;
-					bounds.setPosition(bounds.getX(), lastPos.y-radius);
-					break;
-				}
-			}
-		}
-		/*//Check collisions with projectiles
-		for(Attack a : gameWorld.basicAttacks) {
-			if(Intersector.overlapConvexPolygons(bounds, a.getBounds())) {
-				a.onCollision(this);
-			}
-		}*/
-		
-	}
-	
 	public void handleMouseClick(int button) {
 		/* 0-LMB; 1-RMB; 2-ScrollButton */
 		/*
@@ -198,12 +181,10 @@ public class MoveableEntity extends Entity {
 		 * *Perform that action.
 		 */
 		if(button == 0) {  //Primary action
-			//gameWorld.basicAttacks.add(new BasicAttack(this, true, gameWorld));
 			gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
-			System.out.println(gameWorld.basicAttacks.size);
 		}
 		else if(button == 1) {  //Secondary action
-			
+			gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
 		}
 	}
 	
@@ -426,6 +407,14 @@ public class MoveableEntity extends Entity {
 	
 	public float getLastPosY() {
 		return lastPosY;
+	}
+	
+	public float getTargetRotation() {
+		return targetRotation;
+	}
+
+	public void setTargetRotation(float targetRotation) {
+		this.targetRotation = targetRotation;
 	}
 	
 }
