@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Tiles.Tile;
 
 public abstract class BasicAttack {
 	
@@ -21,6 +22,11 @@ public abstract class BasicAttack {
 	
 	public void onCollision(MoveableEntity e) {
 		e.setHealth(e.getHealth()-weapon.getFloat("Damage"));
+		isFinished = true;
+		destroy();
+	}
+	
+	public void onCollision(Tile t) {
 		isFinished = true;
 		destroy();
 	}

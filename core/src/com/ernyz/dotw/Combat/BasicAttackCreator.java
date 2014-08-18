@@ -39,12 +39,10 @@ public class BasicAttackCreator {
 			if(rightHandItem == null) return null;//TODO: Temporary, until unarmed combat is implemented
 			//Determine the type of the attack (ranged, melee, etc.)
 			if(rightHandItem.getBool("IsMelee")) {
-				if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
-					attack = new MeleeBasicAttack(attacker, rightHandItem, Resources.BODY_RIGHT_HAND);
-					rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
-				} else {
-					return null;
-				}
+//				if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+				attack = new MeleeBasicAttack(attacker, rightHandItem, Resources.BODY_RIGHT_HAND);
+				rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
+//				}
 			}
 		} else {
 			if(leftHandItem == null) return null;//TODO: Temporary, until unarmed combat is implemented
@@ -53,8 +51,6 @@ public class BasicAttackCreator {
 				if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
 					attack = new MeleeBasicAttack(attacker, leftHandItem, Resources.BODY_LEFT_HAND);
 					leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
-				} else {
-					return null;
 				}
 			}
 		}

@@ -121,7 +121,7 @@ public final class WorldRenderer {
 		}
 		
 		//Then attacks
-		BasicAttack ba;  //FIXME: Improve.s
+		BasicAttack ba;  //FIXME: Improve.
 		for(int i = 0; i < gameWorld.basicAttacks.size; i++) {
 			ba = gameWorld.basicAttacks.get(i);
 			batch.draw(ba.getTexture(), ba.getBounds().getX(), ba.getBounds().getY(), 0, 0, ba.getTextureWidth(), ba.getTextureHeight(), 1, 1, ba.getBounds().getRotation(), 0, 0, (int) ba.getTextureWidth(), (int) ba.getTextureHeight(), false, false);

@@ -77,6 +77,15 @@ public class CollisionContext {
 					}
 				}
 			}
+			for(int j = 0; j < surroundingTiles.size; j++) {
+				if(!surroundingTiles.get(j).getWalkable()) {
+					for(int k = 0; k < attacks.size; k++) {
+						if(Intersector.overlapConvexPolygons(attacks.get(k).getBounds(), surroundingTiles.get(j).getBounds())) {
+							attacks.get(k).onCollision(surroundingTiles.get(j));
+						}
+					}
+				}
+			}
 		}
 	}
 	

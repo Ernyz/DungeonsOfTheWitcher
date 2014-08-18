@@ -40,7 +40,7 @@ public class MoveableEntity extends Entity {
 	protected Polygon bounds;
 	protected int radius;
 	private float targetRotation;
-	private float rotationalVelocity = 340;  //FIXME: init not here
+	private float rotationalVelocity = 450;  //FIXME: init not here
 
 	protected Vector2 velocity;
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
@@ -97,15 +97,12 @@ public class MoveableEntity extends Entity {
 			isDead = true;
 			return;
 		}
-		
 		//Turn player towards target rotation
-		//System.out.println("tarRot: "+ targetRotation + "; rot: " + rotation);
 		float cwAngle = 0;
 		if(rotation > targetRotation)
 			cwAngle = rotation-targetRotation;
 		else
 			cwAngle = 360-targetRotation+rotation;
-		//System.out.println(cwAngle);
 		if(cwAngle <= 360 - cwAngle) {  //CW
 			if(cwAngle < Gdx.graphics.getDeltaTime() * rotationalVelocity) {
 				rotation = targetRotation;
@@ -181,11 +178,26 @@ public class MoveableEntity extends Entity {
 		 * *Perform that action.
 		 */
 		if(button == 0) {  //Primary action
-			gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
+			if(this.canAttack(Resources.BODY_RIGHT_HAND)) {
+				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
+			}
 		}
 		else if(button == 1) {  //Secondary action
-			gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
+			if(this.canAttack(Resources.BODY_LEFT_HAND)) {
+				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
+			}
 		}
+	}
+	
+	private boolean canAttack(String hand) {
+		Item rightHandItem = null;
+		if(equipmentSlots.get(hand) != -1)
+			rightHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
+		
+		if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean canTakeItem(Item item) {
