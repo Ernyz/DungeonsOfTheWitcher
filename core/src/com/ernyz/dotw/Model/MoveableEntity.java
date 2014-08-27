@@ -49,6 +49,7 @@ public class MoveableEntity extends Entity {
 	protected float activeSurroundingsRange;//Everything which is in this range of any moveable entity is included in its calculations
 	private boolean isDead;
 	protected Array<Integer> inventory;  //Holds id's of items player possesses
+	public HashMap<String, Item> unarmedLimbs;  //TODO: change to protected
 	/*
 	 * Holds id's of items which are equipped in these slots.
 	 */
@@ -86,6 +87,7 @@ public class MoveableEntity extends Entity {
 		isDead = false;
 		
 		inventory = new Array<Integer>();
+		unarmedLimbs = new HashMap<String, Item>();
 		
 		surroundingTiles = new Array<Tile>();
 		surroundingEntities = new Array<MoveableEntity>();
@@ -124,7 +126,6 @@ public class MoveableEntity extends Entity {
 		
 		//Update weapon attack timers
 		for(String slot : equipmentSlots.keySet()) {
-			//equipmentSlots.get(slot)
 			if(equipmentSlots.get(slot) != -1) {
 				Item item = gameWorld.getItemById(equipmentSlots.get(slot));
 				if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
@@ -137,7 +138,12 @@ public class MoveableEntity extends Entity {
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
 			}
-			//System.out.println(item.getFloat("TimeUntilAttack"));
+		}
+		for(String slot : unarmedLimbs.keySet()) {
+			Item item = unarmedLimbs.get(slot);
+			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
+				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+			}
 		}
 		
 		//Get new surrounding tiles
@@ -191,11 +197,29 @@ public class MoveableEntity extends Entity {
 	
 	private boolean canAttack(String hand) {
 		Item rightHandItem = null;
-		if(equipmentSlots.get(hand) != -1)
-			rightHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
-		
-		if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
-			return true;
+		Item leftHandItem = null;
+		if(hand.equals(Resources.BODY_RIGHT_HAND)) {
+			if(equipmentSlots.get(hand) != -1)
+				rightHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
+			else
+				rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
+			
+			//if(equipmentSlots.get(hand) != -1) {  //FIXME: temporal check
+				if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+					return true;
+				}
+			//}
+		} else if(hand.equals(Resources.BODY_LEFT_HAND)) {
+			if(equipmentSlots.get(hand) != -1)
+				leftHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
+			else
+				leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
+			
+			//if(equipmentSlots.get(hand) != -1) {  //FIXME: temporal check
+				if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+					return true;
+				}
+			//}
 		}
 		return false;
 	}

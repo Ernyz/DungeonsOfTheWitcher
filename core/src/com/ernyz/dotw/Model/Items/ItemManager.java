@@ -144,7 +144,7 @@ public class ItemManager {
 			if(!i.getIsInInventory()) {
 				float dx = i.getX()+i.getIconTexture().getWidth()/2 - e.getPosition().x;  //XXX: icon texture used
 				float dy = i.getY()+i.getIconTexture().getHeight()/2 - e.getPosition().y;
-				if(Math.sqrt(dx*dx + dy*dy) <= e.getRadius()*.75) {
+				if(Math.sqrt(dx*dx + dy*dy) <= e.getRadius()*1) {
 					if(e.canTakeItem(i)) {
 						i.setIsInInventory(true);
 						e.getInventory().add(i.getId());

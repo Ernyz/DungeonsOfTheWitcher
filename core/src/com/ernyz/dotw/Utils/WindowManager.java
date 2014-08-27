@@ -28,7 +28,7 @@ public class WindowManager {
 		stageH = Gdx.graphics.getHeight();
 		
 		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
-		//skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
+//		skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
 	}
 	
 	/**

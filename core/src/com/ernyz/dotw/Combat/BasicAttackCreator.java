@@ -21,11 +21,13 @@ public class BasicAttackCreator {
 			rightHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND));
 		} else {
 			//create 'fist' item
+			rightHandItem = attacker.unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
 		}
 		if(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND) != -1) {
 			leftHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND));
 		} else {
 			//create 'fist' item
+			leftHandItem = attacker.unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 		}
 		
 		//TODO: Temporary, until unarmed combat is implemented

@@ -109,7 +109,7 @@ public class InputView implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		mouseMoved(screenX, screenY);  //Player must be rotated even if left-mouse is clicked
+		mouseMoved(screenX, screenY);  //Player must be rotated even if mouse is clicked
 		return false;
 	}
 
