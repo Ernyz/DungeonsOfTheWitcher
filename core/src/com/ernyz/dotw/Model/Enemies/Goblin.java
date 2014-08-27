@@ -3,11 +3,14 @@ package com.ernyz.dotw.Model.Enemies;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Resources;
+import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.Item.ItemType;
 import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonJson;
 
@@ -62,6 +65,8 @@ public class Goblin extends Enemy {
 		equipmentSlots.put(Resources.BODY_LEGS, -1);
 		equipmentSlots.put(Resources.BODY_FEET, -1);
 		
+		createUnarmedLimbs();
+		
 		//Some stats should be set manually
 		activeSurroundingsRange = 500;
 		
@@ -104,5 +109,35 @@ public class Goblin extends Enemy {
 		else if(state == StateEnum.WANDER) {
 			velocity.set(0, 0);
 		}
+	}
+	
+	private void createUnarmedLimbs() {
+		Item lHand = new Item();
+		lHand.setName(Resources.BODY_LEFT_HAND);
+		lHand.setType(ItemType.WEAPON);
+		lHand.set("PrimaryAttack", "Punch");
+		lHand.set("Speed", 170f);  //170
+		lHand.set("AttackInterval", .5f);  //Interval between attacks
+		lHand.set("TimeUntilAttack", 0f);
+		lHand.set("IsWeapon", true);
+		lHand.set("IsMelee", true);
+		lHand.set("Damage", 8f);
+		lHand.set("Range", 20f);//20f
+		lHand.setTexture(new Texture("data/items/unarmed.png"));
+		unarmedLimbs.put(Resources.BODY_LEFT_HAND, lHand);
+		
+		Item rHand = new Item();
+		rHand.setName(Resources.BODY_RIGHT_HAND);
+		rHand.setType(ItemType.WEAPON);
+		rHand.set("PrimaryAttack", "Punch");
+		rHand.set("Speed", 170f);  //170
+		rHand.set("AttackInterval", .5f);  //Interval between attacks
+		rHand.set("TimeUntilAttack", 0f);
+		rHand.set("IsWeapon", true);
+		rHand.set("IsMelee", true);
+		rHand.set("Damage", 8f);
+		rHand.set("Range", 20f);//20f
+		rHand.setTexture(new Texture("data/items/unarmed.png"));
+		unarmedLimbs.put(Resources.BODY_RIGHT_HAND, rHand);
 	}
 }
