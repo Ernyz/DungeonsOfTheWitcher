@@ -1,1 +1,0 @@
-{"name":"Ee","dungeonLevel":0,"inventory":[],"equippedItems":{"Feet":-1,"Waist":-1,"Head":-1,"RightHand":-1,"LeftHand":-1,"Legs":-1,"Palms":-1,"Shoulders":-1,"Chest":-1,"Neck":-1},"x":119,"y":108,"speed":100,"rotation":0,"health":100}

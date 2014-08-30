@@ -204,22 +204,18 @@ public class MoveableEntity extends Entity {
 			else
 				rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
 			
-			//if(equipmentSlots.get(hand) != -1) {  //FIXME: temporal check
-				if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
-					return true;
-				}
-			//}
+			if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+				return true;
+			}
 		} else if(hand.equals(Resources.BODY_LEFT_HAND)) {
 			if(equipmentSlots.get(hand) != -1)
 				leftHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
 			else
 				leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 			
-			//if(equipmentSlots.get(hand) != -1) {  //FIXME: temporal check
-				if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
-					return true;
-				}
-			//}
+			if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+				return true;
+			}
 		}
 		return false;
 	}

@@ -17,43 +17,31 @@ public class BasicAttackCreator {
 		//Determine weapon which attacker uses to attack
 		Item rightHandItem = null;
 		Item leftHandItem = null;
-		if(attacker.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND) != -1) {
-			rightHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND));
-		} else {
-			//create 'fist' item
-			rightHandItem = attacker.unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
-		}
-		if(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND) != -1) {
-			leftHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND));
-		} else {
-			//create 'fist' item
-			leftHandItem = attacker.unarmedLimbs.get(Resources.BODY_LEFT_HAND);
-		}
 		
-		//TODO: Temporary, until unarmed combat is implemented
-		if(rightHandItem == null && leftHandItem == null) {
-			return null;
-		}
+		if(attacker.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND) != -1)
+			rightHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_RIGHT_HAND));
+		else
+			rightHandItem = attacker.unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
+		
+		if(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND) != -1)
+			leftHandItem = gameWorld.getItemById(attacker.getEquipmentSlots().get(Resources.BODY_LEFT_HAND));
+		else
+			leftHandItem = attacker.unarmedLimbs.get(Resources.BODY_LEFT_HAND);
+		
 		
 		//TODO: Determine which weapon will be used to attack (left or right hand weapon) (depends on primary==true/false)
 		//Default is right hand. More functionality will be added later.
 		if(primary) {
-			if(rightHandItem == null) return null;//TODO: Temporary, until unarmed combat is implemented
 			//Determine the type of the attack (ranged, melee, etc.)
 			if(rightHandItem.getBool("IsMelee")) {
-//				if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
 				attack = new MeleeBasicAttack(attacker, rightHandItem, Resources.BODY_RIGHT_HAND);
 				rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
-//				}
 			}
 		} else {
-			if(leftHandItem == null) return null;//TODO: Temporary, until unarmed combat is implemented
 			//Determine the type of the attack (ranged, melee, etc.)
 			if(leftHandItem.getBool("IsMelee")) {
-				if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
-					attack = new MeleeBasicAttack(attacker, leftHandItem, Resources.BODY_LEFT_HAND);
-					leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
-				}
+				attack = new MeleeBasicAttack(attacker, leftHandItem, Resources.BODY_LEFT_HAND);
+				leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
 			}
 		}
 		

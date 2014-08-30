@@ -31,8 +31,14 @@ public class MeleeBasicAttack extends BasicAttack {
 	public void update(float delta) {
 		distanceTraveled += delta * weapon.getFloat("Speed");
 		
-		bounds.setPosition(attacker.getSkeleton().findBone(hand).getWorldX()+attacker.getPosition().x + distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
-				attacker.getSkeleton().findBone(hand).getWorldY()+attacker.getPosition().y+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
+		float boneWorldX = attacker.getSkeleton().findBone(hand).getWorldX();
+		float boneWorldY = attacker.getSkeleton().findBone(hand).getWorldY();
+		float centerPointX = weapon.getTexture().getHeight()/2 * MathUtils.cosDeg(attacker.getRotation()-90);
+		float centerPointY = weapon.getTexture().getHeight()/2 * MathUtils.sinDeg(attacker.getRotation()-90);
+		
+		bounds.setPosition(
+				boneWorldX+attacker.getPosition().x+centerPointX+distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
+				boneWorldY+attacker.getPosition().y+centerPointY+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
 		bounds.setRotation(attacker.getRotation());
 		
 		if(distanceTraveled >= weapon.getFloat("Range")) {
