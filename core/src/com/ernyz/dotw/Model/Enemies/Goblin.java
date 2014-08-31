@@ -97,9 +97,8 @@ public class Goblin extends Enemy {
 			this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 80) {  //FIXME hardcoding
-				//attack(0);  //Primary attack
-				handleMouseClick(0);
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 70) {  //FIXME hardcoding
+				handleMouseClick(1);  //Primary attack
 			}
 			else {
 				//Attack or move closer if needed
@@ -121,7 +120,7 @@ public class Goblin extends Enemy {
 		lHand.set("TimeUntilAttack", 0f);
 		lHand.set("IsWeapon", true);
 		lHand.set("IsMelee", true);
-		lHand.set("Damage", 8f);
+		lHand.set("Damage", 6f);
 		lHand.set("Range", 20f);//20f
 		lHand.setTexture(new Texture("data/items/unarmed.png"));
 		unarmedLimbs.put(Resources.BODY_LEFT_HAND, lHand);
@@ -135,7 +134,7 @@ public class Goblin extends Enemy {
 		rHand.set("TimeUntilAttack", 0f);
 		rHand.set("IsWeapon", true);
 		rHand.set("IsMelee", true);
-		rHand.set("Damage", 8f);
+		rHand.set("Damage", 6f);
 		rHand.set("Range", 20f);//20f
 		rHand.setTexture(new Texture("data/items/unarmed.png"));
 		unarmedLimbs.put(Resources.BODY_RIGHT_HAND, rHand);

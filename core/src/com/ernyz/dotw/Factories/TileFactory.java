@@ -50,7 +50,7 @@ public class TileFactory {
 		
 		for(int x = 0; x < map.length; x++) {
 			for(int y = 0; y < map[x].length; y++) {
-				if(map[x][y] == '.') {
+				if(map[x][y] == '.' || map[x][y] == '@') {
 					tiles.add(createFloor(x*50, y*50));  //TODO remove hardcoding
 				}
 				else if(map[x][y] == '#') {

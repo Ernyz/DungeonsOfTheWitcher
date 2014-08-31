@@ -27,7 +27,7 @@ public class EntityGenerator {
 				//Determine type of the tile //TODO: Add more functionality later.
 				//if(tiles.get(i).getAsciiSymbol() == '.') {
 				if(tiles[x][y] == '.') {
-					if(Math.random() < 0.009) {
+					if(Math.random() < 0.013) {
 						//FIXME: Bad starting coords.
 						Goblin g = entityFactory.createGoblin(x*50+25, y*50+25, null);  //TODO remove hardcoding
 						//Format json and return it to world generator? just for it to save the array of enemies

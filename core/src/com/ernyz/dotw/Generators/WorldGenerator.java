@@ -27,7 +27,6 @@ public class WorldGenerator {
 	private String playerName;
 	private Player player;
 	
-	//private Array<Array<Tile>> levels;
 	private Array<char[][]> levels;
 	private Array<MoveableEntity> entities;
 	private Array<Item> items;
@@ -49,7 +48,7 @@ public class WorldGenerator {
 	}
 	
 	/**
-	 * Generates all world of the game.
+	 * Generates whole world of the game.
 	 */
 	private void generateWorld() {
 		//Initialise values
@@ -75,7 +74,7 @@ public class WorldGenerator {
 		//Generate entities
 		for(int i = 0; i < levels.size; i++) {
 			//TODO: Change i to level name?.. Would be good for branches and stuff
-			entities = EntityGenerator.generateEntitiesInLevel(i, levels.get(i));  //add items to arguments
+			entities = EntityGenerator.generateEntitiesInLevel(i, levels.get(i));  //TODO: add items array to arguments
 		}
 		
 		//Generate items (in the world, not in entities inventories)

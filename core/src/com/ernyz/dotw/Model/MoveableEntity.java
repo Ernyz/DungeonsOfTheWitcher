@@ -183,14 +183,14 @@ public class MoveableEntity extends Entity {
 		 * *Check if selected action is possible (not on cd. and etc.);
 		 * *Perform that action.
 		 */
-		if(button == 0) {  //Primary action
-			if(this.canAttack(Resources.BODY_RIGHT_HAND)) {
-				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
-			}
-		}
-		else if(button == 1) {  //Secondary action
+		if(button == 0) {  //Secondary action
 			if(this.canAttack(Resources.BODY_LEFT_HAND)) {
 				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
+			}
+		}
+		else if(button == 1) {  //Primary action
+			if(this.canAttack(Resources.BODY_RIGHT_HAND)) {
+				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
 			}
 		}
 	}

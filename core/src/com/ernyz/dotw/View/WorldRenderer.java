@@ -144,6 +144,10 @@ public final class WorldRenderer {
 			player.getSkeleton().update(Gdx.graphics.getDeltaTime());
 			skeletonRenderer.draw(batch, player.getSkeleton());
 			//skeletonRendererDebug.draw(player.getSkeleton());
+			
+			for(FloatingText t : GameWorld.getFloatingText()) {
+				t.getFont().draw(batch, t.getText(), t.getX(), t.getY());
+			}
 		batch.end();
 		
 		//Draw HUD

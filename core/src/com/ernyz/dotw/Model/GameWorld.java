@@ -16,6 +16,7 @@ import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.Utils.WindowManager;
+import com.ernyz.dotw.View.FloatingText;
 import com.ernyz.dotw.View.HeadsUpDisplay;
 import com.ernyz.dotw.View.LoadGame;
 import com.ernyz.dotw.Windows.CustomWindow;
@@ -50,6 +51,8 @@ public final class GameWorld {
 	
 	//FIXME: temporarily public
 	public Array<BasicAttack> basicAttacks = new Array<BasicAttack>();
+	//FIXME: temporarily public
+	private static Array<FloatingText> floatingText = new Array<FloatingText>();
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
 	public WindowManager windowManager;
@@ -127,6 +130,13 @@ public final class GameWorld {
 					windows.get(windowName).update(Gdx.graphics.getDeltaTime());
 				}
 			}
+			//Update floating texts
+			for(FloatingText t : floatingText) {
+				t.update(Gdx.graphics.getDeltaTime());
+				if(t.isFinished()) {
+					floatingText.removeValue(t, false);
+				}
+			}
 		}
 	}
 	
@@ -179,6 +189,14 @@ public final class GameWorld {
 		else {
 			messageHistory.add(msg);
 		}
+	}
+	
+	public static void addFloatingText(FloatingText t) {
+		floatingText.add(t);
+	}
+	
+	public static Array<FloatingText> getFloatingText() {
+		return floatingText;
 	}
 	
 	public Array<String> getMessageHistory() {

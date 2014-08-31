@@ -23,7 +23,6 @@ public class PlayerGenerator {
 	 * @param items
 	 * @return
 	 */
-	//public static Player generatePlayer(String name, Array<Tile> tiles, Array<Item> items) {
 	public static Player generatePlayer(String name, char[][] tiles, Array<Item> items) {
 		Player player;
 		ItemFactory itemFactory;
@@ -32,7 +31,7 @@ public class PlayerGenerator {
 		player = new Player(new Vector2(), new Vector2(), 0, 0, null);
 		player.setName(name);
 		player.setDungeonLevel(0);
-		player.setPosition(new Vector2(100 + (50-player.getWidth())/2, 100 + (50-player.getHeight())/2));  //TODO: Remove hard-coding!
+		setPosition(player, tiles);
 		player.setSpeed(100f);
 		player.setRotation(0);
 		player.setHealth(100);
@@ -41,5 +40,18 @@ public class PlayerGenerator {
 		//itemFactory = new ItemFactory();
 		
 		return player;
+	}
+	
+	private static void setPosition(Player p, char[][] tiles) {
+		for(int x = 0; x < tiles.length; x++) {
+			for(int y = 0; y < tiles[0].length; y++) {
+				System.out.println(tiles[x][y]);
+				if(tiles[x][y] == '@') {
+					System.out.println(x+ " "+y);
+					//100 + (50-player.getWidth())/2, 100 + (50-player.getHeight())/2)
+					p.setPosition(new Vector2(x*50+25, y*50+25));  //TODO remove hardcoding
+				}
+			}
+		}
 	}
 }

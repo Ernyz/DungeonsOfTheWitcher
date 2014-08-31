@@ -85,7 +85,7 @@ public final class Player extends MoveableEntity {
 		lHand.set("TimeUntilAttack", 0f);
 		lHand.set("IsWeapon", true);
 		lHand.set("IsMelee", true);
-		lHand.set("Damage", 8f);
+		lHand.set("Damage", 4f);
 		lHand.set("Range", 20f);//20f
 		lHand.setTexture(new Texture("data/items/unarmed.png"));
 		unarmedLimbs.put(Resources.BODY_LEFT_HAND, lHand);
@@ -99,7 +99,7 @@ public final class Player extends MoveableEntity {
 		rHand.set("TimeUntilAttack", 0f);
 		rHand.set("IsWeapon", true);
 		rHand.set("IsMelee", true);
-		rHand.set("Damage", 8f);
+		rHand.set("Damage", 4f);
 		rHand.set("Range", 20f);//20f
 		rHand.setTexture(new Texture("data/items/unarmed.png"));
 		unarmedLimbs.put(Resources.BODY_RIGHT_HAND, rHand);

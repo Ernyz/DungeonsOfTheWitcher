@@ -1,0 +1,8 @@
+Can attack:
+-If not blocking
+-If weapon is not on cooldown
+-If recovered from being attacked
+-If blocked and weapon which is not on cd used, counter-attack happens
+
+Can block:
+-If NO weapons are on cooldowns
