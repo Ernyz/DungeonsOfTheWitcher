@@ -1,8 +1,13 @@
 Can attack:
--If not blocking
--If weapon is not on cooldown
--If recovered from being attacked
++If not blocking
++If weapon is not on cooldown
++If recovered from being attacked
 -If blocked and weapon which is not on cd used, counter-attack happens
 
 Can block:
--If NO weapons are on cooldowns
++If NO weapons are on cooldowns
++-If NOT recovered from being attacked, block has lesser chance to be successful (-x% OF current block chance)
+-Attack and defence ratings must be compared to determine the chance of attack/block success. If atr is 2x bigger than dr, then attack has 100% success chance.
+
+-If attack is blocked, blocking gets turned off. (Probably too hardcore)
++-If counter attack buff is present, it cannot be removed by any debuff.

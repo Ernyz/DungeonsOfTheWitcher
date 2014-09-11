@@ -40,8 +40,16 @@ public class FloatingText {
 		return x;
 	}
 	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
 	public float getY() {
 		return y;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
 	}
 	
 	public BitmapFont getFont() {
@@ -50,6 +58,10 @@ public class FloatingText {
 	
 	public String getText() {
 		return text;
+	}
+	
+	public float getWidth() {
+		return font.getBounds(text).width;
 	}
 	
 	public boolean isFinished() {

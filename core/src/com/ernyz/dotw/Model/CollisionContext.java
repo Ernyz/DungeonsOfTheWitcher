@@ -73,6 +73,7 @@ public class CollisionContext {
 			for(int j = 0; j < attacks.size; j++) {
 				if(!attacks.get(j).getAttacker().equals(e)) {
 					if(Intersector.overlapConvexPolygons(e.getBounds(), attacks.get(j).getBounds())) {
+						e.onCollision(attacks.get(j));
 						attacks.get(j).onCollision(e);
 					}
 				}

@@ -33,8 +33,8 @@ public class DrunkardWalkLevelGenerator {
 		}
 		//Set random starting position (not random while in testing stage)
 		//int x = 2;
-		int x = r.nextInt(WorldGenerator.MAP_WIDTH-1)+1;
-		int y = r.nextInt(WorldGenerator.MAP_HEIGHT-1)+1;
+		int x = r.nextInt(WorldGenerator.MAP_WIDTH-2)+1;
+		int y = r.nextInt(WorldGenerator.MAP_HEIGHT-2)+1;
 		int spawnX = x;
 		int spawnY = y;
 		//How many percents of walls should be carved

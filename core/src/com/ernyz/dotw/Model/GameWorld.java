@@ -15,6 +15,7 @@ import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.ernyz.dotw.Screens.LostGameScreen;
 import com.ernyz.dotw.Utils.WindowManager;
 import com.ernyz.dotw.View.FloatingText;
 import com.ernyz.dotw.View.HeadsUpDisplay;
@@ -29,7 +30,7 @@ import com.ernyz.dotw.Windows.CustomWindow;
 public final class GameWorld {
 	
 	private enum GameStateEnum {
-		LOADING, PLAYING, PAUSED
+		LOADING, PLAYING, PAUSED, FINISHED
 	}
 	private GameStateEnum gameState;
 	
@@ -101,6 +102,11 @@ public final class GameWorld {
 	public void update() {
 		//Update everything
  		if(gameState == GameStateEnum.PLAYING) {
+ 			if(player.getIsDead()) {
+ 				game.setScreen(new LostGameScreen(game));
+ 				gameState = GameStateEnum.FINISHED;
+ 			}
+ 			
  			//Update entities
 			for(MoveableEntity entity : entities) {
 				if(entity.getIsDead()) {

@@ -39,7 +39,7 @@ public class WeaponFactory {
 		i.set("TimeUntilAttack", 0f);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);
-		i.set("Damage", 0f);//10f
+		i.set("Damage", 10f);
 		i.set("Range", 24f);
 		
 		i.setIconTexture(new Texture("data/items/icons/dagger.png"));

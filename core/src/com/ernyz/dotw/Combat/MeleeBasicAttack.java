@@ -42,13 +42,14 @@ public class MeleeBasicAttack extends BasicAttack {
 		bounds.setRotation(attacker.getRotation());
 		
 		if(distanceTraveled >= weapon.getFloat("Range")) {
-			isFinished = true;
+			//isFinished = true;
 			destroy();
 		}
 	}
 	
 	@Override
 	protected void destroy() {
+		isFinished = true;
 		attacker.getSkeleton().findSlot(hand).getColor().a = 1;
 	}
 

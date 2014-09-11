@@ -45,10 +45,7 @@ public class PlayerGenerator {
 	private static void setPosition(Player p, char[][] tiles) {
 		for(int x = 0; x < tiles.length; x++) {
 			for(int y = 0; y < tiles[0].length; y++) {
-				System.out.println(tiles[x][y]);
 				if(tiles[x][y] == '@') {
-					System.out.println(x+ " "+y);
-					//100 + (50-player.getWidth())/2, 100 + (50-player.getHeight())/2)
 					p.setPosition(new Vector2(x*50+25, y*50+25));  //TODO remove hardcoding
 				}
 			}

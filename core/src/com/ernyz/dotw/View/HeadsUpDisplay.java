@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.ernyz.dotw.Model.GameWorld;
-import com.ernyz.dotw.Model.MoveableEntity;
+import com.ernyz.dotw.Model.Effects.Effect;
 
 /**
  * Holds all the resources/logic/etc. needed for HUD.
@@ -36,6 +37,9 @@ public class HeadsUpDisplay {
 	private Image bars;  //FIXME: What a misleading name...come up with a better one.
 	private Image healthBar, manaBar, staminaBar;
 	
+	private Array<Image> effects = new Array<Image>();
+	private Table effectTable = new Table();
+	
 	public HeadsUpDisplay(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 		
@@ -45,7 +49,6 @@ public class HeadsUpDisplay {
 		messagesShown = 5;
 		
 		//Initialise scene2d variables
-		//stage = new Stage(width, height, true);
 		ScreenViewport viewport = new ScreenViewport();
 		stage = new Stage(viewport);
 		skin = new Skin(Gdx.files.internal("data/HUD/PackOutput/hud.json"));
@@ -88,6 +91,9 @@ public class HeadsUpDisplay {
 		stage.addActor(manaBar);
 		stage.addActor(staminaBar);
 		stage.addActor(bars);
+		
+		effectTable.setPosition(5, height-35);  //FIXME: Remove hardcoding
+		stage.addActor(effectTable);
 	}
 	
 	public void updateAndRender(SpriteBatch batch) {
@@ -97,17 +103,32 @@ public class HeadsUpDisplay {
 		staminaBar.setHeight(staminaBarMaxHeight * gameWorld.getPlayer().getStamina() / gameWorld.getPlayer().getMaxStamina());
 		//Update output text
 		outputLabel.setText("");
-		 if(gameWorld.getMessageHistory().size >= messagesShown) {
-			 for(int i = gameWorld.getMessageHistory().size-messagesShown; i < gameWorld.getMessageHistory().size; i++) {
-				 outputLabel.setText(outputLabel.getText()+"\n"+gameWorld.getMessageHistory().get(i));
-			 }
-		 }
-		 else {
-			 for(int i = 0; i < gameWorld.getMessageHistory().size; i++) {
-				 outputLabel.setText(outputLabel.getText()+"\n"+gameWorld.getMessageHistory().get(i));
-			 }
-		 }
-		 
+		if(gameWorld.getMessageHistory().size >= messagesShown) {
+			for(int i = gameWorld.getMessageHistory().size-messagesShown; i < gameWorld.getMessageHistory().size; i++) {
+				outputLabel.setText(outputLabel.getText()+"\n"+gameWorld.getMessageHistory().get(i));
+			}
+		}
+		else {
+			for(int i = 0; i < gameWorld.getMessageHistory().size; i++) {
+				outputLabel.setText(outputLabel.getText()+"\n"+gameWorld.getMessageHistory().get(i));
+			}
+		}
+		
+		//Update effects
+		effects.clear();
+		for(Effect e : gameWorld.getPlayer().effects) {
+			Image img = new Image(e.getTexture());
+			effects.add(img);
+		}
+		effectTable.clearChildren();
+		float x = 0;
+		float y = 0;
+		for(Image i : effects) {
+			effectTable.addActor(i);
+			i.setPosition(x*i.getWidth()+x*5, y*i.getHeight()+5);
+			x++;
+		}
+		
 		//Draw HUD
 		stage.act();
 		
@@ -126,7 +147,7 @@ public class HeadsUpDisplay {
 		return stage;
 	}
 	
-	private class StatTable extends Table {
+	/*private class StatTable extends Table {
 		
 		public StatTable(Skin skin, MoveableEntity e) {
 			this.setSkin(skin);
@@ -138,6 +159,6 @@ public class HeadsUpDisplay {
 			add("Mana: ");
 		}
 		
-	}
+	}*/
 	
 }

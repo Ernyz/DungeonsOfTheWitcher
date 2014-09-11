@@ -49,23 +49,14 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
 		} else if(keycode == Keys.SPACE) {
-			player.setHealth(player.getHealth()-1);
-			player.setMana(player.getMana()-1);
-			player.setStamina(player.getStamina()-1);
-			//Dump message history
-			System.out.println(gameWorld.getMessageHistory());
+			if(player.canBlock()) {
+				player.setBlocking(true);
+			}
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
 				gameWorld.windowManager.toggleWindow("InGameOptions");
 			}
-		}
-		
-		//TODO:temp
-		if(keycode == Keys.LEFT) {
-			player.setRotation(player.getRotation()+5);
-		} else if(keycode == Keys.RIGHT) {
-			player.setRotation(player.getRotation()-5);
 		}
 		
 		return false;
@@ -86,6 +77,11 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.D) {
 			if(player.getVelocity().x == 1)
 				player.setVelocity(new Vector2(0, player.getVelocity().y));
+		}
+		if(keycode == Keys.SPACE) {
+			if(player.isBlocking()) {
+				player.setBlocking(false);
+			}
 		}
 		
 		return false;

@@ -63,7 +63,7 @@ build/
 .DS_Store
 
 ## Spine projects and its assets
-core/assets/data/SpineProjects
+core/assets
 
 ## Misc
 attacks.txt
