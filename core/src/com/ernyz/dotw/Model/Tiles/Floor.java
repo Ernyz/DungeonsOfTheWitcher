@@ -1,7 +1,5 @@
 package com.ernyz.dotw.Model.Tiles;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class Floor extends Tile {
@@ -10,8 +8,12 @@ public class Floor extends Tile {
 		super(position, rotation);
 		
 		asciiSymbol = '.';
-		texture = new Texture(Gdx.files.internal("data/tiles/CaveGround.png"));
+		//texture = new Texture(Gdx.files.internal("data/tiles/CaveGround.png"));
 		this.setWalkable(true);
 		this.setName("floor");
+	}
+	
+	@Override
+	public void update(float delta) {
 	}
 }

@@ -1,7 +1,7 @@
 package com.ernyz.dotw.Model.Tiles;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.Entity;
 
@@ -10,7 +10,9 @@ import com.ernyz.dotw.Model.Entity;
  * 
  * @author ernyz
  */
-public class Tile extends Entity {
+public abstract class Tile extends Entity {
+	
+	protected TextureRegion textureRegion;
 	protected char asciiSymbol;
 	protected Boolean walkable;
 	protected Polygon bounds;
@@ -41,6 +43,14 @@ public class Tile extends Entity {
 
 	public void setAsciiSymbol(char asciiSymbol) {
 		this.asciiSymbol = asciiSymbol;
+	}
+
+	public TextureRegion getTextureRegion() {
+		return textureRegion;
+	}
+
+	public void setTextureRegion(TextureRegion textureRegion) {
+		this.textureRegion = textureRegion;
 	}
 	
 }

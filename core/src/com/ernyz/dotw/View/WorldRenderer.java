@@ -18,6 +18,7 @@ import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
+import com.ernyz.dotw.Model.Tiles.Torch;
 import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.SkeletonRendererDebug;
 
@@ -98,8 +99,11 @@ public final class WorldRenderer {
 		batch.begin();
 		//Begin from tiles
 		Array<Tile> tiles = player.getSurroundingTiles();
+//		for(int i = 0; i < tiles.size; i++) {
+//			batch.draw(tiles.get(i).getTexture(), tiles.get(i).getPosition().x, tiles.get(i).getPosition().y);
+//		}
 		for(int i = 0; i < tiles.size; i++) {
-			batch.draw(tiles.get(i).getTexture(), tiles.get(i).getPosition().x, tiles.get(i).getPosition().y);
+			batch.draw(tiles.get(i).getTextureRegion(), tiles.get(i).getPosition().x, tiles.get(i).getPosition().y);
 		}
 		
 		//Then items

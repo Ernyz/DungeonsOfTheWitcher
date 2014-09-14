@@ -74,8 +74,8 @@ public class Goblin extends Enemy {
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(float delta) {
+		super.update(delta);
 		
 		examineSurroundings();
 	}

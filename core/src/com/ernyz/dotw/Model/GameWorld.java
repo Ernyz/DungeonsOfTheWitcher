@@ -113,7 +113,7 @@ public final class GameWorld {
 					entity.dispose();
 					entities.removeValue(entity, false);
 				} else {
-					entity.update();
+					entity.update(Gdx.graphics.getDeltaTime());
 				}
 			}
 			//Update basic attacks, dispose of finished ones
@@ -142,6 +142,10 @@ public final class GameWorld {
 				if(t.isFinished()) {
 					floatingText.removeValue(t, false);
 				}
+			}
+			//Update tiles
+			for(Tile t : player.getSurroundingTiles()) {
+				t.update(Gdx.graphics.getDeltaTime());
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public abstract class Entity {
 	protected Vector2 position;
 	protected float rotation;
 	protected float width, height;
-	protected Texture texture;  //TODO: This should probably be removed later
+	protected Texture texture;  //TODO: Move this down to MoveableEntity
 	
 	protected String name;
 	
@@ -22,6 +22,8 @@ public abstract class Entity {
 		this.rotation = rotation;
 		//Width and height are set in constructors of each subclass
 	}
+	
+	public abstract void update(float delta);
 	
 	/**
 	 * Properly disposes entities resources. TODO: rethink if this method is needed

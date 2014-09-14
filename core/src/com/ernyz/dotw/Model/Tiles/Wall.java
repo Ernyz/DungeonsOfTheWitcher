@@ -1,7 +1,5 @@
 package com.ernyz.dotw.Model.Tiles;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,9 +12,11 @@ public class Wall extends Tile {
 		super(position, rotation);
 		
 		asciiSymbol = '#';
-		texture = new Texture(Gdx.files.internal("data/tiles/Wall.png"));
-		width = texture.getWidth();
-		height = texture.getHeight();
+		//texture = new Texture(Gdx.files.internal("data/tiles/Wall.png"));
+//		width = texture.getWidth();
+//		height = texture.getHeight();
+		width = 50;
+		height = 50;
 		bounds = new Polygon();
 		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});
 		bounds.setOrigin(0, 0);
@@ -24,6 +24,10 @@ public class Wall extends Tile {
 		
 		this.setWalkable(false);
 		this.setName("wall");
+	}
+	
+	@Override
+	public void update(float delta) {
 	}
 
 	/**

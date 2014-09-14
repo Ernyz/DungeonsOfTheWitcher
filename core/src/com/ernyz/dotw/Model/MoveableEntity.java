@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Combat.BasicAttackCreator;
+import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -100,7 +101,7 @@ public class MoveableEntity extends Entity {
 		surroundingEntities = new Array<MoveableEntity>();
 	}
 	
-	public void update() {
+	public void update(float delta) {
 		//Check to see if this entity is still alive
 		if(health <= 0) {
 			isDead = true;
@@ -114,16 +115,16 @@ public class MoveableEntity extends Entity {
 		else
 			cwAngle = 360-targetRotation+rotation;
 		if(cwAngle <= 360 - cwAngle) {  //CW
-			if(cwAngle < Gdx.graphics.getDeltaTime() * rotationalVelocity) {
+			if(cwAngle < delta * rotationalVelocity) {
 				rotation = targetRotation;
 			} else {
-				rotation += Gdx.graphics.getDeltaTime() * rotationalVelocity*(-1);
+				rotation += delta * rotationalVelocity*(-1);
 			}
 		} else {  //CCW
-			if(360-cwAngle < Gdx.graphics.getDeltaTime() * rotationalVelocity) {
+			if(360-cwAngle < delta * rotationalVelocity) {
 				rotation = targetRotation;
 			} else {
-				rotation += Gdx.graphics.getDeltaTime() * rotationalVelocity;
+				rotation += delta * rotationalVelocity;
 			}
 		}
 		if(rotation < 0)
@@ -133,7 +134,7 @@ public class MoveableEntity extends Entity {
 		
 		//Update effects
 		for(Effect e : effects) {
-			e.update(Gdx.graphics.getDeltaTime());
+			e.update(delta);
 			if(e.isFinished())
 				effects.removeValue(e, false);
 		}
@@ -143,20 +144,20 @@ public class MoveableEntity extends Entity {
 			if(equipmentSlots.get(slot) != -1) {
 				Item item = gameWorld.getItemById(equipmentSlots.get(slot));
 				if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
-					item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+					item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - delta);
 				}
 			}
 		}
 		for(int i = 0; i < inventory.size; i++) {
 			Item item = gameWorld.getItemById(inventory.get(i));
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
-				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - delta);
 			}
 		}
 		for(String slot : unarmedLimbs.keySet()) {
 			Item item = unarmedLimbs.get(slot);
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
-				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - Gdx.graphics.getDeltaTime());
+				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - delta);
 			}
 		}
 		
@@ -304,36 +305,26 @@ public class MoveableEntity extends Entity {
 	public void onCollision(BasicAttack ba) {  //TODO: abstract attacks to one type
 		if(!blocking) {
 			setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
-			FloatingText floatingText = new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y);
-			floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-			GameWorld.addFloatingText(new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
+			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
 			//TODO: Effect factory is needed
 			effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
 		} else if(blocking) {
 			if(getEffectByName("RecoveringFromAttack") != null) {
 				if(MathUtils.randomBoolean(0.75f)) {
-					FloatingText floatingText = new FloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(floatingText);
+					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
 					effects.add(new Effect("CanCounterAttack", 0.5f, ba.getAttacker(), this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
-					FloatingText floatingText = new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
+					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
 					effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
 				}
 			} else {
 				if(MathUtils.randomBoolean(0.85f)) {
-					FloatingText floatingText = new FloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(floatingText);
+					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
 					effects.add(new Effect("CanCounterAttack", 0.5f, ba.getAttacker(), this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
-					FloatingText floatingText = new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(new FloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
+					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
 					effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
 				}
 			}
