@@ -3,6 +3,8 @@ package com.ernyz.dotw.Model.Items;
 import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
+import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 
 /**
  * Base class for all items, like weapons, scrolls, potions and etc.
@@ -39,8 +41,10 @@ public class Item {
 	 * Key naming is upper camel case (IsWeapon, IsConsumable and etc.)
 	 */
 	private HashMap attributes;
+	private Array<Enchantment> enchantments;
 	
 	public Item() {
+		enchantments = new Array<Enchantment>();
 		attributes = new HashMap();
 	}
 	
@@ -154,6 +158,14 @@ public class Item {
 
 	public void setWeight(Float weight) {
 		this.weight = weight;
+	}
+
+	public Array<Enchantment> getEnchantments() {
+		return enchantments;
+	}
+	
+	public void addEnchantment(Enchantment e) {
+		enchantments.add(e);
 	}
 	
 }

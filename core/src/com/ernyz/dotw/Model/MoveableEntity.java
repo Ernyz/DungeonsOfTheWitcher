@@ -3,6 +3,7 @@ package com.ernyz.dotw.Model;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -10,11 +11,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Combat.BasicAttackCreator;
+import com.ernyz.dotw.Factories.EffectFactory;
 import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 import com.ernyz.dotw.Model.Tiles.Tile;
-import com.ernyz.dotw.View.FloatingText;
 import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
@@ -27,7 +29,7 @@ import com.esotericsoftware.spine.SkeletonJson;
 public class MoveableEntity extends Entity {
 	
 	protected GameWorld gameWorld;
-	/*O
+	/*
 	 * Following two fields are used to hold objects around this MoveableEntity.
 	 * Radius is set in particular Entities classes (like Goblin, Player, etc.)
 	 * This results in improved performance, since these arrays are small portions of tile and entities arrays.
@@ -40,6 +42,7 @@ public class MoveableEntity extends Entity {
 	protected TextureAtlas atlas;
 	protected SkeletonJson skeletonJson;
 	
+	protected Texture texture;
 	protected Polygon bounds;
 	protected int radius;
 	private float targetRotation;
@@ -58,8 +61,7 @@ public class MoveableEntity extends Entity {
 	 */
 	protected HashMap<String, Integer> equipmentSlots;
 	
-	//TODO: Make private and add getter and addEffect(Effect e) methods
-	public Array<Effect> effects = new Array<Effect>();
+	private Array<Effect> effects = new Array<Effect>();
 	
 	private boolean blocking = false;
 	
@@ -199,29 +201,40 @@ public class MoveableEntity extends Entity {
 		 * *Perform that action.
 		 */
 		if(button == 0) {  //Secondary action
-			if(this.canAttack(Resources.BODY_LEFT_HAND)) {
+			if(this.canAttack(Resources.BODY_LEFT_HAND) == 1) {
 				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
+			} else if(this.canAttack(Resources.BODY_LEFT_HAND) == 2) {
+				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
+				ba.getEnchantments().add(new Enchantment("CounterAttack"));
+				gameWorld.basicAttacks.add(ba);
+				removeEffect("CanCounterAttack");
 			}
 		}
 		else if(button == 1) {  //Primary action
-			if(this.canAttack(Resources.BODY_RIGHT_HAND)) {
+			if(this.canAttack(Resources.BODY_RIGHT_HAND) == 1) {
 				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
+			} else if(this.canAttack(Resources.BODY_RIGHT_HAND) == 2) {
+				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
+				ba.getEnchantments().add(new Enchantment("CounterAttack"));
+				gameWorld.basicAttacks.add(ba);
+				removeEffect("CanCounterAttack");
 			}
 		}
 	}
 	
-	private boolean canAttack(String hand) {
-		if(isBlocking()) return false;
+	/**
+	 * 
+	 * @return - 0 if can not attack;
+	 * @return - 1 if can attack;
+	 * @return - 2 if can counter attack;
+	 */
+	private int canAttack(String hand) {
+		if(isBlocking()) return 0;
 		
-		for(Effect e : effects) {
-			if(e.getEffectName().equals("CanCounterAttack")) {
-				return true;
-			}
-		}
-		for(Effect e : effects) {
-			if(e.getEffectName().equals("RecoveringFromAttack")) {
-				return false;
-			}
+		if(hasEffect("CanCounterAttack")) {
+			return 2;
+		} else if(hasEffect("RecoveringFromAttack")) {
+			return 0;
 		}
 		
 		Item rightHandItem = null;
@@ -233,7 +246,7 @@ public class MoveableEntity extends Entity {
 				rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
 			
 			if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
-				return true;
+				return 1;
 			}
 		} else if(hand.equals(Resources.BODY_LEFT_HAND)) {
 			if(equipmentSlots.get(hand) != -1)
@@ -242,10 +255,10 @@ public class MoveableEntity extends Entity {
 				leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 			
 			if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
-				return true;
+				return 1;
 			}
 		}
-		return false;
+		return 0;
 	}
 	
 	public boolean canBlock() {
@@ -306,26 +319,30 @@ public class MoveableEntity extends Entity {
 		if(!blocking) {
 			setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-			//TODO: Effect factory is needed
-			effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
+			//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
+			addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 		} else if(blocking) {
-			if(getEffectByName("RecoveringFromAttack") != null) {
+			if(hasEffect("RecoveringFromAttack")) {
 				if(MathUtils.randomBoolean(0.75f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					effects.add(new Effect("CanCounterAttack", 0.5f, ba.getAttacker(), this));
+					//effects.add(EffectFactory.canCounterAttack(this, this));
+					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
+					//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
+					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 				}
 			} else {
 				if(MathUtils.randomBoolean(0.85f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					effects.add(new Effect("CanCounterAttack", 0.5f, ba.getAttacker(), this));
+					//effects.add(EffectFactory.canCounterAttack(this, this));
+					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					effects.add(new Effect("RecoveringFromAttack", 0.8f, ba.getAttacker(), this));
+					//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
+					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 				}
 			}
 		}
@@ -340,14 +357,49 @@ public class MoveableEntity extends Entity {
 		return result;
 	}
 	
-	//XXX: Dont know if its really needed atm.
-	private float calculateAttackRating() {
+	private boolean hasEffect(String name) {
+		for(Effect e : effects) {
+			if(e.getEffectName().equals(name))
+				return true;
+		}
+		return false;
+	}
+	
+	public void addEffect(Effect e) {
+		Effect effect = getEffectByName(e.getEffectName());
+		if(effect == null) {
+			//addEffect(e);
+			effects.add(e);
+		} else {
+			if(effect.getStacks() >= effect.getMaxStacks()) {
+				effect.setStacks(effect.getMaxStacks());
+				effect.setTimeWorking(0f);
+			} else {
+				effect.setStacks(effect.getStacks()+1);
+				effect.setTimeWorking(0f);
+			}
+		}
+	}
+	
+	private void removeEffect(String name) {
+		for(Effect e : effects) {
+			if(e.getEffectName().equals(name))
+				//TODO: e.setIsDead(true);
+				effects.removeValue(e, false);
+		}
+	}
+	
+	public Array<Effect> getEffects() {
+		return effects;
+	}
+	
+	/*private float calculateAttackRating() {
 		return dexterity;
 	}
 	
 	private float calculateDefenceRating() {
 		return dexterity;
-	}
+	}*/
 	
 	public Array<Integer> getInventory() {
 		return inventory;
@@ -360,6 +412,10 @@ public class MoveableEntity extends Entity {
 	}
 	public void setEquipmentSlots(HashMap<String, Integer> equipmentSlots) {
 		this.equipmentSlots = equipmentSlots;
+	}
+	
+	public Texture getTexture() {
+		return texture;
 	}
 	
 	public Polygon getBounds() {

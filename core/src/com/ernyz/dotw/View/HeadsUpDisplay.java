@@ -116,7 +116,7 @@ public class HeadsUpDisplay {
 		
 		//Update effects
 		effects.clear();
-		for(Effect e : gameWorld.getPlayer().effects) {
+		for(Effect e : gameWorld.getPlayer().getEffects()) {
 			Image img = new Image(e.getTexture());
 			effects.add(img);
 		}

@@ -62,8 +62,5 @@ build/
 ## OS Specific
 .DS_Store
 
-## Spine projects and its assets
-core/assets
-
 ## Misc
 attacks.txt

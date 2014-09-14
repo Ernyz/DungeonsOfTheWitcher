@@ -1,6 +1,5 @@
 package com.ernyz.dotw.Model;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,7 +12,7 @@ public abstract class Entity {
 	protected Vector2 position;
 	protected float rotation;
 	protected float width, height;
-	protected Texture texture;  //TODO: Move this down to MoveableEntity
+	//protected Texture texture;  //TODO: Move this down to MoveableEntity
 	
 	protected String name;
 	
@@ -64,10 +63,6 @@ public abstract class Entity {
 		this.height = height;
 	}
 	
-	public Texture getTexture() {
-		return texture;
-	}
-
 	public String getName() {
 		return name;
 	}

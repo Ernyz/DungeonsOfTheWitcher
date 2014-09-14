@@ -15,7 +15,7 @@ public class Wall extends Tile {
 		//texture = new Texture(Gdx.files.internal("data/tiles/Wall.png"));
 //		width = texture.getWidth();
 //		height = texture.getHeight();
-		width = 50;
+		width = 50;  //TODO: Remove this hardcoding
 		height = 50;
 		bounds = new Polygon();
 		bounds.setVertices(new float[] {0, 0, getWidth(), 0, getWidth(), getHeight(), 0, getHeight()});

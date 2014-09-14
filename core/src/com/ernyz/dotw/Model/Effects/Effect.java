@@ -19,6 +19,8 @@ public class Effect {
 	private float lastTick = 0;
 	private boolean finished = false;
 	private Texture texture;
+	private int maxStacks;
+	private int stacks;
 	
 	public Effect(String effectName, float duration, MoveableEntity source, MoveableEntity target) {
 		this.effectName = effectName;
@@ -75,6 +77,26 @@ public class Effect {
 	
 	public Texture getTexture() {
 		return texture;
+	}
+
+	public int getMaxStacks() {
+		return maxStacks;
+	}
+
+	public void setMaxStacks(int maxStacks) {
+		this.maxStacks = maxStacks;
+	}
+
+	public int getStacks() {
+		return stacks;
+	}
+
+	public void setStacks(int stacks) {
+		this.stacks = stacks;
+	}
+
+	public void setTimeWorking(float timeWorking) {
+		this.timeWorking = timeWorking;
 	}
 	
 }

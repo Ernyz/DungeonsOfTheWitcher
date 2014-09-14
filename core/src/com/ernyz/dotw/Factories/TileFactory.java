@@ -16,12 +16,10 @@ import com.ernyz.dotw.Model.Tiles.Wall;
  */
 public class TileFactory {
 	
-	//Texture tileSheet;
 	TextureAtlas atlas;
 	
 	public TileFactory() {
-		atlas = new TextureAtlas("data/tiles/tiles.atlas");
-		//tileSheet = new Texture("data/tiles/tiles.png");
+		atlas = new TextureAtlas("data/tiles/packed/tiles.atlas");
 	}
 	
 	/**

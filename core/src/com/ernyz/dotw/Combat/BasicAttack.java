@@ -2,14 +2,17 @@ package com.ernyz.dotw.Combat;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Items.Item;
+import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 public abstract class BasicAttack {
 	
 	protected MoveableEntity attacker;
 	protected Item weapon;
+	private Array<Enchantment> enchantments = new Array<Enchantment>();
 	protected Texture texture;
 	protected Polygon bounds;
 	
@@ -20,62 +23,11 @@ public abstract class BasicAttack {
 	
 	protected abstract void destroy();
 	
-	public void onCollision(MoveableEntity e) {  //FIXME: All this is temporary. Rework is a must!
-		/*float attackDisableDuration = 0.8f;
-		if(!e.isBlocking()) {
-			e.setHealth(e.getHealth()-weapon.getFloat("Damage"));
-			FloatingText floatingText = new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y);
-			floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-			GameWorld.addFloatingText(new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y));
-			e.effects.add(new Effect("RecoveringFromAttack", attackDisableDuration, attacker, e));
-			//isFinished = true;
-			destroy();
-		} else if (e.isBlocking()) {
-			boolean recoveringFromAttack = false;
-			for(Effect effect : e.effects) {
-				if(effect.getEffectName().equals("RecoveringFromAttack")) recoveringFromAttack = true;
-			}
-			if(recoveringFromAttack) {
-				if(MathUtils.randomBoolean(0.75f)) {
-					FloatingText floatingText = new FloatingText("Blocked", e.getPosition().x-e.getWidth()/2, e.getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(floatingText);
-					e.effects.add(new Effect("CanCounterAttack", 0.5f, attacker, e));
-					//isFinished = true;
-					destroy();
-				} else {
-					e.setHealth(e.getHealth()-weapon.getFloat("Damage"));
-					FloatingText floatingText = new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y));
-					e.effects.add(new Effect("RecoveringFromAttack", attackDisableDuration, attacker, e));
-					//isFinished = true;
-					destroy();
-				}
-			} else {
-				if(MathUtils.randomBoolean(0.85f)) {
-					FloatingText floatingText = new FloatingText("Blocked", e.getPosition().x-e.getWidth()/2, e.getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(floatingText);
-					e.effects.add(new Effect("CanCounterAttack", 0.5f, attacker, e));
-					//isFinished = true;
-					destroy();
-				} else {
-					e.setHealth(e.getHealth()-weapon.getFloat("Damage"));
-					FloatingText floatingText = new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y);
-					floatingText.setX(floatingText.getX()-floatingText.getWidth()/2);
-					GameWorld.addFloatingText(new FloatingText(String.valueOf(weapon.getFloat("Damage")), e.getPosition().x-e.getWidth()/2, e.getPosition().y));
-					e.effects.add(new Effect("RecoveringFromAttack", attackDisableDuration, attacker, e));
-					//isFinished = true;
-					destroy();
-				}
-			}
-		}*/
+	public void onCollision(MoveableEntity e) {
 		destroy();
 	}
 	
 	public void onCollision(Tile t) {
-		//isFinished = true;
 		destroy();
 	}
 	
@@ -105,6 +57,10 @@ public abstract class BasicAttack {
 
 	public Item getWeapon() {
 		return weapon;
+	}
+	
+	public Array<Enchantment> getEnchantments() {
+		return enchantments;
 	}
 	
 }
