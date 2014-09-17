@@ -17,4 +17,10 @@ public class EffectFactory {
 		return e;
 	}
 	
+	public static Effect knockBack(MoveableEntity source, MoveableEntity target) {
+		Effect e = new Effect("KnockBack", 0.1f, source, target);
+		e.setMaxStacks(1);
+		return e;
+	}
+	
 }

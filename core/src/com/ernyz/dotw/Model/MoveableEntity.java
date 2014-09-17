@@ -222,6 +222,13 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
+	public boolean canMove() {
+		if(hasEffect("KnockBack")) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * 
 	 * @return - 0 if can not attack;
@@ -319,29 +326,24 @@ public class MoveableEntity extends Entity {
 		if(!blocking) {
 			setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-			//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 			addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 		} else if(blocking) {
 			if(hasEffect("RecoveringFromAttack")) {
 				if(MathUtils.randomBoolean(0.75f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					//effects.add(EffectFactory.canCounterAttack(this, this));
 					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 				}
 			} else {
 				if(MathUtils.randomBoolean(0.85f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					//effects.add(EffectFactory.canCounterAttack(this, this));
 					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					//effects.add(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
 				}
 			}
@@ -368,7 +370,6 @@ public class MoveableEntity extends Entity {
 	public void addEffect(Effect e) {
 		Effect effect = getEffectByName(e.getEffectName());
 		if(effect == null) {
-			//addEffect(e);
 			effects.add(e);
 		} else {
 			if(effect.getStacks() >= effect.getMaxStacks()) {
@@ -381,10 +382,10 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
-	private void removeEffect(String name) {
+	public void removeEffect(String name) {
 		for(Effect e : effects) {
 			if(e.getEffectName().equals(name))
-				//TODO: e.setIsDead(true);
+				e.destroy();
 				effects.removeValue(e, false);
 		}
 	}

@@ -1,6 +1,8 @@
 package com.ernyz.dotw.Model.Effects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.MoveableEntity;
 
 /**
@@ -39,6 +41,10 @@ public class Effect {
 			texture = new Texture("data/effects/icons/RecoveringFromAttack.png");
 		} else if(effectName.equals("CanCounterAttack")) {
 			texture = new Texture("data/effects/icons/CanCounterAttack.png");
+			target.removeEffect("RecoveringFromAttack");
+		} else if(effectName.equals("KnockBack")) {
+			Vector2 dirVector = new Vector2((target.getPosition().x-source.getPosition().cpy().x), (target.getPosition().y-source.getPosition().cpy().y));
+			target.getVelocity().set(dirVector.x/Math.abs(dirVector.x)*2.5f, dirVector.y/Math.abs(dirVector.y)*2.5f);
 		} else {
 			finished = true;
 		}
@@ -60,10 +66,27 @@ public class Effect {
 	}
 	
 	private void tick() {
-		
+		if(effectName.equals("RecoveringFromAttack")) {
+		} else if(effectName.equals("CanCounterAttack")) {
+		} else if(effectName.equals("KnockBack")) {
+			//
+		} else {
+			finished = true;
+		}
 	}
 	
 	private void onFinish() {
+		if(effectName.equals("RecoveringFromAttack")) {
+		} else if(effectName.equals("CanCounterAttack")) {
+		} else if(effectName.equals("KnockBack")) {
+			target.getVelocity().set(0, 0);
+		} else {
+			finished = true;
+		}
+		finished = true;
+	}
+	
+	public void destroy() {
 		finished = true;
 	}
 	

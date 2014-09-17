@@ -29,14 +29,16 @@ public class InputView implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		player = gameWorld.getPlayer();
-		if(keycode == Keys.W) {
-			player.setVelocity(new Vector2(player.getVelocity().x, 1));
-		} else if(keycode == Keys.A) {
-			player.setVelocity(new Vector2(-1, player.getVelocity().y));
-		} else if(keycode == Keys.S) {
-			player.setVelocity(new Vector2(player.getVelocity().x, -1));
-		} else if(keycode == Keys.D) {
-			player.setVelocity(new Vector2(1, player.getVelocity().y));
+		if(player.canMove()) {
+			if(keycode == Keys.W) {
+				player.setVelocity(new Vector2(player.getVelocity().x, 1));
+			} else if(keycode == Keys.A) {
+				player.setVelocity(new Vector2(-1, player.getVelocity().y));
+			} else if(keycode == Keys.S) {
+				player.setVelocity(new Vector2(player.getVelocity().x, -1));
+			} else if(keycode == Keys.D) {
+				player.setVelocity(new Vector2(1, player.getVelocity().y));
+			}
 		}
 		if(keycode == Keys.I) {
 			gameWorld.windowManager.toggleWindow("InventoryAndEquipment");
@@ -65,18 +67,20 @@ public class InputView implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		player = gameWorld.getPlayer();
-		if(keycode == Keys.W) {
-			if(player.getVelocity().y == 1)
-				player.setVelocity(new Vector2(player.getVelocity().x, 0));
-		} else if(keycode == Keys.A) {
-			if(player.getVelocity().x == -1)
-				player.setVelocity(new Vector2(0, player.getVelocity().y));
-		} else if(keycode == Keys.S) {
-			if(player.getVelocity().y == -1)
-				player.setVelocity(new Vector2(player.getVelocity().x, 0));
-		} else if(keycode == Keys.D) {
-			if(player.getVelocity().x == 1)
-				player.setVelocity(new Vector2(0, player.getVelocity().y));
+		if(player.canMove()) {
+			if(keycode == Keys.W) {
+				if(player.getVelocity().y == 1)
+					player.setVelocity(new Vector2(player.getVelocity().x, 0));
+			} else if(keycode == Keys.A) {
+				if(player.getVelocity().x == -1)
+					player.setVelocity(new Vector2(0, player.getVelocity().y));
+			} else if(keycode == Keys.S) {
+				if(player.getVelocity().y == -1)
+					player.setVelocity(new Vector2(player.getVelocity().x, 0));
+			} else if(keycode == Keys.D) {
+				if(player.getVelocity().x == 1)
+					player.setVelocity(new Vector2(0, player.getVelocity().y));
+			}
 		}
 		if(keycode == Keys.SPACE) {
 			if(player.isBlocking()) {

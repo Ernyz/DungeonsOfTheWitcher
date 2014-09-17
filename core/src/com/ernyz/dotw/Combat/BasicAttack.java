@@ -24,11 +24,18 @@ public abstract class BasicAttack {
 	protected abstract void destroy();
 	
 	public void onCollision(MoveableEntity e) {
+		applyOnHitEffects(e);
 		destroy();
 	}
 	
 	public void onCollision(Tile t) {
 		destroy();
+	}
+	
+	private void applyOnHitEffects(MoveableEntity e) {
+		for(Enchantment enchantment : enchantments) {
+			enchantment.applyOn(e, this);
+		}
 	}
 	
 	public boolean getIsFinished() {

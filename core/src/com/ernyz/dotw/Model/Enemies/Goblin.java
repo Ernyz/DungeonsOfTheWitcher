@@ -94,19 +94,26 @@ public class Goblin extends Enemy {
 		if(state == StateEnum.ATTACK) {
 			//Turn to target
 			dirVector.set(gameWorld.getPlayer().getPosition().x, gameWorld.getPlayer().getPosition().y);		
-			this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
+			if(canMove()) {
+				//this.setRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
+				this.setTargetRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
+			}
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 70) {  //FIXME hardcoding
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 60) {  //FIXME hardcoding
 				handleMouseClick(1);  //Primary attack
 			}
 			else {
 				//Attack or move closer if needed
-				velocity.set(dirVector.x/Math.abs(dirVector.x), dirVector.y/Math.abs(dirVector.y));  //Velocity only needs values of +/- 0 or 1 to indicate direction
+				if(canMove()) {
+					velocity.set(dirVector.x/Math.abs(dirVector.x), dirVector.y/Math.abs(dirVector.y));  //Velocity only needs values of +/- 0 or 1 to indicate direction
+				}
 			}
 		}
 		else if(state == StateEnum.WANDER) {
-			velocity.set(0, 0);
+			if(canMove()) {
+				velocity.set(0, 0);
+			}
 		}
 	}
 	
@@ -122,7 +129,7 @@ public class Goblin extends Enemy {
 		lHand.set("IsMelee", true);
 		lHand.set("Damage", 6f);
 		lHand.set("Range", 20f);//20f
-		lHand.setTexture(new Texture("data/items/unarmed.png"));
+		lHand.setTexture(new Texture("data/items/goblinUnarmed.png"));
 		unarmedLimbs.put(Resources.BODY_LEFT_HAND, lHand);
 		
 		Item rHand = new Item();
@@ -136,7 +143,7 @@ public class Goblin extends Enemy {
 		rHand.set("IsMelee", true);
 		rHand.set("Damage", 6f);
 		rHand.set("Range", 20f);//20f
-		rHand.setTexture(new Texture("data/items/unarmed.png"));
+		rHand.setTexture(new Texture("data/items/goblinUnarmed.png"));
 		unarmedLimbs.put(Resources.BODY_RIGHT_HAND, rHand);
 	}
 }
