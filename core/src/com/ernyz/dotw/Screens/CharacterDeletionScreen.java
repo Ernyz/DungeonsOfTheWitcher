@@ -39,8 +39,9 @@ public class CharacterDeletionScreen implements Screen {
 	private TextButton backButton;
 	private TextButton button;
 
-	public CharacterDeletionScreen(DOTW game) {
+	public CharacterDeletionScreen(DOTW game, SpriteBatch batch) {
 		this.game = game;
+		this.batch = batch;
 	}
 
 	@Override
@@ -94,7 +95,7 @@ public class CharacterDeletionScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new MainMenuScreen(game));
+				game.setScreen(new MainMenuScreen(game, batch));
 			}
 		});
 		table.add(backButton);
@@ -107,7 +108,7 @@ public class CharacterDeletionScreen implements Screen {
 
 	@Override
 	public void show() {
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 		
 		file = new File("save");
 		fileHandle = new FileHandle(file);
@@ -134,7 +135,7 @@ public class CharacterDeletionScreen implements Screen {
 
 	@Override
 	public void dispose() {
-
+		//TODO
 	}
 	
 	private class DeletionDialog extends Dialog {
@@ -185,7 +186,7 @@ public class CharacterDeletionScreen implements Screen {
 		
 		@Override
 		protected void result(Object object) {
-			game.setScreen(new CharacterDeletionScreen(game));
+			game.setScreen(new CharacterDeletionScreen(game, batch));
 		}
 	}
 	

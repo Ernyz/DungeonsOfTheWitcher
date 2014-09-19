@@ -117,8 +117,11 @@ public class HeadsUpDisplay {
 		//Update effects
 		effects.clear();
 		for(Effect e : gameWorld.getPlayer().getEffects()) {
-			Image img = new Image(e.getTexture());
-			effects.add(img);
+			if(!e.getEffectName().equals("KnockBack"))  //XXX: Some effect icons should not be rendered, fix this asap!
+			{
+				Image img = new Image(e.getTexture());
+				effects.add(img);
+			}
 		}
 		effectTable.clearChildren();
 		float x = 0;

@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Windows;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
@@ -9,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
  * @author Ernyz
  */
 public abstract class CustomWindow extends Window {
+	
+	protected SpriteBatch batch;
 
-	public CustomWindow(String title, Skin skin) {
+	public CustomWindow(String title, SpriteBatch batch, Skin skin) {
 		super(title, skin);
 	}
 	

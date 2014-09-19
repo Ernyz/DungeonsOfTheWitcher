@@ -19,6 +19,8 @@ public class Enchantment {
 	public void applyOn(MoveableEntity e, BasicAttack ba) {  //TODO: rework this so its done without name checking
 		if(name.equals("CounterAttack")) {  //XXX: i dont like theese hardcoded names
 			e.addEffect(EffectFactory.knockBack(ba.getAttacker(), e));
+		} else if(name.equals("BasicAttack")) {
+			e.addEffect(EffectFactory.smallKnockBack(ba.getAttacker(), e));
 		}
 	}
 	

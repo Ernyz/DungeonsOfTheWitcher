@@ -1,6 +1,7 @@
 package com.ernyz.dotw.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.ernyz.dotw.Model.GameWorld;
@@ -17,13 +18,15 @@ import com.ernyz.dotw.Windows.InventoryAndEquipmentWindow;
 public class WindowManager {
 	
 	private GameWorld gameWorld;
+	private SpriteBatch batch;
 	private float stageW;
 	private float stageH;
 	
 	private Skin skin;
 	
-	public WindowManager(GameWorld gameWorld) {
+	public WindowManager(GameWorld gameWorld, SpriteBatch batch) {
 		this.gameWorld = gameWorld;
+		this.batch = batch;
 		stageW = Gdx.graphics.getWidth();
 		stageH = Gdx.graphics.getHeight();
 		
@@ -94,7 +97,7 @@ public class WindowManager {
 	 * 
 	 */
 	private void createInventoryAndEquipmentWindow() {
-		InventoryAndEquipmentWindow w = new InventoryAndEquipmentWindow("Inventory and equipped items", skin, gameWorld);
+		InventoryAndEquipmentWindow w = new InventoryAndEquipmentWindow("Inventory and equipped items", batch, skin, gameWorld);
 		w.setPosition(stageW/2-w.getWidth()/2, 0);
 		
 		addWindow(w, "InventoryAndEquipment");
@@ -104,7 +107,7 @@ public class WindowManager {
 	 * Creates window which shows in game options, such as save game, settings and etc.
 	 */
 	private void createInGameOptionsWindow() {
-		InGameOptionsWindow w = new InGameOptionsWindow("In-game options", skin, gameWorld);
+		InGameOptionsWindow w = new InGameOptionsWindow("In-game options", batch, skin, gameWorld);
 		//w.setWidth(stageW/100*30);
 		//w.setHeight(stageH/100*30);
 		w.setPosition(stageW/2-w.getWidth()/2, stageH/2-w.getHeight()/2);

@@ -100,7 +100,7 @@ public class Goblin extends Enemy {
 			}
 			//Decide how to attack player (with spell, melee or ranged weapon)
 			//See if target is in attack range
-			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 60) {  //FIXME hardcoding
+			if(this.getPosition().dst(gameWorld.getPlayer().getPosition()) <= 40) {  //FIXME hardcoding
 				handleMouseClick(1);  //Primary attack
 			}
 			else {

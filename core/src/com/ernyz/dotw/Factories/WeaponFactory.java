@@ -41,6 +41,7 @@ public class WeaponFactory {
 		i.set("IsMelee", true);
 		i.set("Damage", 10f);
 		i.set("Range", 24f);
+		//i.set("AttackInterval", i.getFloat("Range")/i.getFloat("Speed"));  //Interval between attacks
 		
 		i.setIconTexture(new Texture("data/items/icons/dagger.png"));
 		i.setTexture(new Texture("data/items/Dagger.png"));

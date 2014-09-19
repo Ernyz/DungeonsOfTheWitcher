@@ -47,8 +47,9 @@ public class CharacterCreationScreen implements Screen {
 	//Labels
 	private Label screenTitle;
 	
-	public CharacterCreationScreen(DOTW game) {
+	public CharacterCreationScreen(DOTW game, SpriteBatch batch) {
 		this.game = game;
+		this.batch = batch;
 	}
 	
 	@Override
@@ -113,7 +114,7 @@ public class CharacterCreationScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new MainMenuScreen(game));
+				game.setScreen(new MainMenuScreen(game, batch));
 			}
 		});
 		table.add(backButton);
@@ -129,12 +130,12 @@ public class CharacterCreationScreen implements Screen {
 			WorldGenerator wg = new WorldGenerator(nameTextField.getText());
 		}
 		//Change screen to character selection screen
-		game.setScreen(new CharacterSelectionScreen(game));
+		game.setScreen(new CharacterSelectionScreen(game, batch));
 	}
 
 	@Override
 	public void show() {
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 		
 		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
@@ -157,7 +158,7 @@ public class CharacterCreationScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
+		//batch.dispose();
 		stage.dispose();
 		skin.dispose();
 	}

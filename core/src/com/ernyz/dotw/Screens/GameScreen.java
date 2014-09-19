@@ -3,7 +3,9 @@ package com.ernyz.dotw.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ernyz.dotw.DOTW;
+import com.ernyz.dotw.Controller.Controller;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.View.InputView;
 import com.ernyz.dotw.View.WorldRenderer;
@@ -17,24 +19,27 @@ public final class GameScreen implements Screen {
 	private DOTW game;
 	private String playerName;
 	private GameWorld gameWorld;
+	private Controller controller;
 	private WorldRenderer worldRenderer;
 
-	public GameScreen(DOTW game, String playerName) {
+	public GameScreen(DOTW game, SpriteBatch batch, String playerName) {
 		this.game = game;
 		this.playerName = playerName;
-		gameWorld = new GameWorld(game, playerName);
-		worldRenderer = new WorldRenderer(gameWorld);
+		gameWorld = new GameWorld(game, batch, playerName);
+		controller = new Controller(gameWorld);
+		worldRenderer = new WorldRenderer(gameWorld, batch);
 		
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		//Stage should be added first, so it can handle input without allowing to do it for other input processors
 		multiplexer.addProcessor(gameWorld.getHUD().getStage());
-		multiplexer.addProcessor(new InputView(gameWorld, worldRenderer));
+		multiplexer.addProcessor(new InputView(gameWorld, worldRenderer, controller));
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
 	public void render(float delta) {
-		gameWorld.update();
+		controller.update(delta);
+		gameWorld.update(delta);
 		worldRenderer.render();
 	}
 

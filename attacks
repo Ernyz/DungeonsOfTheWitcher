@@ -9,8 +9,7 @@ Can block:
 +-If NOT recovered from being attacked, block has lesser chance to be successful (-x% OF current block chance)
 -Attack and defence ratings must be compared to determine the chance of attack/block success. If atr is 2x bigger than dr, then attack has 100% success chance.
 
-+-If attack is blocked, blocking gets turned off. (Probably too hardcore)
-+-If counter attack buff is present, it cannot be removed by any debuff.
++If counter attack buff is present, it cannot be removed by any debuff.
 
 
 Attacks apply knock back? Only counter attacks apply knock back?

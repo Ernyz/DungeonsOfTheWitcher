@@ -46,8 +46,9 @@ public class MainMenuScreen implements Screen {
 	private TextButton exitBtn;
 	private Label label;
 	
-	public MainMenuScreen(DOTW game) {
+	public MainMenuScreen(DOTW game, SpriteBatch batch) {
 		this.game = game;
+		this.batch = batch;
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class MainMenuScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new CharacterSelectionScreen(game));
+				game.setScreen(new CharacterSelectionScreen(game, batch));
 			}
 		});
 		table.add(loadCharacterBtn);
@@ -109,7 +110,7 @@ public class MainMenuScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new CharacterCreationScreen(game));
+				game.setScreen(new CharacterCreationScreen(game, batch));
 			}
 		});
 		table.add(newCharacterBtn);
@@ -122,7 +123,7 @@ public class MainMenuScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new CharacterDeletionScreen(game));
+				game.setScreen(new CharacterDeletionScreen(game, batch));
 			}
 		});
 		table.add(deleteCharacterBtn);
@@ -147,7 +148,7 @@ public class MainMenuScreen implements Screen {
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.update();
 		
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 		//skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));
 		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 		
@@ -182,7 +183,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		skin.dispose();
-		batch.dispose();
+		//batch.dispose();
 		stage.dispose();
 	}
 

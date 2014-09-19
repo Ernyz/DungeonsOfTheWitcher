@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.ernyz.dotw.Controller.Controller;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.ItemManager;
@@ -16,13 +17,15 @@ import com.ernyz.dotw.Model.Items.ItemManager;
  */
 public class InputView implements InputProcessor {
 	private GameWorld gameWorld;
+	private Controller controller;
 	private WorldRenderer worldRenderer;
 	private Vector3 touch = new Vector3();
 	private Vector2 vec2Touch = new Vector2();
 	private Player player;
 
-	public InputView(GameWorld gameWorld, WorldRenderer worldRenderer) {
+	public InputView(GameWorld gameWorld, WorldRenderer worldRenderer, Controller controller) {
 		this.gameWorld = gameWorld;
+		this.controller = controller;
 		this.worldRenderer = worldRenderer;
 	}
 
@@ -31,13 +34,20 @@ public class InputView implements InputProcessor {
 		player = gameWorld.getPlayer();
 		if(player.canMove()) {
 			if(keycode == Keys.W) {
-				player.setVelocity(new Vector2(player.getVelocity().x, 1));
-			} else if(keycode == Keys.A) {
-				player.setVelocity(new Vector2(-1, player.getVelocity().y));
-			} else if(keycode == Keys.S) {
-				player.setVelocity(new Vector2(player.getVelocity().x, -1));
-			} else if(keycode == Keys.D) {
-				player.setVelocity(new Vector2(1, player.getVelocity().y));
+				//player.setVelocity(new Vector2(player.getVelocity().x, 1));
+				controller.keyW = true;
+			}
+			if(keycode == Keys.A) {
+				//player.setVelocity(new Vector2(-1, player.getVelocity().y));
+				controller.keyA = true;
+			}
+			if(keycode == Keys.S) {
+				//player.setVelocity(new Vector2(player.getVelocity().x, -1));
+				controller.keyS = true;
+			}
+			if(keycode == Keys.D) {
+				//player.setVelocity(new Vector2(1, player.getVelocity().y));
+				controller.keyD = true;
 			}
 		}
 		if(keycode == Keys.I) {
@@ -51,9 +61,10 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
 		} else if(keycode == Keys.SPACE) {
-			if(player.canBlock()) {
+			controller.keySpace = true;
+			/*if(player.canBlock()) {
 				player.setBlocking(true);
-			}
+			}*/
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
@@ -69,23 +80,31 @@ public class InputView implements InputProcessor {
 		player = gameWorld.getPlayer();
 		if(player.canMove()) {
 			if(keycode == Keys.W) {
-				if(player.getVelocity().y == 1)
-					player.setVelocity(new Vector2(player.getVelocity().x, 0));
-			} else if(keycode == Keys.A) {
-				if(player.getVelocity().x == -1)
-					player.setVelocity(new Vector2(0, player.getVelocity().y));
-			} else if(keycode == Keys.S) {
-				if(player.getVelocity().y == -1)
-					player.setVelocity(new Vector2(player.getVelocity().x, 0));
-			} else if(keycode == Keys.D) {
-				if(player.getVelocity().x == 1)
-					player.setVelocity(new Vector2(0, player.getVelocity().y));
+				//if(player.getVelocity().y == 1)
+					controller.keyW = false;
+					//player.setVelocity(new Vector2(player.getVelocity().x, 0));
+			}
+			if(keycode == Keys.A) {
+				//if(player.getVelocity().x == -1)
+					controller.keyA = false;
+					//player.setVelocity(new Vector2(0, player.getVelocity().y));
+			}
+			if(keycode == Keys.S) {
+				//if(player.getVelocity().y == -1)
+					controller.keyS = false;
+					//player.setVelocity(new Vector2(player.getVelocity().x, 0));
+			}
+			if(keycode == Keys.D) {
+				//if(player.getVelocity().x == 1)
+					controller.keyD = false;
+					//player.setVelocity(new Vector2(0, player.getVelocity().y));
 			}
 		}
 		if(keycode == Keys.SPACE) {
-			if(player.isBlocking()) {
+			controller.keySpace = false;
+			/*if(player.isBlocking()) {
 				player.setBlocking(false);
-			}
+			}*/
 		}
 		
 		return false;

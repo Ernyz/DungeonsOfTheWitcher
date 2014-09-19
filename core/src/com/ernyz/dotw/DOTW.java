@@ -1,14 +1,17 @@
 package com.ernyz.dotw;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ernyz.dotw.Screens.MainMenuScreen;
 
 public class DOTW extends Game {
 	public static final String VERSION = "0.0.6";
+	private SpriteBatch batch;
 	
 	@Override
-	public void create() {		
-		setScreen(new MainMenuScreen(this));
+	public void create() {
+		batch = new SpriteBatch();
+		setScreen(new MainMenuScreen(this, batch));
 	}
 
 	@Override

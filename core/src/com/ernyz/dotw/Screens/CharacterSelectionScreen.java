@@ -41,8 +41,9 @@ public class CharacterSelectionScreen implements Screen {
 	private Label screenTitle;
 	private TextButton button;
 	
-	public CharacterSelectionScreen(DOTW game) {
+	public CharacterSelectionScreen(DOTW game, SpriteBatch batch) {
 		this.game = game;
+		this.batch = batch;
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class CharacterSelectionScreen implements Screen {
 					return true;
 				}
 				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					game.setScreen(new GameScreen(game, playerName));
+					game.setScreen(new GameScreen(game, batch, playerName));
 				}
 			});
 			table.add(button);
@@ -98,7 +99,7 @@ public class CharacterSelectionScreen implements Screen {
 				return true;
 			}
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				game.setScreen(new MainMenuScreen(game));
+				game.setScreen(new MainMenuScreen(game, batch));
 			}
 		});
 		table.add(button);
@@ -106,7 +107,7 @@ public class CharacterSelectionScreen implements Screen {
 
 	@Override
 	public void show() {
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 		
 		file = new File("save");  //TODO: Make this static constant somewhere?..
 		fileHandle = new FileHandle(file);
@@ -133,7 +134,7 @@ public class CharacterSelectionScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
+		//batch.dispose();
 		stage.dispose();
 		skin.dispose();
 	}

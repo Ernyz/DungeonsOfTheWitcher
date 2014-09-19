@@ -6,6 +6,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -53,8 +54,8 @@ public class InventoryAndEquipmentWindow extends CustomWindow {
 	
 	private DragAndDrop dragAndDrop = new DragAndDrop();
 	
-	public InventoryAndEquipmentWindow(String title, Skin skin, GameWorld gameWorld) {
-		super(title, skin);
+	public InventoryAndEquipmentWindow(String title, SpriteBatch batch, Skin skin, GameWorld gameWorld) {
+		super(title, batch, skin);
 		this.skin = skin;
 		this.gameWorld = gameWorld;
 		

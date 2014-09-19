@@ -1,5 +1,6 @@
 package com.ernyz.dotw.Windows;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,8 +14,8 @@ public class InGameOptionsWindow extends CustomWindow {
 	private GameWorld gameWorld;
 	private Skin skin;
 
-	public InGameOptionsWindow(String title, Skin skin, GameWorld gameWorld) {
-		super(title, skin);
+	public InGameOptionsWindow(String title, SpriteBatch batch, Skin skin, GameWorld gameWorld) {
+		super(title, batch, skin);
 		
 		this.gameWorld = gameWorld;
 		this.skin = skin;
@@ -43,7 +44,7 @@ public class InGameOptionsWindow extends CustomWindow {
 		saveAndQuitButton.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
-				gameWorld.getGame().setScreen(new MainMenuScreen(gameWorld.getGame()));
+				gameWorld.getGame().setScreen(new MainMenuScreen(gameWorld.getGame(), batch));
 		        return true;
 		    }
 		});

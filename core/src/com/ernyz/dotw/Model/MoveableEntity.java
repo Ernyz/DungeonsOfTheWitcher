@@ -202,7 +202,10 @@ public class MoveableEntity extends Entity {
 		 */
 		if(button == 0) {  //Secondary action
 			if(this.canAttack(Resources.BODY_LEFT_HAND) == 1) {
-				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, false, gameWorld));
+				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
+				//temp
+					ba.getEnchantments().add(new Enchantment("BasicAttack"));
+				gameWorld.basicAttacks.add(ba);
 			} else if(this.canAttack(Resources.BODY_LEFT_HAND) == 2) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
 				ba.getEnchantments().add(new Enchantment("CounterAttack"));
@@ -212,9 +215,12 @@ public class MoveableEntity extends Entity {
 		}
 		else if(button == 1) {  //Primary action
 			if(this.canAttack(Resources.BODY_RIGHT_HAND) == 1) {
-				gameWorld.basicAttacks.add(BasicAttackCreator.createBasicAttack(this, true, gameWorld));
+				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, true, gameWorld);
+				//temp
+					ba.getEnchantments().add(new Enchantment("BasicAttack"));
+				gameWorld.basicAttacks.add(ba);
 			} else if(this.canAttack(Resources.BODY_RIGHT_HAND) == 2) {
-				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
+				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, true, gameWorld);
 				ba.getEnchantments().add(new Enchantment("CounterAttack"));
 				gameWorld.basicAttacks.add(ba);
 				removeEffect("CanCounterAttack");
@@ -231,9 +237,9 @@ public class MoveableEntity extends Entity {
 	
 	/**
 	 * 
-	 * @return - 0 if can not attack;
-	 * @return - 1 if can attack;
-	 * @return - 2 if can counter attack;
+	 * @return - 0 if can not attack;\n
+	 * 1 if can attack;
+	 * 2 if can counter attack;
 	 */
 	private int canAttack(String hand) {
 		if(isBlocking()) return 0;

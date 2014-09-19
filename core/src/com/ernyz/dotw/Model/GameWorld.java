@@ -2,7 +2,7 @@ package com.ernyz.dotw.Model;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -63,7 +63,7 @@ public final class GameWorld {
 	private static World world;
 	private static Body wallBody;
 	
-	public GameWorld(DOTW game, String playerName) {
+	public GameWorld(DOTW game, SpriteBatch batch, String playerName) {
 		this.game = game;
 		this.playerName = playerName;
 		
@@ -92,14 +92,14 @@ public final class GameWorld {
 		collisionContext = new CollisionContext(entities, tiles, basicAttacks);
 
 		//Initialise window related stuff
-		windowManager = new WindowManager(this);
+		windowManager = new WindowManager(this, batch);
 		windows = new HashMap<String, CustomWindow>();
 		
 		//Set game state to PLAYING, because the game has finished loading
 		gameState = GameStateEnum.PLAYING;
 	}
 	
-	public void update() {
+	public void update(float delta) {
 		//Update everything
  		if(gameState == GameStateEnum.PLAYING) {
  			if(player.getIsDead()) {
@@ -113,18 +113,18 @@ public final class GameWorld {
 					entity.dispose();
 					entities.removeValue(entity, false);
 				} else {
-					entity.update(Gdx.graphics.getDeltaTime());
+					entity.update(delta);
 				}
 			}
 			//Update basic attacks, dispose of finished ones
 			for(BasicAttack ba : basicAttacks) {
 				//TODO:temp
-				if(ba == null) {
+				/*if(ba == null) {
 					basicAttacks.removeValue(ba, false);
 					continue;
-				}
+				}*/
 				if(!ba.getIsFinished()) {
-					ba.update(Gdx.graphics.getDeltaTime());
+					ba.update(delta);
 				} else {
 					basicAttacks.removeValue(ba, false);
 				}
@@ -133,19 +133,19 @@ public final class GameWorld {
 			//Update active windows
 			for(String windowName : windows.keySet()) {
 				if(windows.get(windowName).isVisible()) {
-					windows.get(windowName).update(Gdx.graphics.getDeltaTime());
+					windows.get(windowName).update(delta);
 				}
 			}
 			//Update floating texts
 			for(FloatingText t : floatingText) {
-				t.update(Gdx.graphics.getDeltaTime());
+				t.update(delta);
 				if(t.isFinished()) {
 					floatingText.removeValue(t, false);
 				}
 			}
 			//Update tiles
 			for(Tile t : player.getSurroundingTiles()) {
-				t.update(Gdx.graphics.getDeltaTime());
+				t.update(delta);
 			}
 		}
 	}

@@ -18,7 +18,6 @@ import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Player;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
-import com.ernyz.dotw.Model.Tiles.Torch;
 import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.SkeletonRendererDebug;
 
@@ -53,8 +52,9 @@ public final class WorldRenderer {
 	private RayHandler rayHandler;
 	private ConeLight playerLight;
 	
-	public WorldRenderer(GameWorld gameWorld) {
+	public WorldRenderer(GameWorld gameWorld, SpriteBatch batch) {
 		this.gameWorld = gameWorld;
+		this.batch = batch;
 
 		width = Gdx.graphics.getWidth();
 		height = Gdx.graphics.getHeight();
@@ -64,7 +64,7 @@ public final class WorldRenderer {
 		camera.setToOrtho(false, width*viewportMultiplier, height*viewportMultiplier);
 		camera.update();
 		
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 		
 		skeletonRenderer = new SkeletonRenderer();
@@ -76,6 +76,7 @@ public final class WorldRenderer {
 		debugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
 		rayHandler = new RayHandler(gameWorld.getWorld());
 		rayHandler.setCombinedMatrix(camera.combined);
+		rayHandler.setBlurNum(0);
 		playerLight = new ConeLight(rayHandler, 1000, Color.BLACK, 600, 0, 0, 0, 65);
 		//Good for testing: 
 		if(debug)
@@ -188,7 +189,7 @@ public final class WorldRenderer {
 	}
 	
 	public void dispose() {
-		batch.dispose();
+		//batch.dispose();
 		debugRenderer.dispose();
 		rayHandler.dispose();
 		sr.dispose();
