@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.DOTW;
 import com.ernyz.dotw.Combat.BasicAttack;
+import com.ernyz.dotw.Combat.BasicAttack.StateEnum;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Tiles.Tile;
 import com.ernyz.dotw.Screens.LostGameScreen;
@@ -52,7 +53,6 @@ public final class GameWorld {
 	
 	//FIXME: temporarily public
 	public Array<BasicAttack> basicAttacks = new Array<BasicAttack>();
-	//FIXME: temporarily public
 	private static Array<FloatingText> floatingText = new Array<FloatingText>();
 	
 	//Manager class to manage an array of windows like inventory window, character window and etc.
@@ -118,12 +118,8 @@ public final class GameWorld {
 			}
 			//Update basic attacks, dispose of finished ones
 			for(BasicAttack ba : basicAttacks) {
-				//TODO:temp
-				/*if(ba == null) {
-					basicAttacks.removeValue(ba, false);
-					continue;
-				}*/
-				if(!ba.getIsFinished()) {
+				//if(!ba.getIsFinished()) {
+				if(!ba.getState().equals(StateEnum.FINISHED)) {
 					ba.update(delta);
 				} else {
 					basicAttacks.removeValue(ba, false);

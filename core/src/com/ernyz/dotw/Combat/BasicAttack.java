@@ -17,7 +17,15 @@ public abstract class BasicAttack {
 	protected Polygon bounds;
 	
 	protected float distanceTraveled = 0;
-	protected boolean isFinished = false;
+	//protected boolean isFinished = false;
+	public enum StateEnum {
+		ATTACKING, FINISHED, RETURNING
+	}
+	private StateEnum state;
+	protected enum TypeEnum {
+		MELEE, RANGED
+	}
+	private TypeEnum type;
 	
 	public abstract void update(float delta);
 	
@@ -25,11 +33,17 @@ public abstract class BasicAttack {
 	
 	public void onCollision(MoveableEntity e) {
 		applyOnHitEffects(e);
-		destroy();
+		if(type.equals(TypeEnum.MELEE)) {
+			setState(StateEnum.RETURNING);
+		}
+		//destroy();
 	}
 	
 	public void onCollision(Tile t) {
-		destroy();
+		if(type.equals(TypeEnum.MELEE)) {
+			setState(StateEnum.RETURNING);
+		}
+		//destroy();
 	}
 	
 	private void applyOnHitEffects(MoveableEntity e) {
@@ -38,9 +52,9 @@ public abstract class BasicAttack {
 		}
 	}
 	
-	public boolean getIsFinished() {
+	/*public boolean getIsFinished() {
 		return isFinished;
-	}
+	}*/
 	
 	public Polygon getBounds() {
 		return bounds;
@@ -68,6 +82,22 @@ public abstract class BasicAttack {
 	
 	public Array<Enchantment> getEnchantments() {
 		return enchantments;
+	}
+
+	public StateEnum getState() {
+		return state;
+	}
+
+	public void setState(StateEnum state) {
+		this.state = state;
+	}
+
+	public TypeEnum getType() {
+		return type;
+	}
+
+	public void setType(TypeEnum type) {
+		this.type = type;
 	}
 	
 }

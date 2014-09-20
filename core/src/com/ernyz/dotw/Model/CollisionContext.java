@@ -3,6 +3,7 @@ package com.ernyz.dotw.Model;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.BasicAttack;
+import com.ernyz.dotw.Combat.BasicAttack.StateEnum;
 import com.ernyz.dotw.Model.Tiles.Tile;
 
 public class CollisionContext {
@@ -69,17 +70,21 @@ public class CollisionContext {
 			
 			for(int j = 0; j < attacks.size; j++) {
 				if(!attacks.get(j).getAttacker().equals(e)) {
-					if(Intersector.overlapConvexPolygons(e.getBounds(), attacks.get(j).getBounds())) {
-						e.onCollision(attacks.get(j));
-						attacks.get(j).onCollision(e);//TODO change to destroy?
+					if(attacks.get(j).getState().equals(StateEnum.ATTACKING)) {
+						if(Intersector.overlapConvexPolygons(e.getBounds(), attacks.get(j).getBounds())) {
+							e.onCollision(attacks.get(j));
+							attacks.get(j).onCollision(e);
+						}
 					}
 				}
 			}
 			for(int j = 0; j < surroundingTiles.size; j++) {
 				if(!surroundingTiles.get(j).getWalkable()) {
 					for(int k = 0; k < attacks.size; k++) {
-						if(Intersector.overlapConvexPolygons(attacks.get(k).getBounds(), surroundingTiles.get(j).getBounds())) {
-							attacks.get(k).onCollision(surroundingTiles.get(j));
+						if(attacks.get(k).getState().equals(StateEnum.ATTACKING)) {
+							if(Intersector.overlapConvexPolygons(attacks.get(k).getBounds(), surroundingTiles.get(j).getBounds())) {
+								attacks.get(k).onCollision(surroundingTiles.get(j));
+							}
 						}
 					}
 				}

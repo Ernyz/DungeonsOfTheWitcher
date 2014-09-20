@@ -8,6 +8,7 @@ import com.ernyz.dotw.Model.Items.Item;
 public class MeleeBasicAttack extends BasicAttack {
 	
 	private String hand;
+	//private boolean returning = false;
 	
 	public MeleeBasicAttack(MoveableEntity attacker, Item weapon, String hand) {
 		this.attacker = attacker;
@@ -29,27 +30,40 @@ public class MeleeBasicAttack extends BasicAttack {
 
 	@Override
 	public void update(float delta) {
-		distanceTraveled += delta * weapon.getFloat("Speed");
-		
-		float boneWorldX = attacker.getSkeleton().findBone(hand).getWorldX();
-		float boneWorldY = attacker.getSkeleton().findBone(hand).getWorldY();
-		float centerPointX = weapon.getTexture().getHeight()/2 * MathUtils.cosDeg(attacker.getRotation()-90);
-		float centerPointY = weapon.getTexture().getHeight()/2 * MathUtils.sinDeg(attacker.getRotation()-90);
-		
-		bounds.setPosition(
-				boneWorldX+attacker.getPosition().x+centerPointX+distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
-				boneWorldY+attacker.getPosition().y+centerPointY+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
-		bounds.setRotation(attacker.getRotation());
-		
-		if(distanceTraveled >= weapon.getFloat("Range")) {
-			//isFinished = true;
-			destroy();
+		if(!getState().equals(StateEnum.RETURNING)) {
+			distanceTraveled += delta * weapon.getFloat("Speed");
+			float boneWorldX = attacker.getSkeleton().findBone(hand).getWorldX();
+			float boneWorldY = attacker.getSkeleton().findBone(hand).getWorldY();
+			float centerPointX = weapon.getTexture().getHeight()/2 * MathUtils.cosDeg(attacker.getRotation()-90);
+			float centerPointY = weapon.getTexture().getHeight()/2 * MathUtils.sinDeg(attacker.getRotation()-90);
+			bounds.setPosition(
+					boneWorldX+attacker.getPosition().x+centerPointX+distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
+					boneWorldY+attacker.getPosition().y+centerPointY+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
+			bounds.setRotation(attacker.getRotation());
+			if(distanceTraveled >= weapon.getFloat("Range")) {
+				setState(StateEnum.RETURNING);
+				//returning = true;
+			}
+		} else if (getState().equals(StateEnum.RETURNING)) {
+			distanceTraveled -= delta * weapon.getFloat("Speed");
+			float boneWorldX = attacker.getSkeleton().findBone(hand).getWorldX();
+			float boneWorldY = attacker.getSkeleton().findBone(hand).getWorldY();
+			float centerPointX = weapon.getTexture().getHeight()/2 * MathUtils.cosDeg(attacker.getRotation()-90);
+			float centerPointY = weapon.getTexture().getHeight()/2 * MathUtils.sinDeg(attacker.getRotation()-90);
+			bounds.setPosition(
+					boneWorldX+attacker.getPosition().x+centerPointX+distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
+					boneWorldY+attacker.getPosition().y+centerPointY+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
+			bounds.setRotation(attacker.getRotation());
+			if(distanceTraveled <= 0) {
+				destroy();
+			}
 		}
 	}
 	
 	@Override
 	protected void destroy() {
-		isFinished = true;
+		setState(StateEnum.FINISHED);
+		//isFinished = true;
 		attacker.getSkeleton().findSlot(hand).getColor().a = 1;
 	}
 

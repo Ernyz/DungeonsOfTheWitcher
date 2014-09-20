@@ -1,5 +1,7 @@
 package com.ernyz.dotw.Combat;
 
+import com.ernyz.dotw.Combat.BasicAttack.StateEnum;
+import com.ernyz.dotw.Combat.BasicAttack.TypeEnum;
 import com.ernyz.dotw.Model.GameWorld;
 import com.ernyz.dotw.Model.MoveableEntity;
 import com.ernyz.dotw.Model.Resources;
@@ -35,12 +37,16 @@ public class BasicAttackCreator {
 			//Determine the type of the attack (ranged, melee, etc.)
 			if(rightHandItem.getBool("IsMelee")) {
 				attack = new MeleeBasicAttack(attacker, rightHandItem, Resources.BODY_RIGHT_HAND);
+				attack.setType(TypeEnum.MELEE);
+				attack.setState(StateEnum.ATTACKING);
 				rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
 			}
 		} else {
 			//Determine the type of the attack (ranged, melee, etc.)
 			if(leftHandItem.getBool("IsMelee")) {
 				attack = new MeleeBasicAttack(attacker, leftHandItem, Resources.BODY_LEFT_HAND);
+				attack.setType(TypeEnum.MELEE);
+				attack.setState(StateEnum.ATTACKING);
 				leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
 			}
 		}
