@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.Item.ItemType;
@@ -38,7 +39,7 @@ public final class Player extends MoveableEntity {
 		createUnarmedLimbs();
 		
 		//Some stats should be set manually
-		activeSurroundingsRange = 500;
+		activeSurroundingsRange = 1000;//500
 	}
 	
 	private void createBounds() {
@@ -85,6 +86,7 @@ public final class Player extends MoveableEntity {
 		lHand.set("TimeUntilAttack", 0f);
 		lHand.set("IsWeapon", true);
 		lHand.set("IsMelee", true);
+		lHand.set("CanAttack", true);
 		lHand.set("Damage", 4f);
 		lHand.set("Range", 20f);//20f
 		lHand.setTexture(new Texture("data/items/unarmed.png"));
@@ -99,6 +101,7 @@ public final class Player extends MoveableEntity {
 		rHand.set("TimeUntilAttack", 0f);
 		rHand.set("IsWeapon", true);
 		rHand.set("IsMelee", true);
+		rHand.set("CanAttack", true);
 		rHand.set("Damage", 4f);
 		rHand.set("Range", 20f);//20f
 		rHand.setTexture(new Texture("data/items/unarmed.png"));

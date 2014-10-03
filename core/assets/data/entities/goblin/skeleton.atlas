@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 Dagger
   rotate: false
-  xy: 12, 4
+  xy: 12, 6
   size: 16, 6
   orig: 16, 6
   offset: 0, 0
@@ -20,15 +20,15 @@ body
   index: -1
 head
   rotate: false
-  xy: 12, 10
+  xy: 12, 18
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 unarmed
   rotate: false
-  xy: 12, 26
-  size: 18, 8
+  xy: 12, 12
+  size: 18, 6
   orig: 18, 8
-  offset: 0, 0
+  offset: 0, 1
   index: -1

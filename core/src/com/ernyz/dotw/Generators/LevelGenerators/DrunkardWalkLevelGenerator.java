@@ -31,8 +31,7 @@ public class DrunkardWalkLevelGenerator {
 				map[x][y] = '#';
 			}
 		}
-		//Set random starting position (not random while in testing stage)
-		//int x = 2;
+		//Set random starting position
 		int x = r.nextInt(WorldGenerator.MAP_WIDTH-2)+1;
 		int y = r.nextInt(WorldGenerator.MAP_HEIGHT-2)+1;
 		int spawnX = x;

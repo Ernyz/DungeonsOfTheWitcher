@@ -9,7 +9,8 @@ Can block:
 +-If NOT recovered from being attacked, block has lesser chance to be successful (-x% OF current block chance)
 -Attack and defence ratings must be compared to determine the chance of attack/block success. If atr is 2x bigger than dr, then attack has 100% success chance.
 
+*Ataka nenublockinama, kuria galima numatyt
+*Better AI
+*Both basic attacks (right and left) at the same time result in a dash+knock, but decrease deff rating? Can be blocked and counter attacked. High risk, good reward, strong punishment for failing.
+
 +If counter attack buff is present, it cannot be removed by any debuff.
-
-
-Attacks apply knock back? Only counter attacks apply knock back?

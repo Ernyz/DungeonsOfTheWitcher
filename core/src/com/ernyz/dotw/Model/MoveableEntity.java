@@ -14,6 +14,7 @@ import com.ernyz.dotw.Combat.BasicAttackCreator;
 import com.ernyz.dotw.Factories.EffectFactory;
 import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
+import com.ernyz.dotw.Model.Enemies.Goblin;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -217,7 +218,7 @@ public class MoveableEntity extends Entity {
 			if(this.canAttack(Resources.BODY_RIGHT_HAND) == 1) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, true, gameWorld);
 				//temp
-					ba.getEnchantments().add(new Enchantment("BasicAttack"));
+				ba.getEnchantments().add(new Enchantment("BasicAttack"));
 				gameWorld.basicAttacks.add(ba);
 			} else if(this.canAttack(Resources.BODY_RIGHT_HAND) == 2) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, true, gameWorld);
@@ -241,7 +242,7 @@ public class MoveableEntity extends Entity {
 	 * 1 if can attack;
 	 * 2 if can counter attack;
 	 */
-	private int canAttack(String hand) {
+	protected int canAttack(String hand) {
 		if(isBlocking()) return 0;
 		
 		if(hasEffect("CanCounterAttack")) {
@@ -258,6 +259,9 @@ public class MoveableEntity extends Entity {
 			else
 				rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
 			
+//			if(rightHandItem.getBool("CanAttack")) {
+//				return 1;
+//			}
 			if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
 				return 1;
 			}
@@ -267,6 +271,9 @@ public class MoveableEntity extends Entity {
 			else
 				leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 			
+//			if(leftHandItem.getBool("CanAttack")) {
+//				return 1;
+//			}
 			if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
 				return 1;
 			}
@@ -288,10 +295,29 @@ public class MoveableEntity extends Entity {
 		else
 			leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 		
+//		if(rightHandItem.getBool("CanAttack") && leftHandItem.getBool("CanAttack")) {
+//			return true;
+//		}
 		if(rightHandItem.getFloat("TimeUntilAttack") <= 0 && leftHandItem.getFloat("TimeUntilAttack") <= 0) {
 			return true;
 		}
 		return false;
+	}
+	
+	protected float calculateBasicAttackDistance() {
+		Item rightHandItem = null;
+		Item leftHandItem = null;
+		if(equipmentSlots.get(Resources.BODY_RIGHT_HAND) != -1)
+			rightHandItem = gameWorld.getItemById(equipmentSlots.get(Resources.BODY_RIGHT_HAND));
+		else
+			rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
+		
+		if(equipmentSlots.get(Resources.BODY_LEFT_HAND) != -1)
+			leftHandItem = gameWorld.getItemById(equipmentSlots.get(Resources.BODY_LEFT_HAND));
+		else
+			leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
+		
+		return (rightHandItem.getFloat("Range") > leftHandItem.getFloat("Range")) ? rightHandItem.getFloat("Range") : leftHandItem.getFloat("Range");
 	}
 	
 	public boolean canTakeItem(Item item) {
@@ -337,6 +363,7 @@ public class MoveableEntity extends Entity {
 			if(hasEffect("RecoveringFromAttack")) {
 				if(MathUtils.randomBoolean(0.75f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
+					ba.setBlocked(true);
 					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
@@ -346,6 +373,7 @@ public class MoveableEntity extends Entity {
 			} else {
 				if(MathUtils.randomBoolean(0.85f)) {
 					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
+					ba.setBlocked(true);
 					addEffect(EffectFactory.canCounterAttack(this, this));
 				} else {
 					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
@@ -356,7 +384,7 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
-	private Effect getEffectByName(String name) {
+	protected Effect getEffectByName(String name) {
 		Effect result = null;
 		for(Effect e : effects) {
 			if(e.getEffectName().equals(name))
@@ -365,7 +393,7 @@ public class MoveableEntity extends Entity {
 		return result;
 	}
 	
-	private boolean hasEffect(String name) {
+	protected boolean hasEffect(String name) {
 		for(Effect e : effects) {
 			if(e.getEffectName().equals(name))
 				return true;
@@ -612,6 +640,7 @@ public class MoveableEntity extends Entity {
 	}
 
 	public void setBlocking(boolean blocking) {
+		//TODO add check if(this.blocking and blocking) return;
 		float rotationAmount = 30;
 		if(blocking) {
 			getSkeleton().findBone("RightHand").setRotation(getSkeleton().findBone("RightHand").getRotation()+rotationAmount);

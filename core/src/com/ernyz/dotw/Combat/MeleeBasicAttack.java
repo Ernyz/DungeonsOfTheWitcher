@@ -8,7 +8,6 @@ import com.ernyz.dotw.Model.Items.Item;
 public class MeleeBasicAttack extends BasicAttack {
 	
 	private String hand;
-	//private boolean returning = false;
 	
 	public MeleeBasicAttack(MoveableEntity attacker, Item weapon, String hand) {
 		this.attacker = attacker;
@@ -25,6 +24,7 @@ public class MeleeBasicAttack extends BasicAttack {
 		});
 		bounds.setOrigin(0, 0);
 		
+		weapon.set("CanAttack", false);
 		attacker.getSkeleton().findSlot(hand).getColor().a = 0;
 	}
 
@@ -42,7 +42,6 @@ public class MeleeBasicAttack extends BasicAttack {
 			bounds.setRotation(attacker.getRotation());
 			if(distanceTraveled >= weapon.getFloat("Range")) {
 				setState(StateEnum.RETURNING);
-				//returning = true;
 			}
 		} else if (getState().equals(StateEnum.RETURNING)) {
 			distanceTraveled -= delta * weapon.getFloat("Speed");
@@ -63,7 +62,7 @@ public class MeleeBasicAttack extends BasicAttack {
 	@Override
 	protected void destroy() {
 		setState(StateEnum.FINISHED);
-		//isFinished = true;
+		weapon.set("CanAttack", true);
 		attacker.getSkeleton().findSlot(hand).getColor().a = 1;
 	}
 

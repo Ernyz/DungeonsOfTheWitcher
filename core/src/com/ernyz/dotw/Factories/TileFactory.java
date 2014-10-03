@@ -31,6 +31,7 @@ public class TileFactory {
 	public Floor createFloor(float x, float y) {
 		Floor floor = new Floor(new Vector2(x, y), 0);
 		floor.setTextureRegion(atlas.findRegion("CaveGround"));
+		floor.debugTextureRegion = atlas.findRegion("WalkableDebug");
 		return floor;
 	}
 	
@@ -48,6 +49,7 @@ public class TileFactory {
 	public Wall createWall(float x, float y) {
 		Wall wall = new Wall(new Vector2(x, y), 0);
 		wall.setTextureRegion(atlas.findRegion("Wall"));
+		wall.debugTextureRegion = atlas.findRegion("WalkableDebug");
 		//Create box2d wall for this wall
 		wall.setBox2dBody(GameWorld.createBox2dWall(wall.getPosition().x, wall.getPosition().y));
 		return wall;

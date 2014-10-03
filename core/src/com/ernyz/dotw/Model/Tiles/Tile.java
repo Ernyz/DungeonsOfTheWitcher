@@ -16,10 +16,14 @@ public abstract class Tile extends Entity {
 	protected char asciiSymbol;
 	protected Boolean walkable;
 	protected Polygon bounds;
+	
+	public TextureRegion debugTextureRegion;
 
 	public Tile(Vector2 position, float rotation) {
 		super(position, rotation);
 	}
+	
+	public abstract void switchToDebugTexture();
 
 	public Polygon getBounds() {
 		return bounds;

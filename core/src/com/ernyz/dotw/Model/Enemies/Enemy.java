@@ -12,7 +12,7 @@ import com.ernyz.dotw.Model.MoveableEntity;
 public abstract class Enemy extends MoveableEntity {
 	
 	protected enum StateEnum {
-		WANDER, ATTACK
+		COMBAT_OFFENSIVE, COMBAT_DEFENSIVE, WANDER, FLEE, GET_ITEM
 	}
 	protected StateEnum state;
 	
@@ -24,6 +24,8 @@ public abstract class Enemy extends MoveableEntity {
 	 * Called from update() function. Observes surroundings of entity and
 	 * makes decisions according those observations.
 	 */
-	public abstract void examineSurroundings();
+	protected abstract void setState();
+	
+	protected abstract void act(float delta);
 	
 }

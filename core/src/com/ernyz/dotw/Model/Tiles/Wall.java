@@ -27,6 +27,11 @@ public class Wall extends Tile {
 	}
 	
 	@Override
+	public void switchToDebugTexture() {
+		textureRegion = debugTextureRegion;
+	}
+	
+	@Override
 	public void update(float delta) {
 	}
 

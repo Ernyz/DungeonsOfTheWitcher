@@ -32,41 +32,39 @@ public class CollisionContext {
 			surroundingTiles = entities.get(i).getSurroundingTiles(); 
 			surroundingEntities = entities.get(i).getSurroundingEntities();
 			
-			//if(e.canMove()) {
-				e.moveX();
-				for(int j = 0; j < surroundingEntities.size; j++) {
-					if(!e.equals(surroundingEntities.get(j))) {
-						//Entity vs. other entities
-						if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
-							e.getPosition().x = e.getLastPosX();
-							e.getBounds().setPosition(e.getLastPosX()-e.getRadius(), e.getBounds().getY());
-						}
-					}
-				}
-				for(int j = 0; j < surroundingTiles.size; j++) {
-					//X axis
-					if(!surroundingTiles.get(j).getWalkable() && Intersector.overlapConvexPolygons(e.getBounds(), surroundingTiles.get(j).getBounds())) {
+			e.moveX();
+			for(int j = 0; j < surroundingEntities.size; j++) {
+				if(!e.equals(surroundingEntities.get(j))) {
+					//Entity vs. other entities
+					if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
 						e.getPosition().x = e.getLastPosX();
 						e.getBounds().setPosition(e.getLastPosX()-e.getRadius(), e.getBounds().getY());
 					}
 				}
-				e.moveY();
-				for(int j = 0; j < surroundingEntities.size; j++) {
-					if(!e.equals(surroundingEntities.get(j))) { 
-						if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
-							e.getPosition().y = e.getLastPosY();
-							e.getBounds().setPosition(e.getBounds().getX(), e.getLastPosY()-e.getRadius());
-						}
-					}
+			}
+			for(int j = 0; j < surroundingTiles.size; j++) {
+				//X axis
+				if(!surroundingTiles.get(j).getWalkable() && Intersector.overlapConvexPolygons(e.getBounds(), surroundingTiles.get(j).getBounds())) {
+					e.getPosition().x = e.getLastPosX();
+					e.getBounds().setPosition(e.getLastPosX()-e.getRadius(), e.getBounds().getY());
 				}
-				for(int j = 0; j < surroundingTiles.size; j++) {
-					//Y axis
-					if(!surroundingTiles.get(j).getWalkable() && Intersector.overlapConvexPolygons(e.getBounds(), surroundingTiles.get(j).getBounds())) {
+			}
+			e.moveY();
+			for(int j = 0; j < surroundingEntities.size; j++) {
+				if(!e.equals(surroundingEntities.get(j))) { 
+					if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {
 						e.getPosition().y = e.getLastPosY();
 						e.getBounds().setPosition(e.getBounds().getX(), e.getLastPosY()-e.getRadius());
 					}
 				}
-			//}
+			}
+			for(int j = 0; j < surroundingTiles.size; j++) {
+				//Y axis
+				if(!surroundingTiles.get(j).getWalkable() && Intersector.overlapConvexPolygons(e.getBounds(), surroundingTiles.get(j).getBounds())) {
+					e.getPosition().y = e.getLastPosY();
+					e.getBounds().setPosition(e.getBounds().getX(), e.getLastPosY()-e.getRadius());
+				}
+			}
 			
 			for(int j = 0; j < attacks.size; j++) {
 				if(!attacks.get(j).getAttacker().equals(e)) {

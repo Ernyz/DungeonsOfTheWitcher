@@ -1,10 +1,17 @@
 
 tiles.png
-size: 150,50
+size: 100,100
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 CaveGround
+  rotate: false
+  xy: 0, 50
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+WalkableDebug
   rotate: false
   xy: 0, 0
   size: 50, 50
@@ -13,14 +20,14 @@ CaveGround
   index: -1
 Wall
   rotate: false
-  xy: 50, 0
+  xy: 50, 50
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 Wall1
   rotate: false
-  xy: 100, 0
+  xy: 50, 0
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

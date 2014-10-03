@@ -156,6 +156,7 @@ public class LoadGame {
 				
 				e.setDungeonLevel(entity.getInt("dungeonLevel"));
 				e.setRotation(entity.getFloat("rotation"));
+				e.setTargetRotation(e.getRotation());
 				e.setSpeed(entity.getFloat("speed"));
 				e.setHealth(entity.getFloat("health"));
 				entities.add(e);

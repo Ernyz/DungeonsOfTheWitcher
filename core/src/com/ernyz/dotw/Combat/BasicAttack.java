@@ -15,9 +15,9 @@ public abstract class BasicAttack {
 	private Array<Enchantment> enchantments = new Array<Enchantment>();
 	protected Texture texture;
 	protected Polygon bounds;
+	private boolean blocked = false;
 	
 	protected float distanceTraveled = 0;
-	//protected boolean isFinished = false;
 	public enum StateEnum {
 		ATTACKING, FINISHED, RETURNING
 	}
@@ -32,18 +32,18 @@ public abstract class BasicAttack {
 	protected abstract void destroy();
 	
 	public void onCollision(MoveableEntity e) {
-		applyOnHitEffects(e);
+		if(!isBlocked()) {
+			applyOnHitEffects(e);
+		}
 		if(type.equals(TypeEnum.MELEE)) {
 			setState(StateEnum.RETURNING);
 		}
-		//destroy();
 	}
 	
 	public void onCollision(Tile t) {
 		if(type.equals(TypeEnum.MELEE)) {
 			setState(StateEnum.RETURNING);
 		}
-		//destroy();
 	}
 	
 	private void applyOnHitEffects(MoveableEntity e) {
@@ -51,10 +51,6 @@ public abstract class BasicAttack {
 			enchantment.applyOn(e, this);
 		}
 	}
-	
-	/*public boolean getIsFinished() {
-		return isFinished;
-	}*/
 	
 	public Polygon getBounds() {
 		return bounds;
@@ -98,6 +94,14 @@ public abstract class BasicAttack {
 
 	public void setType(TypeEnum type) {
 		this.type = type;
+	}
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
 	}
 	
 }
