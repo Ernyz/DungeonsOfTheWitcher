@@ -28,7 +28,7 @@ public class PlayerGenerator {
 		ItemFactory itemFactory;
 		
 		//Create player
-		player = new Player(new Vector2(), new Vector2(), 0, 0, null);
+		player = new Player(new Vector2(), 0, null);
 		player.setName(name);
 		player.setDungeonLevel(0);
 		setPosition(player, tiles);

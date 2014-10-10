@@ -31,7 +31,7 @@ public class Goblin extends Enemy {
 	//---------------
 	
 	public Goblin(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
-		super(position, velocity, rotation, speed, gameWorld);
+		super(position, rotation, gameWorld);
 
 		atlas = new TextureAtlas(Gdx.files.internal("data/entities/goblin/skeleton.atlas"));
 		skeletonJson = new SkeletonJson(atlas);
@@ -109,9 +109,13 @@ public class Goblin extends Enemy {
 		else if(state == StateEnum.COMBAT_DEFENSIVE) {  //TODO: Grouping up when in defensive stance, is probably a nice idea.
 			this.setTargetRotation(new Vector2(gameWorld.getPlayer().getPosition().cpy().sub(this.getPosition()).nor()).angle());
 			if(hasEffect("CanCounterAttack")) {
-				setBlocking(false);
-				handleMouseClick(1);
-				state = StateEnum.COMBAT_OFFENSIVE;
+				if(MathUtils.randomBoolean(0.5f)) {
+					setBlocking(false);
+					handleMouseClick(1);
+					state = StateEnum.COMBAT_OFFENSIVE;
+				} else {
+					removeEffect("CanCounterAttack");
+				}
 			}
 			else if(!isBlocking() && this.canBlock()) {
 				setBlocking(true);
@@ -122,7 +126,6 @@ public class Goblin extends Enemy {
 			
 			float distToTargetEntity = gameWorld.getPlayer().getPosition().dst(getPosition());
 			float basicAttackDist = calculateBasicAttackDistance()+radius+radius/2;
-			System.out.println(distToTargetEntity +" > "+ basicAttackDist);
 			if(distToTargetEntity > basicAttackDist) {  //Target is too far, move closer
 				if(canMove()) {
 					if(isBlocking()) {
@@ -170,7 +173,8 @@ public class Goblin extends Enemy {
 			if(isPlayerNearby()) {
 				if(isHealthLow()) {
 					state = StateEnum.FLEE;
-				} else if(isArmedWell()) {
+				//} else if(isArmedWell()) {
+				} else if(MathUtils.randomBoolean(0.5f)) {
 					state = StateEnum.COMBAT_OFFENSIVE;
 				} else {
 					state = StateEnum.COMBAT_DEFENSIVE;

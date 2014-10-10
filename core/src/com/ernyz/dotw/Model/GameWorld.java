@@ -61,7 +61,7 @@ public final class GameWorld {
 	
 	//Box2d variables (lighting variables are in renderer class)
 	private static World world;
-	private static Body wallBody;
+	//private static Body wallBody;
 	
 	public GameWorld(DOTW game, SpriteBatch batch, String playerName) {
 		this.game = game;
@@ -162,8 +162,8 @@ public final class GameWorld {
 		
 		BodyDef def = new BodyDef();
 		def.type = BodyType.StaticBody;
-		def.position.set(x+25, y+25);
-		wallBody = world.createBody(def);
+		def.position.set(x+25, y+25); //TODO: remove hardcoding
+		Body wallBody = world.createBody(def);
 		PolygonShape rectShape = new PolygonShape();
 		rectShape.setAsBox(25, 25);
 		FixtureDef wallFixture = new FixtureDef();

@@ -16,8 +16,8 @@ public abstract class Enemy extends MoveableEntity {
 	}
 	protected StateEnum state;
 	
-	public Enemy(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
-		super(position, velocity, rotation, speed, gameWorld);
+	public Enemy(Vector2 position, float rotation, GameWorld gameWorld) {
+		super(position, rotation, gameWorld);
 	}
 	
 	/**

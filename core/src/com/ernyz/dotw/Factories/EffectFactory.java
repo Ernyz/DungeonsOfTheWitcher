@@ -6,7 +6,7 @@ import com.ernyz.dotw.Model.Effects.Effect;
 public class EffectFactory {
 
 	public static Effect recoveringFromAttack(MoveableEntity source, MoveableEntity target) {
-		Effect e = new Effect("RecoveringFromAttack", 0.65f, source, target);
+		Effect e = new Effect("RecoveringFromAttack", 0.85f, source, target);
 		e.setMaxStacks(1);
 		return e;
 	}

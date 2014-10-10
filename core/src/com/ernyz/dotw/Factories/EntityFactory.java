@@ -25,7 +25,7 @@ public class EntityFactory {
 	 * @return {@link Player} instance
 	 */
 	public Player createPlayer(float x, float y, GameWorld gameWorld) {
-		Player player = new Player(new Vector2(), new Vector2(), 0f, 0f, gameWorld);
+		Player player = new Player(new Vector2(), 0f, gameWorld);
 		return player;
 	}
 	

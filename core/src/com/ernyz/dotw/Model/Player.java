@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.Item.ItemType;
@@ -20,8 +19,8 @@ import com.esotericsoftware.spine.SkeletonJson;
  */
 public final class Player extends MoveableEntity {
 	
-	public Player(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
-		super(position, velocity, rotation, speed, gameWorld);
+	public Player(Vector2 position, float rotation, GameWorld gameWorld) {
+		super(position, rotation, gameWorld);
 		
 		atlas = new TextureAtlas(Gdx.files.internal("data/entities/human/skeleton.atlas"));
 		skeletonJson = new SkeletonJson(atlas);

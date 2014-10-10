@@ -14,7 +14,6 @@ import com.ernyz.dotw.Combat.BasicAttackCreator;
 import com.ernyz.dotw.Factories.EffectFactory;
 import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
-import com.ernyz.dotw.Model.Enemies.Goblin;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -49,7 +48,8 @@ public class MoveableEntity extends Entity {
 	private float targetRotation;
 	private float rotationalVelocity = 450;  //FIXME: init not here
 
-	protected Vector2 velocity;
+	protected Vector2 velocity = new Vector2(0, 0);
+	protected Vector2 velocityEnforced = new Vector2(0, 0);
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	private float lastPosX;
 	private float lastPosY;
@@ -87,13 +87,17 @@ public class MoveableEntity extends Entity {
 	protected float stamina = 50;
 	protected float maxStamina = 50;
 	protected float speed;
+	
+	private float tickInterval = 1;
+	private float timeUntilNextTick = 0;
+	private float healthPerScond = 0.2f;
+	private float manaPerScond = 0.5f;
+	private float staminaPerScond = 0.8f;
 
-	public MoveableEntity(Vector2 position, Vector2 velocity, float rotation, float speed, GameWorld gameWorld) {
+	public MoveableEntity(Vector2 position, float rotation, GameWorld gameWorld) {
 		super(position, rotation);
 		this.gameWorld = gameWorld;
-		this.velocity = velocity;
 		this.lastPos = position.cpy();
-		this.speed = speed;
 		bounds = new Polygon();
 		isDead = false;
 		
@@ -109,6 +113,12 @@ public class MoveableEntity extends Entity {
 		if(health <= 0) {
 			isDead = true;
 			return;
+		}
+		
+		timeUntilNextTick -= delta;
+		if(timeUntilNextTick <= 0) {
+			timeUntilNextTick = tickInterval;
+			regenerateStats();  //TODO: i dont really like this name
 		}
 		
 		//Turn player towards target rotation
@@ -184,13 +194,19 @@ public class MoveableEntity extends Entity {
 	
 	public void moveX() {
 		lastPosX = position.x;
-		position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+		if(velocityEnforced.x == 0)
+			position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+		else
+			position.x += velocityEnforced.cpy().x * Gdx.graphics.getDeltaTime() * speed;
 		bounds.setPosition(position.x-radius, bounds.getY());
 	}
 	
 	public void moveY() {
 		lastPosY = position.y;
-		position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+		if(velocityEnforced.y == 0)
+			position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+		else
+			position.y += velocityEnforced.cpy().y * Gdx.graphics.getDeltaTime() * speed;
 		bounds.setPosition(bounds.getX(), position.y-radius);
 	}
 	
@@ -205,13 +221,15 @@ public class MoveableEntity extends Entity {
 			if(this.canAttack(Resources.BODY_LEFT_HAND) == 1) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
 				//temp
-					ba.getEnchantments().add(new Enchantment("BasicAttack"));
+				ba.getEnchantments().add(new Enchantment("BasicAttack"));
 				gameWorld.basicAttacks.add(ba);
+				setStamina(getStamina()-1);
 			} else if(this.canAttack(Resources.BODY_LEFT_HAND) == 2) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, false, gameWorld);
 				ba.getEnchantments().add(new Enchantment("CounterAttack"));
 				gameWorld.basicAttacks.add(ba);
 				removeEffect("CanCounterAttack");
+				setStamina(getStamina()-2);
 			}
 		}
 		else if(button == 1) {  //Primary action
@@ -220,11 +238,13 @@ public class MoveableEntity extends Entity {
 				//temp
 				ba.getEnchantments().add(new Enchantment("BasicAttack"));
 				gameWorld.basicAttacks.add(ba);
+				setStamina(getStamina()-1);
 			} else if(this.canAttack(Resources.BODY_RIGHT_HAND) == 2) {
 				BasicAttack ba = BasicAttackCreator.createBasicAttack(this, true, gameWorld);
 				ba.getEnchantments().add(new Enchantment("CounterAttack"));
 				gameWorld.basicAttacks.add(ba);
 				removeEffect("CanCounterAttack");
+				setStamina(getStamina()-2);
 			}
 		}
 	}
@@ -424,6 +444,12 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
+	private void regenerateStats() {
+		setHealth(getHealth()+healthPerScond);
+		setMana(getMana()+manaPerScond);
+		setStamina(getStamina()+staminaPerScond);
+	}
+	
 	public Array<Effect> getEffects() {
 		return effects;
 	}
@@ -469,6 +495,14 @@ public class MoveableEntity extends Entity {
 		this.velocity = velocity;
 	}
 
+	public Vector2 getVelocityEnforced() {
+		return velocityEnforced;
+	}
+
+	public void setVelocityEnforced(Vector2 velocityEnforced) {
+		this.velocityEnforced = velocityEnforced;
+	}
+
 	public Vector2 getLastPos() {
 		return lastPos;
 	}
@@ -495,6 +529,8 @@ public class MoveableEntity extends Entity {
 	
 	public void setHealth(float health) {
 		this.health = health;
+		if(this.health >= maxHealth)
+			this.health = maxHealth;
 		if(this.health <= 0)
 			this.health = 0;
 	}
@@ -577,6 +613,8 @@ public class MoveableEntity extends Entity {
 
 	public void setMana(float mana) {
 		this.mana = mana;
+		if(this.mana > maxMana)
+			this.mana = maxMana;
 		if(this.mana <= 0)
 			this.mana = 0;
 	}
@@ -595,6 +633,8 @@ public class MoveableEntity extends Entity {
 
 	public void setStamina(float stamina) {
 		this.stamina = stamina;
+		if(this.stamina > maxStamina)
+			this.stamina = maxStamina;
 		if(this.stamina <= 0)
 			this.stamina = 0;
 	}
