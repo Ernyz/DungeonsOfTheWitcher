@@ -40,6 +40,11 @@ public class MeleeBasicAttack extends BasicAttack {
 					boneWorldX+attacker.getPosition().x+centerPointX+distanceTraveled*MathUtils.cosDeg(attacker.getRotation()),
 					boneWorldY+attacker.getPosition().y+centerPointY+distanceTraveled*MathUtils.sinDeg(attacker.getRotation()));
 			bounds.setRotation(attacker.getRotation());
+//			if(hand.equals(Resources.BODY_RIGHT_HAND)) {
+//				bounds.setRotation(attacker.getRotation()+15);
+//			} else {
+//				bounds.setRotation(attacker.getRotation()-15);
+//			}
 			if(distanceTraveled >= weapon.getFloat("Range")) {
 				setState(StateEnum.RETURNING);
 			}

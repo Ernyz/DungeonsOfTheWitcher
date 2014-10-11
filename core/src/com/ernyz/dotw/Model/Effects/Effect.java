@@ -44,7 +44,7 @@ public class Effect {
 		} else if(effectName.equals("KnockBack")) {
 			Vector2 dirVector = new Vector2((target.getPosition().x-source.getPosition().cpy().x), (target.getPosition().y-source.getPosition().cpy().y));
 			//target.getVelocity().set(dirVector.x/Math.abs(dirVector.x)*2.5f, dirVector.y/Math.abs(dirVector.y)*2.5f);
-			target.getVelocityEnforced().set(dirVector.x/Math.abs(dirVector.x)*2.5f, dirVector.y/Math.abs(dirVector.y)*2.5f);
+			target.getVelocityEnforced().set(dirVector.x/Math.abs(dirVector.x)*2.5f, dirVector.y/Math.abs(dirVector.y)*2.5f);  //TODO: fix the case with 0 division
 		} else {
 			finished = true;
 		}

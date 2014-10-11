@@ -102,7 +102,7 @@ public class Goblin extends Enemy {
 				dirVector.set(targetTile.getPosition().cpy().x+25, targetTile.getPosition().cpy().y+25);
 				if(canMove()) {
 					this.setTargetRotation(new Vector2(dirVector.sub(this.getPosition()).nor()).angle());
-					velocity.set(dirVector.x, dirVector.y);
+					getVelocity().set(dirVector.x, dirVector.y);
 				}
 			}
 		}
@@ -132,15 +132,15 @@ public class Goblin extends Enemy {
 						setBlocking(false);
 					}
 					dirVector.set(gameWorld.getPlayer().getPosition()).sub(this.getPosition());
-					velocity.x = (dirVector.x != 0) ? dirVector.x/Math.abs(dirVector.x) : 0;
-					velocity.y = (dirVector.y != 0) ? dirVector.y/Math.abs(dirVector.y) : 0;
+					getVelocity().x = (dirVector.x != 0) ? dirVector.x/Math.abs(dirVector.x) : 0;
+					getVelocity().y = (dirVector.y != 0) ? dirVector.y/Math.abs(dirVector.y) : 0;
 				}
 			}
 			else if(Math.abs(distToTargetEntity-basicAttackDist) < delta*speed) {  //Distance is right, stay
 				if(isBlocking()) {
 					setBlocking(false);
 				}
-				velocity.set(0, 0);
+				getVelocity().set(0, 0);
 				handleMouseClick(1);
 			}
 			else if(distToTargetEntity < basicAttackDist) {  //Target is too close, back off
@@ -149,8 +149,8 @@ public class Goblin extends Enemy {
 				}
 				if(canMove()) {
 					dirVector.set(gameWorld.getPlayer().getPosition()).sub(this.getPosition());
-					velocity.x = (dirVector.x != 0) ? -1*dirVector.x/Math.abs(dirVector.x) : 0;
-					velocity.y = (dirVector.y != 0) ? -1*dirVector.y/Math.abs(dirVector.y) : 0;
+					getVelocity().x = (dirVector.x != 0) ? -1*dirVector.x/Math.abs(dirVector.x) : 0;
+					getVelocity().y = (dirVector.y != 0) ? -1*dirVector.y/Math.abs(dirVector.y) : 0;
 				}
 			}
 		}
@@ -160,8 +160,8 @@ public class Goblin extends Enemy {
 			//Decrease defence rating?
 			if(canMove()) {
 				dirVector.set(gameWorld.getPlayer().getPosition()).sub(this.getPosition());
-				velocity.x = (dirVector.x != 0) ? -1*dirVector.x/Math.abs(dirVector.x) : 0;
-				velocity.y = (dirVector.y != 0) ? -1*dirVector.y/Math.abs(dirVector.y) : 0;
+				getVelocity().x = (dirVector.x != 0) ? -1*dirVector.x/Math.abs(dirVector.x) : 0;
+				getVelocity().y = (dirVector.y != 0) ? -1*dirVector.y/Math.abs(dirVector.y) : 0;
 			}
 		}
 	}
@@ -178,7 +178,7 @@ public class Goblin extends Enemy {
 					state = StateEnum.COMBAT_OFFENSIVE;
 				} else {
 					state = StateEnum.COMBAT_DEFENSIVE;
-					velocity.set(0, 0);
+					getVelocity().set(0, 0);
 				}
 			} else if(itemsNearby().size > 0) {
 				state = StateEnum.GET_ITEM;
@@ -227,7 +227,8 @@ public class Goblin extends Enemy {
 		return false;
 	}
 	private boolean isHealthLow() {
-		if(health*100/maxHealth <= 30) {
+		//if(health*100/maxHealth <= 30) {
+		if(health*100/maxHealth <= 1) {
 			return true;
 		}
 		return false;

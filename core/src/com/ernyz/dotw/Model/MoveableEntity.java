@@ -48,8 +48,12 @@ public class MoveableEntity extends Entity {
 	private float targetRotation;
 	private float rotationalVelocity = 450;  //FIXME: init not here
 
-	protected Vector2 velocity = new Vector2(0, 0);
-	protected Vector2 velocityEnforced = new Vector2(0, 0);
+	private Vector2 velocity = new Vector2(0, 0);
+	public int velocityUp = 0;
+	public int velocityLeft = 0;
+	public int velocityDown = 0;
+	public int velocityRight = 0;
+	private Vector2 velocityEnforced = new Vector2(0, 0);
 	protected Vector2 lastPos;  //Position before moving, needed for collision checking
 	private float lastPosX;
 	private float lastPosY;
@@ -144,6 +148,9 @@ public class MoveableEntity extends Entity {
 			rotation += 360;
 		else if(rotation > 360)
 			rotation -= 360;
+		
+		//Update velocity
+		velocity.set(velocityLeft+velocityRight, velocityUp+velocityDown);
 		
 		//Update effects
 		for(Effect e : effects) {
@@ -488,6 +495,7 @@ public class MoveableEntity extends Entity {
 	}*/
 
 	public Vector2 getVelocity() {
+		//velocity.set(velocityLeft+velocityRight, velocityUp+velocityDown);
 		return velocity;
 	}
 
