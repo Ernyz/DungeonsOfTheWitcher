@@ -39,7 +39,7 @@ public class BasicAttackCreator {
 				attack = new MeleeBasicAttack(attacker, rightHandItem, Resources.BODY_RIGHT_HAND);
 				attack.setType(TypeEnum.MELEE);
 				attack.setState(StateEnum.ATTACKING);
-				rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
+				//rightHandItem.set("TimeUntilAttack", rightHandItem.getFloat("AttackInterval"));
 			}
 		} else {
 			//Determine the type of the attack (ranged, melee, etc.)
@@ -47,7 +47,7 @@ public class BasicAttackCreator {
 				attack = new MeleeBasicAttack(attacker, leftHandItem, Resources.BODY_LEFT_HAND);
 				attack.setType(TypeEnum.MELEE);
 				attack.setState(StateEnum.ATTACKING);
-				leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
+				//leftHandItem.set("TimeUntilAttack", leftHandItem.getFloat("AttackInterval"));
 			}
 		}
 		

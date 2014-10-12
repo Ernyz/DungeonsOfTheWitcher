@@ -36,7 +36,7 @@ public class EntityFactory {
 		Goblin goblin = new Goblin(new Vector2(x, y), new Vector2(0, 0), 0, 0, gameWorld);
 		goblin.setName("Goblin");
 		goblin.setSpeed(60f);
-		goblin.setHealth(50);
+		goblin.setHealth(30);
 		goblin.setRotation(MathUtils.random(360));
 		
 		return goblin;

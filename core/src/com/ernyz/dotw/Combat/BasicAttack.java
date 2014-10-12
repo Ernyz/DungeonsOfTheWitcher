@@ -19,7 +19,7 @@ public abstract class BasicAttack {
 	
 	protected float distanceTraveled = 0;
 	public enum StateEnum {
-		ATTACKING, FINISHED, RETURNING
+		ATTACKING, DAMAGE_DISABLED, FINISHED, RETURNING
 	}
 	private StateEnum state;
 	protected enum TypeEnum {
@@ -36,7 +36,8 @@ public abstract class BasicAttack {
 			applyOnHitEffects(e);
 		}
 		if(type.equals(TypeEnum.MELEE)) {
-			setState(StateEnum.RETURNING);
+			setState(StateEnum.DAMAGE_DISABLED);
+			//setState(StateEnum.RETURNING);
 		}
 	}
 	

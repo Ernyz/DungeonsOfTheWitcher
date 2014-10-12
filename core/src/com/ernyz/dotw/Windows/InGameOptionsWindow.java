@@ -44,7 +44,7 @@ public class InGameOptionsWindow extends CustomWindow {
 		saveAndQuitButton.addListener(new InputListener() {
 			public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
 				SaveGame.save(gameWorld.getTiles(), gameWorld.getPlayer(), gameWorld.getEntities(), gameWorld.getItems());
-				gameWorld.getGame().setScreen(new MainMenuScreen(gameWorld.getGame(), batch));
+				gameWorld.getGame().setScreen(new MainMenuScreen(gameWorld.getGame(), batch));  //XXX: Sending batch like this doesnt really work. null is being sent.
 		        return true;
 		    }
 		});
@@ -52,9 +52,9 @@ public class InGameOptionsWindow extends CustomWindow {
 		
 		//debug();
 		
-		//setWidth(280);
+		setWidth(280);
 		
-		pack();
+		//pack();
 	}
 	
 	@Override

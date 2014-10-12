@@ -1,16 +1,11 @@
-Can attack:
-+If not blocking
-+If weapon is not on cooldown
-+If recovered from being attacked
-+If blocked and weapon which is not on cd used, counter-attack happens
-
-Can block:
-+If NO weapons are on cooldowns
-+-If NOT recovered from being attacked, block has lesser chance to be successful (-x% OF current block chance)
--Attack and defence ratings must be compared to determine the chance of attack/block success. If atr is 2x bigger than dr, then attack has 100% success chance.
-
-*Ataka nenublockinama, kuria galima numatyt
-*Better AI
-*Both basic attacks (right and left) at the same time result in a dash+knock, but decrease deff rating? Can be blocked and counter attacked. High risk, good reward, strong punishment for failing.
-
-+If counter attack buff is present, it cannot be removed by any debuff.
++Paprasta ataka
++Galima atakuot kai grizta i ranka
++-Passive block/miss/dodge/parry/etc. sistema (+- reiskia kad daromi random booleanai,vietoj normaliu ATR DFR)
++-Combat paremtas stamina? (kol kas ginklai nepradeda grizt atsitrenke i entity, o eina kiaurai. del to neiseina spammint basic ataku absurdisku greiciu)
+-Atnaujinti on-hit efektus (RecoveringFromAttack, CanCounterAttack turbut jau nebereikalingi)
+-Uzkaupiamoji ataka (kiekvienam ginklui skirtinga?) (turi efektus kaip stun/long knock back. trubut priklausomai nuo ginklo)
+-Tiesios atakos vistiek turi buti taikomos siek tiek i centra. Atrodys ir jausis naturaliau.
+-Skirtingi ataku rezimai (kirtis, duris ir t.t.)
+-Dash'as (Dvigubu W/A/S/D paspaudimu). Kainuoja stamina, distancija trumpa.
+-Jei viena ranka jau atakuoja, kita gali atakuoti tik tada, kai kita...nukeliavo visa atstuma/pasieke priesininka/...?
+-Priesai atakuoja su ranka, kuri turi stipresni ginkla. Jei abiejose rankose yra vienodo stiprumo ginklai, atakuojanti ranka pasirenkama atsitiktinai.

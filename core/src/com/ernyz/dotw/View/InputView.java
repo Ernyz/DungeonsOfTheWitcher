@@ -34,23 +34,15 @@ public class InputView implements InputProcessor {
 		player = gameWorld.getPlayer();
 		if(player.canMove()) {
 			if(keycode == Keys.W) {
-//				player.setVelocity(new Vector2(player.getVelocity().x, 1));
-//				controller.keyW = true;
 				controller.keyPressed(keycode);
 			}
 			if(keycode == Keys.A) {
-//				player.setVelocity(new Vector2(-1, player.getVelocity().y));
-//				controller.keyA = true;
 				controller.keyPressed(keycode);
 			}
 			if(keycode == Keys.S) {
-//				player.setVelocity(new Vector2(player.getVelocity().x, -1));
-//				controller.keyS = true;
 				controller.keyPressed(keycode);
 			}
 			if(keycode == Keys.D) {
-//				player.setVelocity(new Vector2(1, player.getVelocity().y));
-//				controller.keyD = true;
 				controller.keyPressed(keycode);
 			}
 		}
@@ -65,7 +57,7 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
 		} else if(keycode == Keys.SPACE) {
-			controller.keySpace = true;
+			//controller.keySpace = true;
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
@@ -81,32 +73,20 @@ public class InputView implements InputProcessor {
 		player = gameWorld.getPlayer();
 		if(player.canMove()) {
 			if(keycode == Keys.W) {
-//				controller.keyW = false;
-//				if(player.getVelocity().y == 1)
-//					player.setVelocity(new Vector2(player.getVelocity().x, 0));
 				controller.keyReleased(keycode);
 			}
 			if(keycode == Keys.A) {
-//				controller.keyA = false;
-//				if(player.getVelocity().x == -1)
-//					player.setVelocity(new Vector2(0, player.getVelocity().y));
 				controller.keyReleased(keycode);
 			}
 			if(keycode == Keys.S) {
-//				controller.keyS = false;
-//				if(player.getVelocity().y == -1)
-//					player.setVelocity(new Vector2(player.getVelocity().x, 0));
 				controller.keyReleased(keycode);
 			}
 			if(keycode == Keys.D) {
-//				controller.keyD = false;
-//				if(player.getVelocity().x == 1)
-//					player.setVelocity(new Vector2(0, player.getVelocity().y));
 				controller.keyReleased(keycode);
 			}
 		}
 		if(keycode == Keys.SPACE) {
-			controller.keySpace = false;
+			//controller.keySpace = false;
 		}
 		
 		return false;

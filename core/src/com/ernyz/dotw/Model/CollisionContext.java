@@ -18,7 +18,7 @@ public class CollisionContext {
 		this.attacks = attacks;
 	}
 	
-	public void checkCollisions() {
+	public void checkCollisions(float delta) {  //public void checkCollisions() {
 		//Loop through all entities and check if they collide with any of the following:
 		//other entities, tiles and attacks. If collision occurs, call handleCollision()
 		
@@ -32,7 +32,7 @@ public class CollisionContext {
 			surroundingTiles = entities.get(i).getSurroundingTiles(); 
 			surroundingEntities = entities.get(i).getSurroundingEntities();
 			
-			e.moveX();
+			e.moveX(delta);
 			for(int j = 0; j < surroundingEntities.size; j++) {
 				if(!e.equals(surroundingEntities.get(j))) {
 					//Entity vs. other entities
@@ -49,7 +49,7 @@ public class CollisionContext {
 					e.getBounds().setPosition(e.getLastPosX()-e.getRadius(), e.getBounds().getY());
 				}
 			}
-			e.moveY();
+			e.moveY(delta);
 			for(int j = 0; j < surroundingEntities.size; j++) {
 				if(!e.equals(surroundingEntities.get(j))) { 
 					if(Intersector.overlapConvexPolygons(e.getBounds(), surroundingEntities.get(j).getBounds())) {

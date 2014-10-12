@@ -108,18 +108,6 @@ public class Goblin extends Enemy {
 		}
 		else if(state == StateEnum.COMBAT_DEFENSIVE) {  //TODO: Grouping up when in defensive stance, is probably a nice idea.
 			this.setTargetRotation(new Vector2(gameWorld.getPlayer().getPosition().cpy().sub(this.getPosition()).nor()).angle());
-			if(hasEffect("CanCounterAttack")) {
-				if(MathUtils.randomBoolean(0.5f)) {
-					setBlocking(false);
-					handleMouseClick(1);
-					state = StateEnum.COMBAT_OFFENSIVE;
-				} else {
-					removeEffect("CanCounterAttack");
-				}
-			}
-			else if(!isBlocking() && this.canBlock()) {
-				setBlocking(true);
-			}
 		}
 		else if(state == StateEnum.COMBAT_OFFENSIVE) {
 			this.setTargetRotation(new Vector2(gameWorld.getPlayer().getPosition().cpy().sub(this.getPosition()).nor()).angle());
@@ -128,25 +116,16 @@ public class Goblin extends Enemy {
 			float basicAttackDist = calculateBasicAttackDistance()+radius+radius/2;
 			if(distToTargetEntity > basicAttackDist) {  //Target is too far, move closer
 				if(canMove()) {
-					if(isBlocking()) {
-						setBlocking(false);
-					}
 					dirVector.set(gameWorld.getPlayer().getPosition()).sub(this.getPosition());
 					getVelocity().x = (dirVector.x != 0) ? dirVector.x/Math.abs(dirVector.x) : 0;
 					getVelocity().y = (dirVector.y != 0) ? dirVector.y/Math.abs(dirVector.y) : 0;
 				}
 			}
 			else if(Math.abs(distToTargetEntity-basicAttackDist) < delta*speed) {  //Distance is right, stay
-				if(isBlocking()) {
-					setBlocking(false);
-				}
 				getVelocity().set(0, 0);
 				handleMouseClick(1);
 			}
 			else if(distToTargetEntity < basicAttackDist) {  //Target is too close, back off
-				if(!isBlocking() && this.canBlock()) {
-					setBlocking(true);
-				}
 				if(canMove()) {
 					dirVector.set(gameWorld.getPlayer().getPosition()).sub(this.getPosition());
 					getVelocity().x = (dirVector.x != 0) ? -1*dirVector.x/Math.abs(dirVector.x) : 0;
@@ -174,7 +153,7 @@ public class Goblin extends Enemy {
 				if(isHealthLow()) {
 					state = StateEnum.FLEE;
 				//} else if(isArmedWell()) {
-				} else if(MathUtils.randomBoolean(0.5f)) {
+				} else if(MathUtils.randomBoolean(1)) {
 					state = StateEnum.COMBAT_OFFENSIVE;
 				} else {
 					state = StateEnum.COMBAT_DEFENSIVE;
@@ -280,8 +259,6 @@ public class Goblin extends Enemy {
 		lHand.setType(ItemType.WEAPON);
 		lHand.set("PrimaryAttack", "Punch");
 		lHand.set("Speed", 170f);  //170
-		lHand.set("AttackInterval", .5f);  //Interval between attacks
-		lHand.set("TimeUntilAttack", 0f);
 		lHand.set("IsWeapon", true);
 		lHand.set("IsMelee", true);
 		lHand.set("CanAttack", true);
@@ -295,12 +272,10 @@ public class Goblin extends Enemy {
 		rHand.setType(ItemType.WEAPON);
 		rHand.set("PrimaryAttack", "Punch");
 		rHand.set("Speed", 170f);  //170
-		rHand.set("AttackInterval", .5f);  //Interval between attacks
-		rHand.set("TimeUntilAttack", 0f);
 		rHand.set("IsWeapon", true);
 		rHand.set("IsMelee", true);
 		rHand.set("CanAttack", true);
-		rHand.set("Damage", 6f);
+		rHand.set("Damage", 4f);
 		rHand.set("Range", 20f);//20f
 		rHand.setTexture(new Texture("data/items/goblinUnarmed.png"));
 		unarmedLimbs.put(Resources.BODY_RIGHT_HAND, rHand);

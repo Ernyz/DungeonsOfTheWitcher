@@ -2,7 +2,6 @@ package com.ernyz.dotw.Model;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Combat.BasicAttackCreator;
-import com.ernyz.dotw.Factories.EffectFactory;
 import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
 import com.ernyz.dotw.Model.Items.Item;
@@ -68,7 +66,8 @@ public class MoveableEntity extends Entity {
 	
 	private Array<Effect> effects = new Array<Effect>();
 	
-	private boolean blocking = false;
+	private float tickInterval = 1;
+	private float timeUntilNextTick = 0;
 	
 	/*
 	 * Stats
@@ -92,11 +91,9 @@ public class MoveableEntity extends Entity {
 	protected float maxStamina = 50;
 	protected float speed;
 	
-	private float tickInterval = 1;
-	private float timeUntilNextTick = 0;
-	private float healthPerScond = 0.2f;
+	private float healthPerScond = 0.2f;    //TODO Values in this line and below should be set during generation/load process.
 	private float manaPerScond = 0.5f;
-	private float staminaPerScond = 0.8f;
+	private float staminaPerScond = 1f;
 
 	public MoveableEntity(Vector2 position, float rotation, GameWorld gameWorld) {
 		super(position, rotation);
@@ -160,7 +157,7 @@ public class MoveableEntity extends Entity {
 		}
 		
 		//Update weapon attack timers
-		for(String slot : equipmentSlots.keySet()) {
+		/*for(String slot : equipmentSlots.keySet()) {
 			if(equipmentSlots.get(slot) != -1) {
 				Item item = gameWorld.getItemById(equipmentSlots.get(slot));
 				if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
@@ -179,7 +176,7 @@ public class MoveableEntity extends Entity {
 			if(item.getBool("IsWeapon") && item.getFloat("TimeUntilAttack") > 0) {  //TODO: Check Type.WEAPON instead of "IsWeapon"
 				item.set("TimeUntilAttack", item.getFloat("TimeUntilAttack") - delta);
 			}
-		}
+		}*/
 		
 		//Get new surrounding tiles
 		surroundingTiles.clear();
@@ -199,21 +196,21 @@ public class MoveableEntity extends Entity {
 		}
 	}
 	
-	public void moveX() {
+	public void moveX(float delta) {
 		lastPosX = position.x;
 		if(velocityEnforced.x == 0)
-			position.x += velocity.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+			position.x += velocity.cpy().x * delta * speed;
 		else
-			position.x += velocityEnforced.cpy().x * Gdx.graphics.getDeltaTime() * speed;
+			position.x += velocityEnforced.cpy().x * delta * speed;
 		bounds.setPosition(position.x-radius, bounds.getY());
 	}
 	
-	public void moveY() {
+	public void moveY(float delta) {
 		lastPosY = position.y;
 		if(velocityEnforced.y == 0)
-			position.y += velocity.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+			position.y += velocity.cpy().y * delta * speed;
 		else
-			position.y += velocityEnforced.cpy().y * Gdx.graphics.getDeltaTime() * speed;
+			position.y += velocityEnforced.cpy().y * delta * speed;
 		bounds.setPosition(bounds.getX(), position.y-radius);
 	}
 	
@@ -270,13 +267,12 @@ public class MoveableEntity extends Entity {
 	 * 2 if can counter attack;
 	 */
 	protected int canAttack(String hand) {
-		if(isBlocking()) return 0;
-		
-		if(hasEffect("CanCounterAttack")) {
+		if(hasEffect("CanCounterAttack") && getStamina() >= 2) {
 			return 2;
 		} else if(hasEffect("RecoveringFromAttack")) {
 			return 0;
 		}
+		if(stamina <= 0) return 0;
 		
 		Item rightHandItem = null;
 		Item leftHandItem = null;
@@ -286,24 +282,24 @@ public class MoveableEntity extends Entity {
 			else
 				rightHandItem = unarmedLimbs.get(Resources.BODY_RIGHT_HAND);
 			
-//			if(rightHandItem.getBool("CanAttack")) {
-//				return 1;
-//			}
-			if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+			if(rightHandItem.getBool("CanAttack")) {
 				return 1;
 			}
+			/*if(rightHandItem.getFloat("TimeUntilAttack") <= 0) {
+				return 1;
+			}*/
 		} else if(hand.equals(Resources.BODY_LEFT_HAND)) {
 			if(equipmentSlots.get(hand) != -1)
 				leftHandItem = gameWorld.getItemById(equipmentSlots.get(hand));
 			else
 				leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 			
-//			if(leftHandItem.getBool("CanAttack")) {
-//				return 1;
-//			}
-			if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+			if(leftHandItem.getBool("CanAttack")) {
 				return 1;
 			}
+			/*if(leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+				return 1;
+			}*/
 		}
 		return 0;
 	}
@@ -322,12 +318,12 @@ public class MoveableEntity extends Entity {
 		else
 			leftHandItem = unarmedLimbs.get(Resources.BODY_LEFT_HAND);
 		
-//		if(rightHandItem.getBool("CanAttack") && leftHandItem.getBool("CanAttack")) {
-//			return true;
-//		}
-		if(rightHandItem.getFloat("TimeUntilAttack") <= 0 && leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+		if(rightHandItem.getBool("CanAttack") && leftHandItem.getBool("CanAttack")) {
 			return true;
 		}
+		/*if(rightHandItem.getFloat("TimeUntilAttack") <= 0 && leftHandItem.getFloat("TimeUntilAttack") <= 0) {
+			return true;
+		}*/
 		return false;
 	}
 	
@@ -382,32 +378,15 @@ public class MoveableEntity extends Entity {
 	}
 	
 	public void onCollision(BasicAttack ba) {  //TODO: abstract attacks to one type
-		if(!blocking) {
+		if(MathUtils.randomBoolean(0.4f)) {
 			setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-			addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
-		} else if(blocking) {
-			if(hasEffect("RecoveringFromAttack")) {
-				if(MathUtils.randomBoolean(0.75f)) {
-					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					ba.setBlocked(true);
-					addEffect(EffectFactory.canCounterAttack(this, this));
-				} else {
-					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
-					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
-				}
-			} else {
-				if(MathUtils.randomBoolean(0.85f)) {
-					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Blocked", getPosition().x-getWidth()/2, getPosition().y));
-					ba.setBlocked(true);
-					addEffect(EffectFactory.canCounterAttack(this, this));
-				} else {
-					setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
-					GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
-					addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
-				}
-			}
+//			addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
+		}
+		else {
+			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText("Miss", getPosition().x-getWidth()/2, getPosition().y));
+			ba.setBlocked(true);
+//			addEffect(EffectFactory.canCounterAttack(this, this));
 		}
 	}
 	
@@ -683,21 +662,4 @@ public class MoveableEntity extends Entity {
 		this.targetRotation = targetRotation;
 	}
 
-	public boolean isBlocking() {
-		return blocking;
-	}
-
-	public void setBlocking(boolean blocking) {
-		//TODO add check if(this.blocking and blocking) return;
-		float rotationAmount = 30;
-		if(blocking) {
-			getSkeleton().findBone("RightHand").setRotation(getSkeleton().findBone("RightHand").getRotation()+rotationAmount);
-			getSkeleton().findBone("LeftHand").setRotation(getSkeleton().findBone("LeftHand").getRotation()-rotationAmount);
-		} else {
-			getSkeleton().findBone("RightHand").setRotation(getSkeleton().findBone("RightHand").getRotation()-rotationAmount);
-			getSkeleton().findBone("LeftHand").setRotation(getSkeleton().findBone("LeftHand").getRotation()+rotationAmount);
-		}
-		this.blocking = blocking;
-	}
-	
 }

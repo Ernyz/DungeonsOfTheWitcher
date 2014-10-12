@@ -27,12 +27,6 @@ public class MainMenuScreen implements Screen {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	
-	/*//Stuff needed for box2d lighting
-	private World world;
-	private Box2DDebugRenderer debugRenderer;
-	private RayHandler rayHandler;
-	private PointLight crystalLight;*/
-	
 	//Scene2d variables
 	private Stage stage;
 	private Skin skin;
@@ -49,6 +43,9 @@ public class MainMenuScreen implements Screen {
 	public MainMenuScreen(DOTW game, SpriteBatch batch) {
 		this.game = game;
 		this.batch = batch;
+		if(this.batch == null) {  //FIXME: this causes the old batch in InGameOptionsWindow to leak memory
+			this.batch = new SpriteBatch();
+		}
 	}
 
 	@Override
@@ -63,11 +60,6 @@ public class MainMenuScreen implements Screen {
 		stage.act(delta);
 		stage.draw();
 		//Table.drawDebug(stage);
-		
-		/*//Deal with light stuff
-		debugRenderer.render(world, camera.combined);
-		rayHandler.setCombinedMatrix(camera.combined);
-		rayHandler.updateAndRender();*/
 	}
 
 	@Override
@@ -153,16 +145,6 @@ public class MainMenuScreen implements Screen {
 		skin = new Skin(Gdx.files.internal("data/GUI/menu/packed/customuiskin.json"));
 		
 		bgTexture = new Texture("data/GUI/MainMenuBackground.png");
-		
-		/*//Initialise box2d stuff
-		world = new World(new Vector2(0, 0), false);
-		debugRenderer = new Box2DDebugRenderer(false, false, false, false, false, false);
-		rayHandler = new RayHandler(world);
-		rayHandler.setCombinedMatrix(camera.combined);
-		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 1200, 0, 0);
-		crystalLight = new PointLight(rayHandler, 30, Color.BLACK, 800, 500, 650);
-		//crystalLight = new PointLight(rayHandler, 360, Color.CYAN, 600, 1000, 100);
-		//crystalLight = new PointLight(rayHandler, 360, Color.PINK, 200, 0, 650);*/
 	}
 
 	@Override
@@ -183,7 +165,6 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 		skin.dispose();
-		//batch.dispose();
 		stage.dispose();
 	}
 

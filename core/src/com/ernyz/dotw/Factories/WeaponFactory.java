@@ -35,14 +35,13 @@ public class WeaponFactory {
 		i.set("PrimaryAttack", "Stab");
 		i.set("SecondaryAttack", "Cut");
 		i.set("Speed", 170f);  //170
-		i.set("AttackInterval", .5f);  //Interval between attacks
-		i.set("TimeUntilAttack", 0f);
+		//i.set("AttackInterval", .5f);  //Interval between attacks
+		//i.set("TimeUntilAttack", 0f);
 		i.set("IsWeapon", true);
 		i.set("IsMelee", true);
 		i.set("CanAttack", true);
-		i.set("Damage", 0f);//10f
+		i.set("Damage", 12f);//10f
 		i.set("Range", 24f);
-		//i.set("AttackInterval", i.getFloat("Range")/i.getFloat("Speed"));  //Interval between attacks
 		
 		i.setIconTexture(new Texture("data/items/icons/dagger.png"));
 		i.setTexture(new Texture("data/items/Dagger.png"));

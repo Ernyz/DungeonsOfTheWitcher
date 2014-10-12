@@ -15,7 +15,7 @@ public class Controller {
 //	private boolean keyX = false;
 //	private boolean keyP = false;
 //	private boolean keyG = false;
-	public boolean keySpace = false;
+//	public boolean keySpace = false;
 //	private boolean keyEscape = false;
 	
 	//private GameWorld gameWorld;
@@ -27,13 +27,13 @@ public class Controller {
 	}
 	
 	public void update(float delta) {
-		if(keySpace) {
-			if(player.canBlock() && !player.isBlocking()) {
-				player.setBlocking(true);
-			}
-		} else if(player.isBlocking()) {
-			player.setBlocking(false);
-		}
+//		if(keySpace) {
+//			if(player.canBlock() && !player.isBlocking()) {
+//				player.setBlocking(true);
+//			}
+//		} else if(player.isBlocking()) {
+//			player.setBlocking(false);
+//		}
 	}
 	
 	public void keyPressed(Integer keycode) {

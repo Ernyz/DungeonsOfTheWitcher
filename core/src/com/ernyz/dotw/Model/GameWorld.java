@@ -100,6 +100,8 @@ public final class GameWorld {
 	}
 	
 	public void update(float delta) {
+		//delta *= 0.5f;  //XXX: trolling around with slow motion effect ITS SURPRISINGLY GOOD FOR DEBUGGING!
+		
 		//Update everything
  		if(gameState == GameStateEnum.PLAYING) {
  			if(player.getIsDead()) {
@@ -125,7 +127,7 @@ public final class GameWorld {
 					basicAttacks.removeValue(ba, false);
 				}
 			}
-			collisionContext.checkCollisions();
+			collisionContext.checkCollisions(delta);
 			//Update active windows
 			for(String windowName : windows.keySet()) {
 				if(windows.get(windowName).isVisible()) {
