@@ -65,7 +65,8 @@ public class InputView implements InputProcessor {
 		} else if(keycode == Keys.G) {
 			ItemManager.takeItem(gameWorld.getItems(), player);
 		} else if(keycode == Keys.SPACE) {
-			controller.keySpace = true;
+			//controller.keySpace = true;
+			controller.keyPressed(keycode);
 		} else if(keycode == Keys.ESCAPE) {
 			//Close all windows. If all windows are closed, then show the escape menu.
 			if(!gameWorld.windowManager.hideAllActiveWindows()) {
@@ -106,7 +107,8 @@ public class InputView implements InputProcessor {
 			}
 		}
 		if(keycode == Keys.SPACE) {
-			controller.keySpace = false;
+			//controller.keySpace = false;
+			controller.keyReleased(keycode);
 		}
 		
 		return false;

@@ -15,7 +15,7 @@ public class Controller {
 //	private boolean keyX = false;
 //	private boolean keyP = false;
 //	private boolean keyG = false;
-	public boolean keySpace = false;
+	private boolean keySpace = false;
 //	private boolean keyEscape = false;
 	
 	//private GameWorld gameWorld;
@@ -45,6 +45,8 @@ public class Controller {
 			player.velocityDown = -1;
 		} else if(keycode == Keys.D) {
 			player.velocityRight = 1;
+		} else if(keycode == Keys.SPACE) {
+			keySpace = true;
 		}
 	}
 	
@@ -57,6 +59,8 @@ public class Controller {
 			player.velocityDown = 0;
 		} else if(keycode == Keys.D) {
 			player.velocityRight = 0;
+		} else if(keycode == Keys.SPACE) {
+			keySpace = false;
 		}
 	}
 	
