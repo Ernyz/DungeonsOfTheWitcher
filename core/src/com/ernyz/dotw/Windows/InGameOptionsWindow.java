@@ -20,6 +20,8 @@ public class InGameOptionsWindow extends CustomWindow {
 		this.gameWorld = gameWorld;
 		this.skin = skin;
 		
+		batch.dispose(); ///
+		
 		setUpTheWindow();
 	}
 

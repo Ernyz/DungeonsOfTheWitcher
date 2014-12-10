@@ -193,7 +193,8 @@ public class Goblin extends Enemy {
 		else if(state == StateEnum.FLEE) {
 			if(!isHealthLow() && isPlayerNearby()) {
 				state = StateEnum.COMBAT_DEFENSIVE;
-			} else if(!isPlayerNearby() ) {
+			}
+			else if(!isPlayerNearby()) {
 				state = StateEnum.WANDER;
 			}
 		}

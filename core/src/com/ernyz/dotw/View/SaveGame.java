@@ -35,7 +35,6 @@ public class SaveGame {
 	/**
 	 * Saves all the current game data (Map, player, enemies, items).
 	 */
-	//public static void save(Array<Tile> tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
 	public static void save(char[][] tiles, Player player, Array<MoveableEntity> entities, Array<Item> items) {
 		GameWorld.addMessage("Saving game...");
 		

@@ -25,7 +25,7 @@ public class MainMenuScreen implements Screen {
 	
 	private DOTW game;
 	private SpriteBatch batch;
-	private OrthographicCamera camera;
+	//private OrthographicCamera camera;
 	
 	//Scene2d variables
 	private Stage stage;
@@ -136,9 +136,9 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void show() {
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.update();
+//		camera = new OrthographicCamera();
+//		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//		camera.update();
 		
 		//batch = new SpriteBatch();
 		//skin = new Skin(Gdx.files.internal("data/GUI/basic/uiskin.json"));

@@ -1,6 +1,8 @@
 package com.ernyz.dotw;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.ernyz.dotw.Screens.MainMenuScreen;
 
@@ -10,6 +12,7 @@ public class DOTW extends Game {
 	
 	@Override
 	public void create() {
+//		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode());
 		batch = new SpriteBatch();
 		setScreen(new MainMenuScreen(this, batch));
 	}
@@ -20,7 +23,10 @@ public class DOTW extends Game {
 	}
 
 	@Override
-	public void render() {		
+	public void render() {
+		/*if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			Gdx.app.exit();
+		}*/
 		super.render();
 	}
 

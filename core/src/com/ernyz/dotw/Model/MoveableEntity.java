@@ -12,6 +12,7 @@ import com.ernyz.dotw.Combat.BasicAttack;
 import com.ernyz.dotw.Combat.BasicAttackCreator;
 import com.ernyz.dotw.Factories.FloatingTextFactory;
 import com.ernyz.dotw.Model.Effects.Effect;
+import com.ernyz.dotw.Model.Enemies.Goblin;
 import com.ernyz.dotw.Model.Items.Item;
 import com.ernyz.dotw.Model.Items.ItemEnchantments.Enchantment;
 import com.ernyz.dotw.Model.Tiles.Tile;
@@ -378,7 +379,12 @@ public class MoveableEntity extends Entity {
 	}
 	
 	public void onCollision(BasicAttack ba) {  //TODO: abstract attacks to one type
-		if(MathUtils.randomBoolean(0.4f)) {
+		//TODO: this is temporary
+		float chance = 0;
+		if(this instanceof Goblin) chance = 0.8f;
+		else if(this instanceof Player) chance = 0.4f;
+		
+		if(MathUtils.randomBoolean(chance)) {
 			setHealth(getHealth()-ba.getWeapon().getFloat("Damage"));
 			GameWorld.addFloatingText(FloatingTextFactory.createFloatingText(String.valueOf(ba.getWeapon().getFloat("Damage")), getPosition().x-getWidth()/2, getPosition().y));
 //			addEffect(EffectFactory.recoveringFromAttack(ba.getAttacker(), this));
